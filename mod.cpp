@@ -1,7 +1,7 @@
 name = "Ride Where You look";
 picture = "logo_rwyl_ca.paa";
 actionName = "GitHub";
-action = "https://github.com/rwylersand38/rwyl/releases";
+action = "https://github.com/ampersand38/ride-where-you-look";
 description = "Pick your vehicle seat by looking.";
 logo = "logo_rwyl_ca.paa";
 logoOver = "logo_rwyl_ca.paa";
