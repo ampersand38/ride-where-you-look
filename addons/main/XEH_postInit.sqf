@@ -19,6 +19,33 @@
 }] call CBA_fnc_addEventHandler;
 
 [
+    "Ride Where You Look", "rwyl_main_showSeats", "Show Seats",{
+        if (isNull curatorCamera) then {
+            [player] call rwyl_main_fnc_findSeat;
+        } else {
+            if (count (curatorSelected # 0) == 1) then {
+                [curatorSelected # 0 # 0] call rwyl_main_fnc_findSeat;
+            };
+        };
+    },{
+        rwyl_main_pfh_running = false;
+  }, [219, [false, false, false]], false                  , 0, true
+] call CBA_fnc_addKeybind; // LWIN
+[
+    "Ride Where You Look", "rwyl_main_selectSeat", "Select Seat",{
+        if (!rwyl_main_pfh_running) exitWith {};
+        if (isNull curatorCamera) then {
+            [player] call rwyl_main_fnc_moveSeat;
+        } else {
+            if (count (curatorSelected # 0) == 1) then {
+                [curatorSelected # 0 # 0] call rwyl_main_fnc_moveSeat;
+            };
+        };
+    },{
+  }, [45, [false, false, false]], false                  , 0, true
+] call CBA_fnc_addKeybind; // x
+/*
+[
     "Ride Where You Look", "rwyl_main_selectSeat", "Select Seat",{
         if (isNull curatorCamera) then {
             [player] call rwyl_main_fnc_findSeat;
@@ -38,3 +65,4 @@
         };
   }, [45, [false, false, false]], false                  //, 0, true
 ] call CBA_fnc_addKeybind; // x
+*/
