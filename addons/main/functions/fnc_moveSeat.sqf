@@ -57,14 +57,13 @@ private _turretPath = [];
     //_x params ["_seatOccupant", "_seatRole", "_seatCargoIndex", "_seatTurretPath"];
     _x params ["_seatOccupant", "_seatRole", "_seatCargoIndex", "_seatTurretPath"];
     if (
-        isNull _seatOccupant && {
+        (isNull _seatOccupant || {!alive _seatOccupant}) && {
         parseNumber _cargoIndexStr == _seatCargoIndex + 1}
     ) then {
         _cargoIndex = _seatCargoIndex;
         _role = _seatRole;
         _turretPath = _seatTurretPath;
     };
-    _seatCargoIndex == _cargoIndex && {isNull _seatOccupant}
 } forEach _fullCrew;
 
 if (_cargoIndex < 0) exitWith {
