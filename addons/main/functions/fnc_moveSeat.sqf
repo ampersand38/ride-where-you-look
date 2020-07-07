@@ -14,60 +14,53 @@ Move unit into vehicle seat near center of view
 
 params ["_unit"];
 
-rwyl_main_pfh_running = false;
 if (isNull rwyl_main_vehicle) then {
     rwyl_main_vehicle = vehicle _unit;
     if (rwyl_main_vehicle == _unit) then {
-        rwyl_main_vehicle = nearestObject [positionCameraToWorld [0,0,2], "AllVehicles"];
+        private _start = AGLtoASL (_unit modelToWorldVisual (_unit selectionPosition "pilot"));
+        private _end = (_start vectorAdd (getCameraViewDirection _unit vectorMultiply 3));
+        private _objects = lineIntersectsSurfaces [_start, _end, _unit];
+        rwyl_main_vehicle = (_objects param [0, []]) param [2, objNull];
     };
 };
 
-if (isNil "rwyl_main_proxy") then {
-    private _sn = selectionNames rwyl_main_vehicle select {("cargo" in toLower _x) && {!((rwyl_main_vehicle selectionPosition _x) isEqualTo [0,0,0])}};
-
-    if (_sn isEqualTo []) exitWith {    "no cargo proxies found in selectionNames"};
-
-    private _sp = _sn apply {rwyl_main_vehicle selectionPosition _x};
-
-    private _screenPosArray = _sp apply {
-        private _w2s = worldToScreen (rwyl_main_vehicle modelToWorld _x);
-        if (_w2s isEqualTo []) then {
-            1000
-        } else {
-            [0.5,0.5] distance2D _w2s
+if rwyl_main_isSeatTaken then {
+    rwyl_main_proxy = "";
+} else {
+    if (isNil "rwyl_main_proxy") then {
+        private _sn = selectionNames rwyl_main_vehicle select {
+            private _proxy = toLower _x;
+            private _proxyIndex = _proxy select [(_proxy find ".") + 1];
+            // has non-zero selection position
+            !((rwyl_main_vehicle selectionPosition _proxy) isEqualTo [0,0,0]) && {
+            // ends with a number after a period
+            ((parseNumber _proxyIndex > 0) || {_proxyIndex isEqualTo "0"}) && {
+            // contains seat role
+            (("cargo" in toLower _proxy) || {("gunner" in toLower _proxy) || {("driver" in toLower _proxy) ||
+            {("commander" in toLower _proxy) || {("pilot" in toLower _proxy)}}}})}}
         };
-    };
 
-    rwyl_main_proxy = _sn # (_screenPosArray findIf {_x == selectMin _screenPosArray});
+        //"no cargo proxies found in selectionNames"
+        if (_sn isEqualTo []) exitWith {false};
+
+        private _sp = _sn apply {rwyl_main_vehicle selectionPosition _x};
+
+        private _screenPosArray = _sp apply {
+            private _w2s = worldToScreen (rwyl_main_vehicle modelToWorld _x);
+            if (_w2s isEqualTo []) then {
+                1000
+            } else {
+                ([getMousePosition, [0.5,0.5]] select (isNull curatorCamera && {isNil "ace_interact_menu_openedMenuType"})) distance2D _w2s
+            };
+        };
+
+        rwyl_main_proxy = _sn # (_screenPosArray findIf {_x == selectMin _screenPosArray});
+    };
 };
 
-if (rwyl_main_proxy isEqualTo "") exitWith {    ["no seat found", rwyl_main_vehicle]};
+["rwyl_main_moveSeat", [_unit, rwyl_main_vehicle, rwyl_main_proxy], _unit] call CBA_fnc_targetEvent;
 
-// get cargo index from proxy name
-private _cargoIndexStr = rwyl_main_proxy select [(rwyl_main_proxy find ".") + 1];
+rwyl_main_vehicle = objNull;
+rwyl_main_proxy = nil;
 
-// get all cargo seat indexes
-private _fullCrew = fullCrew [rwyl_main_vehicle, "", true];
-
-private _role = "";
-private _cargoIndex = -1;
-private _turretPath = [];
-
-{
-    //_x params ["_seatOccupant", "_seatRole", "_seatCargoIndex", "_seatTurretPath"];
-    _x params ["_seatOccupant", "_seatRole", "_seatCargoIndex", "_seatTurretPath"];
-    if (
-        (isNull _seatOccupant || {!alive _seatOccupant}) && {
-        parseNumber _cargoIndexStr == _seatCargoIndex + 1}
-    ) then {
-        _cargoIndex = _seatCargoIndex;
-        _role = _seatRole;
-        _turretPath = _seatTurretPath;
-    };
-} forEach _fullCrew;
-
-if (_cargoIndex < 0) exitWith {
-["_cargoIndex not found", rwyl_main_proxy, _cargoIndexStr, _cargoIndex]
-};
-
-["rwyl_main_moveSeat", [_unit, _role, _cargoIndex, _turretPath], _unit] call CBA_fnc_targetEvent;
+true

@@ -1,21 +1,8 @@
 #include "script_component.hpp"
 
 ["rwyl_main_moveSeat", {
-    params ["_unit", "_role", "_cargoIndex", "_turretPath"];
-    if (rwyl_main_vehicle == vehicle _unit) then {moveOut _unit;};
-    [{
-        params ["_unit"];
-        vehicle _unit == _unit
-    },{
-        params ["_unit", "_role", "_cargoIndex", "_turretPath"];
-        if (toLower _role isEqualTo "cargo") then {
-            _unit moveInCargo [rwyl_main_vehicle, _cargoIndex];
-        } else {
-            _unit moveInTurret [rwyl_main_vehicle, _turretPath];
-        };
-        rwyl_main_vehicle = objNull;
-        rwyl_main_proxy = nil;
-    }, [_unit, _role, _cargoIndex, _turretPath]] call CBA_fnc_waitUntilAndExecute;
+    //params ["_unit", "_vehicle", "_proxy"];
+    call rwyl_main_fnc_moveSeatLocal;
 }] call CBA_fnc_addEventHandler;
 
 [
@@ -29,10 +16,13 @@
         };
     },{
         rwyl_main_pfh_running = false;
-  }, [219, [false, false, false]], false                  , 0, true
+        //rwyl_main_vehicle = nil;
+        //rwyl_main_proxy = nil;
+    }, [29, [false, false, false]], false                  //, 0, true
 ] call CBA_fnc_addKeybind; // LWIN
 [
     "Ride Where You Look", "rwyl_main_selectSeat", "Select Seat",{
+
         if (!rwyl_main_pfh_running) exitWith {};
         if (isNull curatorCamera) then {
             [player] call rwyl_main_fnc_moveSeat;
@@ -41,8 +31,9 @@
                 [curatorSelected # 0 # 0] call rwyl_main_fnc_moveSeat;
             };
         };
+        rwyl_main_pfh_running = false;
     },{
-  }, [45, [false, false, false]], false                  , 0, true
+    }, [45, [false, true, false]], false                  //, 0, true
 ] call CBA_fnc_addKeybind; // x
 /*
 [
