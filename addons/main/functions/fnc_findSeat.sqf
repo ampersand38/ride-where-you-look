@@ -79,7 +79,7 @@ rwyl_main_pfh_running = true;
     };
 
     private _screenPosArray = _sp apply {
-        private _w2s = worldToScreen (rwyl_main_vehicle modelToWorld _x);
+        private _w2s = worldToScreen (rwyl_main_vehicle modelToWorldVisual _x);
         if (_w2s isEqualTo []) then {
             1000
         } else {
@@ -170,7 +170,7 @@ rwyl_main_pfh_running = true;
         _text = _text + " seat taken";
     };
 
-    drawIcon3D [_icon, [1,1,1,1], rwyl_main_vehicle modelToWorld (rwyl_main_vehicle selectionPosition rwyl_main_proxy), 1, 1, 0, _text];
+    drawIcon3D [_icon, [1,1,1,1], rwyl_main_vehicle modelToWorldVisual (rwyl_main_vehicle selectionPosition rwyl_main_proxy), 1, 1, 0, _text];
 
 copyToClipboard rwyl_main_proxy;
 
