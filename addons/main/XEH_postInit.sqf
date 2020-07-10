@@ -6,7 +6,7 @@
 }] call CBA_fnc_addEventHandler;
 
 [
-    "Ride Where You Look", "rwyl_main_showSeats", "Show Seats",{
+    "Ride Where You Look", "rwyl_main_showSeats", "Show Seats (Hold)",{
         if (isNull curatorCamera) then {
             [player] call rwyl_main_fnc_findSeat;
         } else {
@@ -19,7 +19,22 @@
         //rwyl_main_vehicle = nil;
         //rwyl_main_proxy = nil;
     }, [29, [false, false, false]], false                  //, 0, true
-] call CBA_fnc_addKeybind; // LWIN
+] call CBA_fnc_addKeybind; // LCTRL
+[
+    "Ride Where You Look", "rwyl_main_showSeatsToggle", "Show Seats (Toggle)",{
+        if rwyl_main_pfh_running then {
+            rwyl_main_pfh_running = false;
+        } else {
+            if (isNull curatorCamera) then {
+                [player] call rwyl_main_fnc_findSeat;
+            } else {
+                if (count (curatorSelected # 0) == 1) then {
+                    [curatorSelected # 0 # 0] call rwyl_main_fnc_findSeat;
+                };
+            };
+        };
+    },{}                  //, 0, true
+] call CBA_fnc_addKeybind; //
 [
     "Ride Where You Look", "rwyl_main_selectSeat", "Select Seat",{
 
