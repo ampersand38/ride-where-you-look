@@ -7,6 +7,7 @@
 
 [
     "Ride Where You Look", "rwyl_main_showSeats", "Show Seats (Hold)",{
+        if (visibleMap) exitWith {};
         if (isNull curatorCamera) then {
             [player] call rwyl_main_fnc_findSeat;
         } else {
@@ -22,6 +23,7 @@
 ] call CBA_fnc_addKeybind; // LCTRL
 [
     "Ride Where You Look", "rwyl_main_showSeatsToggle", "Show Seats (Toggle)",{
+        if (visibleMap) exitWith {};
         if rwyl_main_pfh_running then {
             rwyl_main_pfh_running = false;
         } else {
