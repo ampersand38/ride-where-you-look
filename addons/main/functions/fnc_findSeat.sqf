@@ -171,8 +171,6 @@ rwyl_main_pfh_running = true;
 
     drawIcon3D [_icon, [1,1,1,1], rwyl_main_vehicle modelToWorldVisual (rwyl_main_vehicle selectionPosition rwyl_main_proxy), 1, 1, 0, _text];
 
-copyToClipboard rwyl_main_proxy;
-
 }, 0, [_unit, _sn, _sp]] call CBA_fnc_addPerFrameHandler;
 
 /*
