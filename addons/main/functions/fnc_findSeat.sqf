@@ -18,7 +18,6 @@ private _currentVehicle = vehicle _unit;
 private _isOnFoot = _currentVehicle == _unit;
 
 if (isNull curatorCamera) then {
-    setMousePosition [0.5, 0.5];
     private _start = AGLtoASL (_unit modelToWorldVisual (_unit selectionPosition "pilot"));
     private _end = (_start vectorAdd (getCameraViewDirection _unit vectorMultiply 3));
     private _objects = lineIntersectsSurfaces [_start, _end, _unit, _currentVehicle];
