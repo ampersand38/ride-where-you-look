@@ -77,21 +77,49 @@ rwyl_main_pfh_running = true;
         [_pfID] call CBA_fnc_removePerFrameHandler;
     };
 
-    private _screenPosArray = _sp apply {
+    private _reference = if (
+        isNull curatorCamera && {
+        isNil "ace_interact_menu_openedMenuType" || {ace_interact_menu_openedMenuType < 0}}
+    ) then {
+        [0.5,0.5]
+    } else {
+        getMousePosition
+    };
+
+    private _minDistance = 1000;
+    private _screenPosArray = [];
+    private _indexClosest = -1;
+    {
         private _w2s = worldToScreen (rwyl_main_vehicle modelToWorldVisual _x);
-        if (_w2s isEqualTo []) then {
+        private _distance = if (_w2s isEqualTo []) then {
             1000
         } else {
-            ([getMousePosition, [0.5,0.5]] select (isNull curatorCamera && {isNil "ace_interact_menu_openedMenuType"})) distance2D _w2s
+            _reference distance2D _w2s
         };
-    };
+        if (_distance < _minDistance) then {
+            _minDistance = _distance;
+            _indexClosest = _forEachIndex;
+        };
+        _screenPosArray pushBack _distance;
+    } forEach _sp;
 
-    rwyl_main_proxy = toLower (_sn # (_screenPosArray findIf {_x == selectMin _screenPosArray}));
-
-    if (isNil "rwyl_main_proxy") exitWith {
+    // no seat proxies on screen
+    if (_indexClosest == -1) exitWith {
         rwyl_main_vehicle = objNull;
-        "no seat proxies on screen"
     };
+
+    rwyl_main_proxy = toLower (_sn # _indexClosest);
+    _screenPosArray deleteAt _indexClosest;
+    {
+        if (_forEachIndex != _indexClosest) then {
+            drawIcon3D [
+                "\a3\ui_f\data\IGUI\Cfg\Actions\Obsolete\ui_action_getin_ca.paa",
+                [1,1,1,0.5],
+                rwyl_main_vehicle modelToWorldVisual _x,
+                1, 1, 0,""
+            ];
+        };
+    } forEach _sp;
 
     private _fullCrew = fullCrew [rwyl_main_vehicle, "", true];
     //_x params ["_seatOccupant", "_seatRole", "_seatCargoIndex", "_seatTurretPath"];
