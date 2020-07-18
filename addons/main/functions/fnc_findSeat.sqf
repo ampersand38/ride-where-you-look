@@ -12,37 +12,88 @@ PFH to show which seat the unit is looking at
 * [player] call rwyl_main_fnc_findSeat
 */
 
-params ["_unit"];
+params ["_unit", ["_useParentVehicle", false]];
 
+// get vehicle
+private _notInZeus = isNull curatorCamera;
 private _currentVehicle = vehicle _unit;
 private _isOnFoot = _currentVehicle == _unit;
 
-if (isNull curatorCamera) then {
-    private _start = AGLtoASL (_unit modelToWorldVisual (_unit selectionPosition "pilot"));
-    private _end = (_start vectorAdd (getCameraViewDirection _unit vectorMultiply 3));
-    private _objects = lineIntersectsSurfaces [_start, _end, _unit, _currentVehicle];
-    rwyl_main_vehicle = (_objects param [0, []]) param [2, objNull];
-    if (isNull rwyl_main_vehicle && {!_isOnFoot}) then {
-        rwyl_main_vehicle = _currentVehicle;
-    } else {
-        if (locked rwyl_main_vehicle in [2,3]) exitWith {
-            hintSilent "Vehicle Locked";
-            rwyl_main_vehicle = objNull;
-        };
-    };
+// check cursorObject, parentVehicle, and nearEntities
+rwyl_main_vehicle = if _useParentVehicle then {
+    _currentVehicle
 } else {
-    private _start = AGLtoASL positionCameraToWorld [0,0,0];
-    private _end = AGLtoASL screenToWorld getMousePosition;
-    private _objects = lineIntersectsSurfaces [_start, _end, _unit];
-    rwyl_main_vehicle = (_objects param [0, []]) param [2, objNull];
-    if (isNull rwyl_main_vehicle && {_currentVehicle != _unit}) then {
-        rwyl_main_vehicle = _currentVehicle;
+    if (isNull cursorObject) then {
+        if _isOnFoot then {
+            // get entity being looked at
+            private _reference = [0.5,0.5];
+            private _entities = if (_notInZeus) then {
+                (_unit nearEntities ["AllVehicles", 3]) - [_unit];
+            } else {
+                _reference = getMousePosition;
+                (screenToWorld getMousePosition nearEntities ["AllVehicles", 10]) - [_unit];
+            };
+
+            private _minDistance = 1000;
+            private _indexClosest = -1;
+            {
+                private _w2s = worldToScreen (getPos _x);
+                private _distance = if (_w2s isEqualTo []) then {
+                    1000
+                } else {
+                    _reference distance2D _w2s
+                };
+                if (_distance < _minDistance) then {
+                    _minDistance = _distance;
+                    _indexClosest = _forEachIndex;
+                };
+            } forEach _entities;
+            if (_indexClosest > -1) then {
+                _entities # _indexClosest
+            } else {
+                objNull
+            }
+        } else {
+            _currentVehicle
+        }
+    } else {
+        if (_isOnFoot && {_notInZeus}) then {
+            objNull
+        } else {
+            cursorObject
+        }
     };
 };
 
-if (isNull rwyl_main_vehicle) exitWith {"no pfh"};
-if ((fullCrew [rwyl_main_vehicle, "", true]) isEqualTo []) exitWith {"no seats"};
+// check view lineIntersectsSurfaces
+if (isNull rwyl_main_vehicle) then {
+    if _notInZeus then {
+        private _start = AGLtoASL (_unit modelToWorldVisual (_unit selectionPosition "pilot"));
+        private _end = (_start vectorAdd (getCameraViewDirection _unit vectorMultiply 3));
+        private _objects = lineIntersectsSurfaces [_start, _end, _unit, _currentVehicle];
+        rwyl_main_vehicle = (_objects param [0, []]) param [2, objNull];
+    } else {
+        private _start = AGLtoASL positionCameraToWorld [0,0,0];
+        private _end = AGLtoASL screenToWorld getMousePosition;
+        private _objects = lineIntersectsSurfaces [_start, _end, _unit];
+        rwyl_main_vehicle = (_objects param [0, []]) param [2, objNull];
+    };
+};
 
+// exit checks
+if (isNull rwyl_main_vehicle) exitWith {}; // no vehicle
+
+if (locked rwyl_main_vehicle in [2,3] && {_notInZeus}) exitWith { // locked
+    hintSilent "Vehicle Locked";
+    rwyl_main_vehicle = objNull;
+};
+
+private _fullCrew = fullCrew [rwyl_main_vehicle, "", true];
+if (_fullCrew isEqualTo []) exitWith { // no seats
+    rwyl_main_vehicle = objNull;
+};
+
+// get proxies
 private _sn = selectionNames rwyl_main_vehicle select {
     private _proxy = toLower _x;
     private _proxyIndex = _proxy select [(_proxy find ".") + 1];
@@ -52,19 +103,26 @@ private _sn = selectionNames rwyl_main_vehicle select {
     ((parseNumber _proxyIndex > 0) || {_proxyIndex isEqualTo "0"}) && {
     // contains seat role
     (("cargo" in toLower _proxy) || {("gunner" in toLower _proxy) || {("driver" in toLower _proxy) ||
-    {("commander" in toLower _proxy) || {("pilot" in toLower _proxy)}}}})} && {
-    // either on foot, same vehicle, or close enough on other vehicle
-    (_currentVehicle == _unit) || {(_currentVehicle == rwyl_main_vehicle) || {(!isNull curatorCamera) || {
-    (_currentVehicle != rwyl_main_vehicle) && {(rwyl_main_vehicle selectionPosition _proxy) distance (rwyl_main_vehicle worldToModel getPos _unit) < 3}}}}
-    }}
+    {("commander" in toLower _proxy) || {("pilot" in toLower _proxy)}}}})}}
 };
 
-if (_sn isEqualTo []) exitWith {
-    rwyl_main_vehicle = objNull;
-    "no seat proxies found in selectionNames"
+// hop vehicle filter for near proxies
+private _hopVehicle = !_isOnFoot && {(_currentVehicle != rwyl_main_vehicle) && {_notInZeus}};
+if (_hopVehicle) then {
+    _sn = _sn select {
+        (rwyl_main_vehicle selectionPosition _x) distance (rwyl_main_vehicle worldToModel getPos _unit) < 3
+    };
 };
 
+// filter out blacklisted non-functional proxies
 _sn = _sn - getArray (configFile >> "CfgVehicles" >> typeOf rwyl_main_vehicle >> "RWYL_proxyBlacklist");
+
+if (_sn isEqualTo []) exitWith { // no seat proxies found in selectionNames
+    rwyl_main_vehicle = objNull;
+    if (_hopVehicle) then { // if can't hop vehicle, run for current vehicle
+        [_unit, true] call rwyl_main_fnc_findSeat;
+    };
+};
 
 private _sp = _sn apply {rwyl_main_vehicle selectionPosition _x};
 
@@ -121,6 +179,7 @@ rwyl_main_pfh_running = true;
         };
     } forEach _sp;
 
+    // update crew get in/out in PFH
     private _fullCrew = fullCrew [rwyl_main_vehicle, "", true];
     //_x params ["_seatOccupant", "_seatRole", "_seatCargoIndex", "_seatTurretPath"];
 
@@ -202,13 +261,13 @@ rwyl_main_pfh_running = true;
 }, 0, [_unit, _sn, _sp]] call CBA_fnc_addPerFrameHandler;
 
 /*
-{
-
-} forEach (selectionNames vehicle player select {
-    private _lastChar = _x select [count _x -1];
-    ((parseNumber _lastChar > 0) || {_lastChar isEqualTo "0"}) && {
-    (("cargo" in toLower _x) || {("gunner" in toLower _x)}) && {
-    !((vehicle player selectionPosition _x) isEqualTo [0,0,0])}}
-});
-
+// draw proxies
+v = ([[curatorSelected # 0 # 0, [vehicle player, cursorObject] select (vehicle player == player)] select isNull curatorCamera, (get3DENSelected "" # 0 # 0)] select is3DEN);
+onEachFrame {
+    {
+        drawIcon3D ["\a3\missions_f_oldman\Systems\UI\CenterDot\Data\centerDot_ca.paa", [1,1,1,1], v modelToWorldVisual (v selectionPosition _x), 1, 1, 0, _x];
+    } forEach (selectionNames v select {
+        !((v selectionPosition _x) isEqualTo [0,0,0])
+    });
+};
 */
