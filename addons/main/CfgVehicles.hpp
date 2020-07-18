@@ -31,6 +31,8 @@ class CfgVehicles {
             "proxy:\a3\data_f\proxies\passenger_apc_narrow_generic03\cargo.018",
             "proxy:\a3\data_f\proxies\passenger_apc_generic02\cargo.019",
             "proxy:\a3\data_f\proxies\passenger_apc_generic03\cargo.020",
+            "proxy:\a3\data_f\proxies\passenger_apc_generic04\cargo.021",
+            "proxy:\a3\data_f\proxies\passenger_generic01_leanleft\cargo.022",
             "proxy:\a3\data_f\proxies\passenger_apc_narrow_generic02\cargo.023",
             "proxy:\a3\data_f\proxies\passenger_apc_generic01\cargo.024",
             "proxy:\a3\data_f\proxies\passenger_apc_narrow_generic01\cargo.025",
@@ -46,7 +48,30 @@ class CfgVehicles {
         };
     };
 
-    class O_T_VTOL_02_vehicle_F: O_T_VTOL_02_vehicle_base_F {
+    // class O_T_VTOL_02_vehicle_base_F;
+    // class O_T_VTOL_02_vehicle_F: O_T_VTOL_02_vehicle_base_F {
+    //     RWYL_proxyBlacklist[] = {
+    //         "proxy:\a3\data_f\proxies\passenger_generic01_leanleft\cargo01.001",
+    //         "proxy:\a3\data_f\proxies\passenger_generic01_leanleft\cargo01.002",
+    //         "proxy:\a3\data_f\proxies\passenger_generic01_leanleft\cargo01.003",
+    //         "proxy:\a3\data_f\proxies\passenger_generic01_leanleft\cargo01.004",
+    //         "proxy:\a3\data_f\proxies\passenger_generic01_leanleft\cargo01.005",
+    //         "proxy:\a3\data_f\proxies\passenger_generic01_leanleft\cargo01.006",
+    //         "proxy:\a3\data_f\proxies\passenger_generic01_leanleft\cargo01.007",
+    //         "proxy:\a3\data_f\proxies\passenger_generic01_leanleft\cargo01.008",
+    //         "proxy:\a3\data_f\proxies\passenger_generic01_leanleft\cargo01.009",
+    //         "proxy:\a3\data_f\proxies\passenger_generic01_leanleft\cargo01.010",
+    //         "proxy:\a3\data_f\proxies\passenger_generic01_leanleft\cargo01.011",
+    //         "proxy:\a3\data_f\proxies\passenger_generic01_leanleft\cargo01.012",
+    //         "proxy:\a3\data_f\proxies\passenger_generic01_leanleft\cargo01.013",
+    //         "proxy:\a3\data_f\proxies\passenger_generic01_leanleft\cargo01.014",
+    //         "proxy:\a3\data_f\proxies\passenger_generic01_leanleft\cargo01.015",
+    //         "proxy:\a3\data_f\proxies\passenger_generic01_leanleft\cargo01.016"
+    //     };
+    // };
+
+    class VTOL_02_vehicle_dynamicLoadout_base_F;
+    class O_T_VTOL_02_vehicle_dynamicLoadout_F: VTOL_02_vehicle_dynamicLoadout_base_F {
         RWYL_proxyBlacklist[] = {
             "proxy:\a3\data_f\proxies\passenger_generic01_leanleft\cargo01.001",
             "proxy:\a3\data_f\proxies\passenger_generic01_leanleft\cargo01.002",
@@ -64,6 +89,13 @@ class CfgVehicles {
             "proxy:\a3\data_f\proxies\passenger_generic01_leanleft\cargo01.014",
             "proxy:\a3\data_f\proxies\passenger_generic01_leanleft\cargo01.015",
             "proxy:\a3\data_f\proxies\passenger_generic01_leanleft\cargo01.016"
+        };
+    };
+
+    class StaticMortar;
+    class Mortar_01_base_F: StaticMortar {
+        RWYL_proxyBlacklist[] = {
+            "proxy:\a3\data_f\proxies\mortar_01\cargo.001"
         };
     };
 };
