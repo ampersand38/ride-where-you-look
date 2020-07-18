@@ -11,7 +11,7 @@
         if (isNull curatorCamera) then {
             [player] call rwyl_main_fnc_findSeat;
         } else {
-            if (count (curatorSelected # 0) == 1) then {
+            if ((curatorSelected # 0 # 0) isKindOf "CAManBase") then {
                 [curatorSelected # 0 # 0] call rwyl_main_fnc_findSeat;
             };
         };
