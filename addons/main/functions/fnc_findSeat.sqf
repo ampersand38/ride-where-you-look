@@ -167,17 +167,20 @@ rwyl_main_pfh_running = true;
     };
 
     rwyl_main_proxy = toLower (_sn # _indexClosest);
-    _screenPosArray deleteAt _indexClosest;
-    {
-        if (_forEachIndex != _indexClosest) then {
-            drawIcon3D [
-                "\a3\ui_f\data\IGUI\Cfg\Actions\Obsolete\ui_action_getin_ca.paa",
-                [1,1,1,0.5],
-                rwyl_main_vehicle modelToWorldVisual _x,
-                1, 1, 0,""
-            ];
-        };
-    } forEach _sp;
+
+    if RWYL_ShowAllSeats then {
+        _screenPosArray deleteAt _indexClosest;
+        {
+            if (_forEachIndex != _indexClosest) then {
+                drawIcon3D [
+                    "\a3\ui_f\data\IGUI\Cfg\Actions\Obsolete\ui_action_getin_ca.paa",
+                    [1,1,1,0.5],
+                    rwyl_main_vehicle modelToWorldVisual _x,
+                    1, 1, 0,""
+                ];
+            };
+        } forEach _sp;
+    };
 
     // update crew get in/out in PFH
     private _fullCrew = fullCrew [rwyl_main_vehicle, "", true];
