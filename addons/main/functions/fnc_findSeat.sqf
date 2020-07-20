@@ -144,7 +144,7 @@ rwyl_main_pfh_running = true;
         getMousePosition
     };
 
-    private _minDistance = 1000;
+    private _minDistance = 10000;
     private _screenPosArray = [];
     private _indexClosest = -1;
     {
