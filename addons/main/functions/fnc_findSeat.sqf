@@ -126,6 +126,10 @@ if (_sn isEqualTo []) exitWith { // no seat proxies found in selectionNames
 
 private _sp = _sn apply {rwyl_main_vehicle selectionPosition _x};
 
+rwyl_main_colour = ["IGUI", "TEXT_RGB"] call BIS_fnc_displayColorGet;
+rwyl_main_colour_faded = rwyl_main_colour;
+rwyl_main_colour_faded set [3, 0.5];
+
 rwyl_main_pfh_running = true;
 [{
     params ["_args", "_pfID"];
@@ -174,7 +178,7 @@ rwyl_main_pfh_running = true;
             if (_forEachIndex != _indexClosest) then {
                 drawIcon3D [
                     "\a3\ui_f\data\IGUI\Cfg\Actions\Obsolete\ui_action_getin_ca.paa",
-                    [1,1,1,0.5],
+                    rwyl_main_colour_faded,
                     rwyl_main_vehicle modelToWorldVisual _x,
                     1, 1, 0,""
                 ];
@@ -259,7 +263,7 @@ rwyl_main_pfh_running = true;
         _text = _text + " seat taken";
     };
 
-    drawIcon3D [_icon, [1,1,1,1], rwyl_main_vehicle modelToWorldVisual (rwyl_main_vehicle selectionPosition rwyl_main_proxy), 1, 1, 0, _text];
+    drawIcon3D [_icon, rwyl_main_colour, rwyl_main_vehicle modelToWorldVisual (rwyl_main_vehicle selectionPosition rwyl_main_proxy), 1, 1, 0, _text];
 
 }, 0, [_unit, _sn, _sp]] call CBA_fnc_addPerFrameHandler;
 
