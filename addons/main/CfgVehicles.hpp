@@ -105,6 +105,21 @@ class CfgVehicles {
         };
     };
 
+    class Van_02_base_F;
+    class Van_02_vehicle_base_F: Van_02_base_F {
+        RWYL_proxyBlacklist[] = {
+            "proxy:\a3\data_f\proxies\passenger_flatground_crosslegs\cargo.002",
+            "proxy:\a3\data_f\proxies\passenger_flatground_crosslegs\cargo.003",
+            "proxy:\a3\data_f\proxies\passenger_flatground_crosslegs\cargo.004",
+            "proxy:\a3\data_f\proxies\passenger_flatground_crosslegs\cargo.005",
+            "proxy:\a3\data_f\proxies\passenger_flatground_crosslegs\cargo.006",
+            "proxy:\a3\data_f\proxies\passenger_flatground_crosslegs\cargo.007",
+            "proxy:\a3\data_f\proxies\passenger_flatground_crosslegs\cargo.008",
+            "proxy:\a3\data_f\proxies\passenger_flatground_crosslegs\cargo.009",
+            "proxy:\a3\data_f\proxies\passenger_flatground_crosslegs\cargo.010"
+        };
+    };
+
     class Helicopter_Base_H;
     class Heli_Light_01_base_F: Helicopter_Base_H {
         RWYL_proxyOffsets[] = {
