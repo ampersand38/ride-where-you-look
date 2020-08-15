@@ -74,7 +74,7 @@ if (isNull rwyl_main_vehicle) then {
         private _objects = lineIntersectsSurfaces [_start, _end, _unit, _currentVehicle];
         rwyl_main_vehicle = (_objects param [0, []]) param [2, objNull];
     } else {
-        private _start = AGLtoASL positionCameraToWorld [0,0,0];
+        private _start = AGLtoASL positionCameraToWorld [0, 0, 0];
         private _end = AGLtoASL screenToWorld getMousePosition;
         private _objects = lineIntersectsSurfaces [_start, _end, _unit];
         rwyl_main_vehicle = (_objects param [0, []]) param [2, objNull];
@@ -99,7 +99,7 @@ private _sn = selectionNames rwyl_main_vehicle select {
     private _proxy = toLower _x;
     private _proxyIndex = _proxy select [(_proxy find ".") + 1];
     // has non-zero selection position
-    !((rwyl_main_vehicle selectionPosition _proxy) isEqualTo [0,0,0]) && {
+    !((rwyl_main_vehicle selectionPosition _proxy) isEqualTo [0, 0, 0]) && {
     // ends with a number after a period
     ((parseNumber _proxyIndex > 0) || {_proxyIndex isEqualTo "0"}) && {
     // contains seat role
@@ -141,8 +141,12 @@ if !(_proxyOffsets isEqualTo []) then {
 };
 
 rwyl_main_colour = ["IGUI", "TEXT_RGB"] call BIS_fnc_displayColorGet;
-rwyl_main_colour_faded = rwyl_main_colour;
-rwyl_main_colour_faded set [3, 0.5];
+rwyl_main_colour_faded = [
+    rwyl_main_colour select 0,
+    rwyl_main_colour select 1,
+    rwyl_main_colour select 2,
+    (rwyl_main_colour select 3) / 2
+];
 
 rwyl_main_pfh_running = true;
 [{
@@ -163,7 +167,6 @@ rwyl_main_pfh_running = true;
     };
 
     private _minDistance = 10000;
-    private _screenPosArray = [];
     private _indexClosest = -1;
     {
         private _w2s = worldToScreen (rwyl_main_vehicle modelToWorldVisual _x);
@@ -176,7 +179,6 @@ rwyl_main_pfh_running = true;
             _minDistance = _distance;
             _indexClosest = _forEachIndex;
         };
-        _screenPosArray pushBack _distance;
     } forEach _sp;
 
     // no seat proxies on screen
@@ -186,20 +188,6 @@ rwyl_main_pfh_running = true;
 
     rwyl_main_proxy = toLower (_sn # _indexClosest);
 
-    if RWYL_ShowAllSeats then {
-        _screenPosArray deleteAt _indexClosest;
-        {
-            if (_forEachIndex != _indexClosest) then {
-                drawIcon3D [
-                    "\a3\ui_f\data\IGUI\Cfg\Actions\Obsolete\ui_action_getin_ca.paa",
-                    rwyl_main_colour_faded,
-                    rwyl_main_vehicle modelToWorldVisual _x,
-                    1, 1, 0,""
-                ];
-            };
-        } forEach _sp;
-    };
-
     // update crew get in/out in PFH
     private _fullCrew = fullCrew [rwyl_main_vehicle, "", true];
     //_x params ["_seatOccupant", "_seatRole", "_seatCargoIndex", "_seatTurretPath"];
@@ -207,12 +195,8 @@ rwyl_main_pfh_running = true;
     // get cargo index from proxy name
     private _cargoIndex = parseNumber (rwyl_main_proxy select [(rwyl_main_proxy find ".") + 1]);
 
-    //private _icon = "\a3\3den\Data\Cfg3DEN\Object\iconCargo_ca.paa";
     private _icon = "";
-
     private _text = "";
-    //private _text = _cargoIndexStr;
-    //private _text = rwyl_main_proxy select [(rwyl_main_proxy find ".") + 1];
 
     // check seat type of proxy
     switch (true) do {
@@ -278,6 +262,72 @@ rwyl_main_pfh_running = true;
     };
 
     drawIcon3D [_icon, rwyl_main_colour, rwyl_main_vehicle modelToWorldVisual (_sp select _indexClosest), 1, 1, 0, _text];
+
+    if RWYL_ShowAllSeats then {
+        {
+            if (_forEachIndex != _indexClosest) then {
+                // get cargo index from proxy name
+                private _cargoIndex = parseNumber (_x select [(_x find ".") + 1]);
+
+                _icon = "";
+                _text = "";
+
+                // check seat type of proxy
+                switch (true) do {
+                    case ("cargo" in _x): {
+                        private _indexOrPath = _cargoIndex - 1;
+
+                        private _turretConfig = configFile >> "CfgVehicles" >> typeOf rwyl_main_vehicle >> "Turrets";
+                        {
+                            if (_cargoIndex == (getNumber (_turretConfig >> _x >> "proxyIndex")) && {
+                            "CPCargo" isEqualTo (getText (_turretConfig >> _x >> "proxyType"))}) then {
+                                _indexOrPath = [_forEachIndex];
+                            };
+                        } forEach (("true" configClasses (_turretConfig)) apply {configName _x});
+
+                        if (_indexOrPath isEqualType []) then {
+                            _text = "FFV " + str _cargoIndex;
+                            _icon = "\a3\ui_f\data\IGUI\Cfg\Actions\getingunner_ca.paa";
+                        } else {
+                            _text = "Cargo " + str _cargoIndex;
+                            _icon = "\a3\ui_f\data\IGUI\Cfg\Actions\getincargo_ca.paa";
+                        };
+
+                    };
+                    case ("gunner" in _x): {
+                        private _indexOrPath = [];
+                        private _turretConfig = configFile >> "CfgVehicles" >> typeOf rwyl_main_vehicle >> "Turrets";
+                        {
+                            if (_cargoIndex == (getNumber (_turretConfig >> _x >> "proxyIndex")) && {
+                            "CPGunner" isEqualTo (getText (_turretConfig >> _x >> "proxyType"))}) then {
+                                _text = getText (_turretConfig >> _x >> "gunnerName");
+                                _indexOrPath = [_forEachIndex];
+                            };
+                        } forEach (("true" configClasses (_turretConfig)) apply {configName _x});
+
+                        if (_text isEqualTo "") then {
+                            _text = "Gunner " + str _cargoIndex;
+                        };
+                        _icon = "\a3\ui_f\data\IGUI\Cfg\Actions\getingunner_ca.paa";
+                    };
+                    case ("driver" in _x): {
+                        _text = "Driver";
+                        _icon = "\a3\ui_f\data\IGUI\Cfg\Actions\getindriver_ca.paa";
+                    };
+                    case ("commander" in _x): {
+                        _text = "Commander";
+                        _icon = "\a3\ui_f\data\IGUI\Cfg\Actions\getincommander_ca.paa";
+                    };
+                    case ("pilot" in _x): {
+                        _text = "Pilot";
+                        _icon = "\a3\ui_f\data\IGUI\Cfg\Actions\getindriver_ca.paa";
+                    };
+                };
+
+                drawIcon3D [_icon, rwyl_main_colour_faded, rwyl_main_vehicle modelToWorldVisual (_sp select _forEachIndex), 1, 1, 0, _text];
+            };
+        } forEach _sn;
+    };
 
 }, 0, [_unit, _sn, _sp]] call CBA_fnc_addPerFrameHandler;
 
