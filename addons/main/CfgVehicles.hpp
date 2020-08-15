@@ -114,6 +114,14 @@ class CfgVehicles {
             "proxy:\a3\data_f\proxies\heli_light_01\cargo01.003"
         };
     };
+    class Heli_Light_01_armed_base_F: Heli_Light_01_base_F {
+        RWYL_proxyBlacklist[] = {
+            "proxy:\a3\data_f\proxies\heli_light_01\cargo01.001",
+            "proxy:\a3\data_f\proxies\heli_light_01\cargo01.002",
+            "proxy:\a3\data_f\proxies\heli_light_01\cargo01.004",
+            "proxy:\a3\data_f\proxies\heli_light_01\cargo01.003"
+        };
+    };
 
     class Rubber_duck_base_F;
     class B_Boat_Transport_01_F: Rubber_duck_base_F {
