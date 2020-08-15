@@ -104,9 +104,42 @@ class CfgVehicles {
             "proxy:\a3\data_f\proxies\mortar_01\cargo.001"
         };
     };
+
+    class Helicopter_Base_H;
+    class Heli_Light_01_base_F: Helicopter_Base_H {
+        RWYL_proxyOffsets[] = {
+            "proxy:\a3\data_f\proxies\heli_light_01\cargo01.001",
+            "proxy:\a3\data_f\proxies\heli_light_01\cargo01.002",
+            "proxy:\a3\data_f\proxies\heli_light_01\cargo01.004",
+            "proxy:\a3\data_f\proxies\heli_light_01\cargo01.003"
+        };
+    };
+
+    class Rubber_duck_base_F;
+    class B_Boat_Transport_01_F: Rubber_duck_base_F {
+        RWYL_proxyOffsets[] = {
+            "proxy:\a3\data_f\proxies\rubber_boat\cargo02.002",
+            "proxy:\a3\data_f\proxies\rubber_boat\cargo01.001",
+            "proxy:\a3\data_f\proxies\rubber_boat\cargo03.003",
+            "proxy:\a3\data_f\proxies\rubber_boat\cargo04.004",
+            "proxy:\a3\data_f\proxies\rubber_boat\driver.001"
+        };
+    };
+
 };
 
 /*
 _v = ([[curatorSelected # 0 # 0, [vehicle player, cursorObject] select (vehicle player == player)] select isNull curatorCamera, (get3DENSelected "" # 0 # 0)] select is3DEN);
-selectionNames _v select {"cargo" in toLower _x}
+private _sn = selectionNames v select {
+    private _proxy = toLower _x;
+    private _proxyIndex = _proxy select [(_proxy find ".") + 1];
+    // has non-zero selection position
+    !((_v selectionPosition _proxy) isEqualTo [0,0,0]) && {
+    // ends with a number after a period
+    ((parseNumber _proxyIndex > 0) || {_proxyIndex isEqualTo "0"}) && {
+    // contains seat role
+    (("cargo" in toLower _proxy) || {("gunner" in toLower _proxy) || {("driver" in toLower _proxy) ||
+    {("commander" in toLower _proxy) || {("pilot" in toLower _proxy)}}}})}}
+};
+_sn joinString (toString [13,10])
 */

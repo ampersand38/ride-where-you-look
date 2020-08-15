@@ -1,3 +1,4 @@
+#define OFFSET [0, 0, -1.7]
 /*
 Author: Ampers
 PFH to show which seat the unit is looking at
@@ -125,6 +126,19 @@ if (_sn isEqualTo []) exitWith { // no seat proxies found in selectionNames
 };
 
 private _sp = _sn apply {rwyl_main_vehicle selectionPosition _x};
+// adjust proxies offset from character position
+private _proxyOffsets = getArray (configFile >> "CfgVehicles" >> typeOf rwyl_main_vehicle >> "RWYL_proxyOffsets");
+if !(_proxyOffsets isEqualTo []) then {
+    {
+        private _index = _sn find _x;
+        if (_index != -1) then {
+            _sp set [
+                _index,
+                (_sp select _index) vectorAdd OFFSET
+            ];
+        };
+    } forEach _proxyOffsets;
+};
 
 rwyl_main_colour = ["IGUI", "TEXT_RGB"] call BIS_fnc_displayColorGet;
 rwyl_main_colour_faded = rwyl_main_colour;
@@ -263,7 +277,7 @@ rwyl_main_pfh_running = true;
         _text = _text + " seat taken";
     };
 
-    drawIcon3D [_icon, rwyl_main_colour, rwyl_main_vehicle modelToWorldVisual (rwyl_main_vehicle selectionPosition rwyl_main_proxy), 1, 1, 0, _text];
+    drawIcon3D [_icon, rwyl_main_colour, rwyl_main_vehicle modelToWorldVisual (_sp select _indexClosest), 1, 1, 0, _text];
 
 }, 0, [_unit, _sn, _sp]] call CBA_fnc_addPerFrameHandler;
 
