@@ -205,8 +205,13 @@ rwyl_main_pfh_running = true;
     private _text = "";
 
     // check seat type of proxy
-    switch (true) do {
-        case ("cargo" in rwyl_main_proxy): {
+    private _seatType = {
+        if (_x in rwyl_main_proxy) exitWith {
+            _x
+        };
+    } forEach ["cargo", "gunner", "driver", "commander", "pilot"];
+    switch (_seatType) do {
+        case "cargo": {
             private _indexOrPath = _cargoIndex - 1;
 
             private _turretConfig = configFile >> "CfgVehicles" >> typeOf rwyl_main_vehicle >> "Turrets";
@@ -228,7 +233,7 @@ rwyl_main_pfh_running = true;
             };
 
         };
-        case ("gunner" in rwyl_main_proxy): {
+        case "gunner": {
             private _indexOrPath = [];
             private _turretConfig = configFile >> "CfgVehicles" >> typeOf rwyl_main_vehicle >> "Turrets";
             {
@@ -245,17 +250,17 @@ rwyl_main_pfh_running = true;
             _icon = "\a3\ui_f\data\IGUI\Cfg\Actions\getingunner_ca.paa";
             rwyl_main_isSeatTaken = alive ((_fullCrew select {(_x # 3) isEqualTo _indexOrPath}) # 0 # 0);
         };
-        case ("driver" in rwyl_main_proxy): {
+        case "driver": {
             _text = "Driver";
             _icon = "\a3\ui_f\data\IGUI\Cfg\Actions\getindriver_ca.paa";
             rwyl_main_isSeatTaken = alive driver rwyl_main_vehicle;
         };
-        case ("commander" in rwyl_main_proxy): {
+        case "commander": {
             _text = "Commander";
             _icon = "\a3\ui_f\data\IGUI\Cfg\Actions\getincommander_ca.paa";
             rwyl_main_isSeatTaken = alive commander rwyl_main_vehicle;
         };
-        case ("pilot" in rwyl_main_proxy): {
+        case "pilot": {
             _text = "Pilot";
             _icon = "\a3\ui_f\data\IGUI\Cfg\Actions\getindriver_ca.paa";
             rwyl_main_isSeatTaken = alive driver rwyl_main_vehicle;
@@ -271,16 +276,22 @@ rwyl_main_pfh_running = true;
 
     if RWYL_ShowAllSeats then {
         {
+            private _proxy = _x;
             if (_forEachIndex != _indexClosest) then {
                 // get cargo index from proxy name
-                private _cargoIndex = parseNumber (_x select [(_x find ".") + 1]);
+                private _cargoIndex = parseNumber (_proxy select [(_proxy find ".") + 1]);
 
                 _icon = "";
                 _text = "";
 
                 // check seat type of proxy
-                switch (true) do {
-                    case ("cargo" in _x): {
+                private _seatType = {
+                    if (_x in _proxy) exitWith {
+                        _x
+                    };
+                } forEach ["cargo", "gunner", "driver", "commander", "pilot"];
+                switch (_seatType) do {
+                    case "cargo": {
                         private _indexOrPath = _cargoIndex - 1;
 
                         private _turretConfig = configFile >> "CfgVehicles" >> typeOf rwyl_main_vehicle >> "Turrets";
@@ -300,7 +311,7 @@ rwyl_main_pfh_running = true;
                         };
 
                     };
-                    case ("gunner" in _x): {
+                    case "gunner": {
                         private _indexOrPath = [];
                         private _turretConfig = configFile >> "CfgVehicles" >> typeOf rwyl_main_vehicle >> "Turrets";
                         {
@@ -316,15 +327,15 @@ rwyl_main_pfh_running = true;
                         };
                         _icon = "\a3\ui_f\data\IGUI\Cfg\Actions\getingunner_ca.paa";
                     };
-                    case ("driver" in _x): {
+                    case "driver": {
                         _text = "Driver";
                         _icon = "\a3\ui_f\data\IGUI\Cfg\Actions\getindriver_ca.paa";
                     };
-                    case ("commander" in _x): {
+                    case "commander": {
                         _text = "Commander";
                         _icon = "\a3\ui_f\data\IGUI\Cfg\Actions\getincommander_ca.paa";
                     };
-                    case ("pilot" in _x): {
+                    case "pilot": {
                         _text = "Pilot";
                         _icon = "\a3\ui_f\data\IGUI\Cfg\Actions\getindriver_ca.paa";
                     };
