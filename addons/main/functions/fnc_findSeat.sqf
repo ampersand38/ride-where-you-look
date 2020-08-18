@@ -1,4 +1,4 @@
-#define OFFSET [0, 0, -1.7]
+#define OFFSET [0, 0, -2]
 /*
 Author: Ampers
 PFH to show which seat the unit is looking at
@@ -116,7 +116,12 @@ if (_hopVehicle) then {
 };
 
 // filter out blacklisted non-functional proxies
-_sn = _sn - getArray (configFile >> "CfgVehicles" >> typeOf rwyl_main_vehicle >> "RWYL_proxyBlacklist");
+//_sn = _sn - getArray (configFile >> "CfgVehicles" >> typeOf rwyl_main_vehicle >> "RWYL_proxyBlacklist");
+_sn = _sn - (rwyl_main_vehicle getVariable ["RWYL_proxyBlacklist", []]);
+{
+    _sn pushBackUnique _x;
+} forEach (rwyl_main_vehicle getVariable ["RWYL_proxyWhitelist", []]);
+
 
 if (_sn isEqualTo []) exitWith { // no seat proxies found in selectionNames
     rwyl_main_vehicle = objNull;
@@ -127,7 +132,8 @@ if (_sn isEqualTo []) exitWith { // no seat proxies found in selectionNames
 
 private _sp = _sn apply {rwyl_main_vehicle selectionPosition _x};
 // adjust proxies offset from character position
-private _proxyOffsets = getArray (configFile >> "CfgVehicles" >> typeOf rwyl_main_vehicle >> "RWYL_proxyOffsets");
+//private _proxyOffsets = getArray (configFile >> "CfgVehicles" >> typeOf rwyl_main_vehicle >> "RWYL_proxyOffsets");
+private _proxyOffsets = (rwyl_main_vehicle getVariable ["RWYL_proxyOffsets", []]);
 if !(_proxyOffsets isEqualTo []) then {
     {
         private _index = _sn find _x;
@@ -324,7 +330,7 @@ rwyl_main_pfh_running = true;
                     };
                 };
 
-                drawIcon3D [_icon, rwyl_main_colour_faded, rwyl_main_vehicle modelToWorldVisual (_sp select _forEachIndex), 1, 1, 0, _text];
+                drawIcon3D [_icon, rwyl_main_colour_faded, rwyl_main_vehicle modelToWorldVisual (_sp select _forEachIndex), 0.8, 0.8, 0, _text];
             };
         } forEach _sn;
     };
