@@ -36,7 +36,7 @@ params ["_unit", "_vehicle", "_proxy"];
             params [ARR_3("_unit","_moveBackCode","_moveBackParams")]; \
             WARNING_1("failed move in after %1 frames",diag_frameno-GVAR(frame)); \
             [ARR_2(_unit,_moveBackParams)] call _moveBackCode; \
-            localize "str_mis_state_failed" call EFUNC(common,displayTextStructured); \
+            localize "str_mis_state_failed" call ace_common_fnc_displayTextStructured; \
             _unit enableSimulation true; \
         } \
     )] call CBA_fnc_waitUntilAndExecute;
@@ -56,11 +56,11 @@ if (rwyl_main_isSeatTaken && {_vehicle == vehicle _unit}) exitWith {false};
 
 private _mustMoveOut = (_unit != vehicle _unit);
 if (_mustMoveOut) then {
-
     private ["_driverCompartments", "_isDriverIsolated", "_cargoCompartments", "_cargoCompartmentsLast", "_compartment", "_currentTurret", "_moveBackCode", "_moveBackParams"];
 
     // find current compartment
-    private _fullCrew = fullCrew [_vehicle, "", true];
+    private _currentVehicle = vehicle _unit;
+    private _fullCrew = fullCrew [_currentVehicle, "", true];
     (
         _fullCrew select (_fullCrew findIf {_unit == _x select 0})
     ) params ["", "_role", "_cargoIndex", "_turretPath"];
@@ -74,7 +74,7 @@ if (_mustMoveOut) then {
             };
             _compartment = _driverCompartments;
             _moveBackCode = {MOVE_IN_CODE(moveInDriver)};
-            _moveBackParams = _vehicle;
+            _moveBackParams = _currentVehicle;
         };
         case "cargo": {
             private _cargoNumber = fullCrew [_vehicle, "cargo", true] findIf {_unit == _x select 0};
@@ -271,6 +271,7 @@ if (_mustMoveOut) then {
         };
     };
 
+    _unit enableSimulation true;
 }, _this + [_mustMoveOut]] call CBA_fnc_waitUntilAndExecute;
 /*
 [{
