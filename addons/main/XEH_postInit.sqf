@@ -1,5 +1,7 @@
 #include "script_component.hpp"
 
+#include "initVehicles.sqf"
+
 ["rwyl_main_moveSeat", {
     //params ["_unit", "_vehicle", "_proxy"];
     call rwyl_main_fnc_moveSeatLocal;
@@ -11,8 +13,9 @@
         if (isNull curatorCamera) then {
             [player] call rwyl_main_fnc_findSeat;
         } else {
-            if ((curatorSelected # 0 # 0) isKindOf "CAManBase") then {
-                [curatorSelected # 0 # 0] call rwyl_main_fnc_findSeat;
+            private _unit = (curatorSelected # 0 # 0);
+            if (_unit isKindOf "CAManBase" && {_unit != vehicle _unit}) then {
+                [_unit, true] call rwyl_main_fnc_findSeat;
             };
         };
     },{
@@ -30,8 +33,9 @@
             if (isNull curatorCamera) then {
                 [player] call rwyl_main_fnc_findSeat;
             } else {
-                if (count (curatorSelected # 0) == 1) then {
-                    [curatorSelected # 0 # 0] call rwyl_main_fnc_findSeat;
+                private _unit = (curatorSelected # 0 # 0);
+                if (_unit isKindOf "CAManBase" && {_unit != vehicle _unit}) then {
+                    [_unit, true] call rwyl_main_fnc_findSeat;
                 };
             };
         };
