@@ -802,6 +802,71 @@
     ]];
 }, true, [], true] call CBA_fnc_addClassEventHandler;
 
+["RHS_Ural_Flat_MSV_01", "init", {
+    (_this select 0) setVariable ["RWYL_proxyBlacklist", [
+        "proxy:\ca\temp\proxies\truck\cargo02.013",
+        "proxy:\ca\temp\proxies\truck\cargo02.012",
+        "proxy:\ca\temp\proxies\truck\cargo04.003",
+        "proxy:\ca\temp\proxies\truck\cargo04.014",
+        "proxy:\ca\temp\proxies\truck\cargo01.010",
+        "proxy:\ca\temp\proxies\truck\cargo01.005",
+        "proxy:\ca\temp\proxies\truck\cargo02.007",
+        "proxy:\ca\temp\proxies\truck\cargo01.004",
+        "proxy:\ca\temp\proxies\truck\cargo04.006",
+        "proxy:\ca\temp\proxies\truck\cargo02.008",
+        "proxy:\ca\temp\proxies\truck\cargo04.009",
+        "proxy:\ca\temp\proxies\truck\cargo01.011"
+    ]];
+    (_this select 0) setVariable ["RWYL_proxyOffsets", [
+        "proxy:\ca\temp\proxies\uaz\driver.001",
+        "proxy:\ca\temp\proxies\truck\cargo01.001",
+        "proxy:\ca\temp\proxies\truck\cargo01.002"
+    ]];
+}, true, [], true] call CBA_fnc_addClassEventHandler;
+
+["RHS_Ural_Open_Flat_MSV_01", "init", {
+    (_this select 0) setVariable ["RWYL_proxyBlacklist", [
+        "proxy:\ca\temp\proxies\truck\cargo02.013",
+        "proxy:\ca\temp\proxies\truck\cargo02.012",
+        "proxy:\ca\temp\proxies\truck\cargo04.003",
+        "proxy:\ca\temp\proxies\truck\cargo04.014",
+        "proxy:\ca\temp\proxies\truck\cargo01.010",
+        "proxy:\ca\temp\proxies\truck\cargo01.005",
+        "proxy:\ca\temp\proxies\truck\cargo02.007",
+        "proxy:\ca\temp\proxies\truck\cargo01.004",
+        "proxy:\ca\temp\proxies\truck\cargo04.006",
+        "proxy:\ca\temp\proxies\truck\cargo02.008",
+        "proxy:\ca\temp\proxies\truck\cargo04.009",
+        "proxy:\ca\temp\proxies\truck\cargo01.011",
+        "proxy:cargo02.023",
+        "proxy:cargo04.024"
+    ]];
+    (_this select 0) setVariable ["RWYL_proxyOffsets", [
+        "proxy:\ca\temp\proxies\uaz\driver.001",
+        "proxy:\ca\temp\proxies\truck\cargo01.001",
+        "proxy:\ca\temp\proxies\truck\cargo01.002"
+    ]];
+}, true, [], true] call CBA_fnc_addClassEventHandler;
+
+["rhs_zil131_flatbed_base", "init", {
+    (_this select 0) setVariable ["RWYL_proxyBlacklist", [
+        "proxy:\ca\temp\proxies\truck\cargo04.003",
+        "proxy:\ca\temp\proxies\truck\cargo01.005",
+        "proxy:\ca\temp\proxies\truck\cargo02.007",
+        "proxy:\ca\temp\proxies\truck\cargo01.004",
+        "proxy:\ca\temp\proxies\truck\cargo04.006",
+        "proxy:\ca\temp\proxies\truck\cargo02.008",
+        "proxy:\ca\temp\proxies\truck\cargo02.011",
+        "proxy:\ca\temp\proxies\truck\cargo02.010",
+        "proxy:\ca\temp\proxies\truck\cargo04.012",
+        "proxy:\ca\temp\proxies\truck\cargo01.009"
+    ]];
+    (_this select 0) setVariable ["RWYL_proxyOffsets", [
+        "proxy:\ca\temp\proxies\truck\cargo01.001",
+        "proxy:\ca\temp\proxies\truck\cargo01.002"
+    ]];
+}, true, [], true] call CBA_fnc_addClassEventHandler;
+
 /*
 _v = ([[curatorSelected # 0 # 0, [vehicle player, cursorObject] select (vehicle player == player)] select isNull curatorCamera, (get3DENSelected "" # 0 # 0)] select is3DEN);
 private _sn = selectionNames _v select {
