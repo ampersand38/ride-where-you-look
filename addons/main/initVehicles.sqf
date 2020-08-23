@@ -212,11 +212,17 @@
         "proxy:cargo01.001"
     ]];
     (_this select 0) setVariable ["RWYL_proxyBlacklist", [
-        "proxy:cargo01.008"
+        "proxy:cargo01.008",
+        "2drcargocomplete",
+        "2drcargo"
     ]];
-}, true, [], true] call CBA_fnc_addClassEventHandler;
+}, true, ["rhsusf_m998_w_4dr"], true] call CBA_fnc_addClassEventHandler;
 
 ["rhsusf_m998_w_4dr", "init", {
+    (_this select 0) setVariable ["RWYL_proxyOffsets", [
+        "proxy:driver.001",
+        "proxy:cargo01.001"
+    ]];
     (_this select 0) setVariable ["RWYL_proxyBlacklist", [
         "proxy:cargo01.006",
         "proxy:\ca\temp\proxies\skodovka\cargo.007",
