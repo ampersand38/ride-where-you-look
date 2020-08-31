@@ -16,8 +16,6 @@
 
 ["B_T_VTOL_01_vehicle_F", "init", {
     (_this select 0) setVariable ["RWYL_proxyBlacklist", [
-        "proxy:\a3\data_f\proxies\heli_transport_01\cargo.001",
-        "proxy:\a3\data_f\proxies\heli_transport_01\cargo.002",
         "proxy:\a3\data_f\proxies\passenger_apc_generic04\cargo.003",
         "proxy:\a3\data_f\proxies\passenger_generic01_leanleft\cargo.004",
         "proxy:\a3\data_f\proxies\passenger_apc_narrow_generic02\cargo.005",
@@ -847,6 +845,13 @@
         "proxy:\ca\temp\proxies\truck\cargo01.002"
     ]];
 }, true, [], true] call CBA_fnc_addClassEventHandler;
+
+["rhs_zil131_base", "init", {
+    (_this select 0) setVariable ["RWYL_proxyOffsets", [
+        "proxy:\ca\temp\proxies\truck\cargo01.001",
+        "proxy:\ca\temp\proxies\truck\cargo01.002"
+    ]];
+}, true, ["rhs_zil131_flatbed_base"], true] call CBA_fnc_addClassEventHandler;
 
 ["rhs_zil131_flatbed_base", "init", {
     (_this select 0) setVariable ["RWYL_proxyBlacklist", [
