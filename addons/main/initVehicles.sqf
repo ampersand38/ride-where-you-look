@@ -119,6 +119,33 @@
     ]];
 }, true, [], true] call CBA_fnc_addClassEventHandler;
 
+["Truck_02_base_F", "init", {
+    (_this select 0) setVariable ["RWYL_proxyOffsets", [
+        "proxy:\a3\data_f\proxies\passenger_generic01_leanleft\cargo01.001",
+        "proxy:\a3\data_f\proxies\passenger_generic01_leanleft\cargo01.002"
+    ]];
+}, true, [], true] call CBA_fnc_addClassEventHandler;
+
+["Truck_02_box_base_F", "init", {
+    (_this select 0) setVariable ["RWYL_proxyOffsets", [
+        "proxy:\a3\data_f\proxies\truck_02\cargo01.001",
+        "proxy:\a3\data_f\proxies\truck_02\cargo01.002"
+    ]];
+}, true, [], true] call CBA_fnc_addClassEventHandler;
+
+["Truck_02_fuel_base_F", "init", {
+    (_this select 0) setVariable ["RWYL_proxyOffsets", [
+        "proxy:\a3\data_f\proxies\truck_02\cargo01.001",
+        "proxy:\a3\data_f\proxies\truck_02\cargo01.002"
+    ]];
+}, true, [], true] call CBA_fnc_addClassEventHandler;
+
+["Truck_02_MRL_base_F", "init", {
+    (_this select 0) setVariable ["RWYL_proxyWhitelist", [
+        "proxy:gunner.001"
+    ]];
+}, true, [], true] call CBA_fnc_addClassEventHandler;
+
 // H-60 Devlopment
 ["vtx_mh60m", "init", {
     (_this select 0) setVariable ["RWYL_proxyOffsets", [
