@@ -924,7 +924,7 @@
         "proxy:\a3\data_f\proxies\passenger_hunter_back\cargo.001",
         "proxy:\a3\data_f\proxies\passenger_hunter_back\cargo.002"
     ]];
-}, true, [], true] call CBA_fnc_addClassEventHandler;
+}, true, ["UK3CB_BAF_Coyote_Logistics_L111A1_D"], true] call CBA_fnc_addClassEventHandler;
 
 ["UK3CB_BAF_Coyote_Passenger_L134A1_D", "init", {
     (_this select 0) setVariable ["RWYL_proxyBlacklist", [
@@ -936,7 +936,7 @@
         "proxy:\a3\data_f\proxies\passenger_hunter_back\cargo.001",
         "proxy:\a3\data_f\proxies\passenger_hunter_back\cargo.002"
     ]];
-}, true, [], true] call CBA_fnc_addClassEventHandler;
+}, true, ["UK3CB_BAF_Coyote_Logistics_L134A1_D"], true] call CBA_fnc_addClassEventHandler;
 
 ["UK3CB_BAF_Husky_Logistics_GMG_Green", "init", {
     (_this select 0) setVariable ["RWYL_proxyBlacklist", [
