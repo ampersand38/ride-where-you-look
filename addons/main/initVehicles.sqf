@@ -18,5 +18,7 @@ private _sn = _v selectionNames "FireGeometry" select {
     (("cargo" in toLower _proxy) || {("gunner" in toLower _proxy) || {("driver" in toLower _proxy) ||
     {("commander" in toLower _proxy) || {("pilot" in toLower _proxy)}}}})}}
 };
-_sn joinString (toString [13,10])
+_proxies = _sn joinString (toString [13,10]);
+copyToClipboard _proxies;
+_proxies
 */
