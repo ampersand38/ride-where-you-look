@@ -9,7 +9,7 @@ PFH to show which seat the unit is looking at
 * Return Value:
 * -
 
-* Exrwylle:
+* Example:
 * [player] call rwyl_main_fnc_findSeat
 */
 
@@ -95,7 +95,7 @@ if (_fullCrew isEqualTo []) exitWith { // no seats
 };
 
 // get proxies
-private _sn = selectionNames rwyl_main_vehicle select {
+private _sn = rwyl_main_vehicle selectionNames "FireGeometry" select {
     private _proxy = toLower _x;
     private _proxyIndex = _proxy select [(_proxy find ".") + 1];
     // has non-zero selection position
