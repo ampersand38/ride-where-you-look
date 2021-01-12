@@ -32,7 +32,7 @@ def check_for_obsolete_pbos(addonspath, file):
 def main():
     print("""
   ####################
-  # RWYL3 Debug Build #
+  # RWYL Debug Build #
   ####################
 """)
 
