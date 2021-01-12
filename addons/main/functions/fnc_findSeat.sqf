@@ -106,6 +106,7 @@ private _sn = rwyl_main_vehicle selectionNames "FireGeometry" select {
     (("cargo" in toLower _proxy) || {("gunner" in toLower _proxy) || {("driver" in toLower _proxy) ||
     {("commander" in toLower _proxy) || {("pilot" in toLower _proxy)}}}})}}
 };
+if (_sn isEqualTo []) exitWith {};
 
 // hop vehicle filter for near proxies
 private _hopVehicle = !_isOnFoot && {(_currentVehicle != rwyl_main_vehicle) && {_notInZeus}};
