@@ -108,8 +108,9 @@ if (isClass (configFile >> "CfgPatches" >> "CUP_Vehicles_Core")) then {
     }, true, [], true] call CBA_fnc_addClassEventHandler;
     ["CUP_BMP1_base", "init", {
         (_this select 0) setVariable ["RWYL_proxyOffsets", [
-            "proxy:\ca\temp\proxies\bmp2\driver.001",
-            "proxy:\ca\temp\proxies\bmp2\gunner.001"
+            "proxy:\ca\temp\proxies\basiccrew\driverout.001",
+            "proxy:\ca\temp\proxies\basiccrew\gunnerout.001",
+            "proxy:\ca\temp\proxies\basiccrew\commanderout.001"
         ]];
     }, true, [], true] call CBA_fnc_addClassEventHandler;
     ["CUP_BMP2_Ambul_Base", "init", {
@@ -120,8 +121,16 @@ if (isClass (configFile >> "CfgPatches" >> "CUP_Vehicles_Core")) then {
     }, true, [], true] call CBA_fnc_addClassEventHandler;
     ["CUP_BMP2_HQ_Base", "init", {
         (_this select 0) setVariable ["RWYL_proxyOffsets", [
+            "proxy:\ca\temp\proxies\bmp2\driver.001",
             "proxy:\ca\temp\proxies\bmp2\commander.001",
             "proxy:\ca\temp\proxies\hmmwv50\gunner.001"
+        ]];
+    }, true, [], true] call CBA_fnc_addClassEventHandler;
+    ["CUP_BMP2_base", "init", {
+        (_this select 0) setVariable ["RWYL_proxyOffsets", [
+            "proxy:\ca\temp\proxies\basiccrew\driverout.001",
+            "proxy:\ca\temp\proxies\basiccrew\gunnerout.001",
+            "proxy:\ca\temp\proxies\basiccrew\commanderout.001"
         ]];
     }, true, [], true] call CBA_fnc_addClassEventHandler;
     ["CUP_T55_Base", "init", {
@@ -514,6 +523,19 @@ if (isClass (configFile >> "CfgPatches" >> "CUP_Vehicles_Core")) then {
     ["CUP_SearchLight_static_base", "init", {
         (_this select 0) setVariable ["RWYL_proxyOffsets", [
             "proxy:\ca\temp\proxies\searchlight\gunner.01"
+        ]];
+    }, true, [], true] call CBA_fnc_addClassEventHandler;
+
+    ["CUP_SUV_Base", "init", {
+        (_this select 0) setVariable ["RWYL_proxyOffsets", [
+            "proxy:\a3\data_f\proxies\driver_low01\driver.001",
+            "proxy:\a3\data_f\proxies\passenger_low01\cargo02.001",
+            "proxy:\a3\data_f\proxies\passenger_low01\cargo03.002",
+            "proxy:\a3\data_f\proxies\passenger_low01\cargo01.003",
+            "proxy:\a3\data_f\proxies\passenger_low01\cargo02.004",
+            "proxy:\a3\data_f\proxies\passenger_low01\cargo04.005",
+            "proxy:cargo.013",
+            "proxy:\ca\temp\proxies\hmmwv50\gunner.001"
         ]];
     }, true, [], true] call CBA_fnc_addClassEventHandler;
 
