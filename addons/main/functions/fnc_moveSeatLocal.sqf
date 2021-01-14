@@ -169,9 +169,16 @@ if (_mustMoveOut) then {
         case ("cargo" in toLower _proxy): {
             // get cargo index from proxy name
             private _proxyIndex = parseNumber (_proxy select [(_proxy find ".") + 1]);
-            _indexOrPath = _proxyIndex - 1;
-
-            private _turretConfig = configFile >> "CfgVehicles" >> typeOf _vehicle >> "Turrets" ;
+            private _vehicleConfig = configOf _vehicle;
+            private _cargoIndexes = _vehicle getVariable ["RWYL_cargoProxyIndexes", []];
+            if (_cargoIndexes isEqualTo []) then {
+                _cargoIndexes = getArray (_vehicleConfig >> "cargoProxyIndexes");
+            };
+            private _indexOrPath = _cargoIndexes find _proxyIndex;
+            if (_indexOrPath == -1) then {
+                _indexOrPath = _proxyIndex - 1;
+            };
+            private _turretConfig = _vehicleConfig >> "Turrets" ;
             {
                 if (_proxyIndex == (getNumber (_turretConfig >> _x >> "proxyIndex")) && {
                 "CPCargo" isEqualTo (getText (_turretConfig >> _x >> "proxyType"))}) then {
