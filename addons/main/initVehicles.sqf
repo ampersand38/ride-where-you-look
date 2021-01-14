@@ -6,6 +6,7 @@
 #include "mods\h60.sqf"
 
 /*
+// get seat proxies
 _v = ([[curatorSelected # 0 # 0, [vehicle player, cursorObject] select (vehicle player == player)] select isNull curatorCamera, (get3DENSelected "" # 0 # 0)] select is3DEN);
 private _sn = _v selectionNames "FireGeometry" select {
     private _proxy = toLower _x;
@@ -21,4 +22,16 @@ private _sn = _v selectionNames "FireGeometry" select {
 _proxies = _sn joinString (toString [13,10]);
 copyToClipboard _proxies;
 _proxies
+
+// get order of seat proxies
+amp_cargoIndex = 0;
+player addAction ["Next Cargo Seat", {
+    systemChat str amp_cargoIndex;
+    [vehicle player] spawn {
+        moveOut player;
+        waitUntil {vehicle player == player };
+        player moveInCargo [_this # 0,amp_cargoIndex];
+        amp_cargoIndex = amp_cargoIndex + 1;
+    };
+}, nil, 10, true, false]
 */
