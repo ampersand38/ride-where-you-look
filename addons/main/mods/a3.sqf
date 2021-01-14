@@ -92,6 +92,23 @@
     ]];
 }, true, [], true] call CBA_fnc_addClassEventHandler;
 
+["Heli_Light_01_civil_base_F", "init", {
+    (_this select 0) setVariable ["RWYL_proxyBlacklist", [
+            "proxy:\a3\data_f\proxies\heli_light_01\cargo01.001",
+            "proxy:\a3\data_f\proxies\heli_light_01\cargo01.002",
+            "proxy:\a3\data_f\proxies\heli_light_01\cargo01.004",
+            "proxy:\a3\data_f\proxies\heli_light_01\cargo01.003"
+    ]];
+}, true, [], true] call CBA_fnc_addClassEventHandler;
+
+["B_APC_Wheeled_01_base_F", "init", {
+    (_this select 0) setVariable ["RWYL_proxyOffsets", [
+            "proxy:\a3\data_f\proxies\crew_tank01\commander.001",
+            "proxy:\a3\data_f\proxies\crew_tank01\gunner.001",
+            "proxy:\a3\data_f\proxies\crew_tank01\driver.001"
+    ]];
+}, true, [], true] call CBA_fnc_addClassEventHandler;
+
 ["Heli_Light_01_base_F", "init", {
     (_this select 0) setVariable ["RWYL_proxyOffsets", [
         "proxy:\a3\data_f\proxies\heli_light_01\cargo01.001",
@@ -100,6 +117,7 @@
         "proxy:\a3\data_f\proxies\heli_light_01\cargo01.003"
     ]];
 }, true, [], true] call CBA_fnc_addClassEventHandler;
+
 ["Heli_Light_01_armed_base_F", "init", {
     (_this select 0) setVariable ["RWYL_proxyBlacklist", [
         "proxy:\a3\data_f\proxies\heli_light_01\cargo01.001",
