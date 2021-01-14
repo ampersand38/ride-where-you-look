@@ -13,9 +13,11 @@
         if (isNull curatorCamera) then {
             [player] call rwyl_main_fnc_findSeat;
         } else {
-            private _unit = (curatorSelected # 0 # 0);
-            if (_unit isKindOf "CAManBase" && {_unit != vehicle _unit}) then {
-                [_unit, true] call rwyl_main_fnc_findSeat;
+            if (count (curatorSelected # 0) == 1) then {
+                private _unit = (curatorSelected # 0 # 0);
+                if (_unit isKindOf "CAManBase" && {_unit != vehicle _unit}) then {
+                    [_unit, true] call rwyl_main_fnc_findSeat;
+                };
             };
         };
     },{
