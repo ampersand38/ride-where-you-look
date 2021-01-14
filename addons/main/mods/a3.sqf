@@ -78,6 +78,18 @@
     ]];
 }, true, [], true] call CBA_fnc_addClassEventHandler;
 
+["B_Truck_01_transport_F", "init", {
+    (_this select 0) setVariable ["RWYL_cargoProxyIndexes", [
+        1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17
+    ]];
+}, true, [], true] call CBA_fnc_addClassEventHandler;
+
+["O_Truck_03_transport_F", "init", {
+    (_this select 0) setVariable ["RWYL_cargoProxyIndexes", [
+        1,2,3,4,5,6,7,8,9,10,11,12,13
+    ]];
+}, true, [], true] call CBA_fnc_addClassEventHandler;
+
 ["Van_02_vehicle_base_F", "init", {
     (_this select 0) setVariable ["RWYL_proxyBlacklist", [
         "proxy:\a3\data_f\proxies\passenger_flatground_crosslegs\cargo.002",
