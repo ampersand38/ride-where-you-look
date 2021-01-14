@@ -213,7 +213,15 @@ rwyl_main_pfh_running = true;
     } forEach ["cargo", "gunner", "driver", "commander", "pilot"];
     switch (_seatType) do {
         case "cargo": {
-            private _indexOrPath = _cargoIndex - 1;
+            private _vehicleConfig = configOf rwyl_main_vehicle;
+            private _cargoIndexes = rwyl_main_vehicle getVariable ["RWYL_cargoProxyIndexes", []];
+            if (_cargoIndexes isEqualTo []) then {
+                _cargoIndexes = getArray (_vehicleConfig >> "cargoProxyIndexes");
+            };
+            private _indexOrPath = _cargoIndexes find _cargoIndex;
+            if (_indexOrPath == -1) then {
+                _indexOrPath = _cargoIndex - 1;
+            };
 
             private _turretConfig = configFile >> "CfgVehicles" >> typeOf rwyl_main_vehicle >> "Turrets";
             {
@@ -226,11 +234,11 @@ rwyl_main_pfh_running = true;
             if (_indexOrPath isEqualType []) then {
                 _text = "FFV " + str _cargoIndex;
                 _icon = "\a3\ui_f\data\IGUI\Cfg\Actions\getingunner_ca.paa";
-                rwyl_main_isSeatTaken = alive ((_fullCrew select {(_x # 3) isEqualTo _indexOrPath}) # 0 # 0);
+                rwyl_main_isSeatTaken = alive (_fullCrew # (_fullCrew findIf {(_x # 3) isEqualTo _indexOrPath}) # 0);
             } else {
                 _text = "Cargo " + str _cargoIndex;
                 _icon = "\a3\ui_f\data\IGUI\Cfg\Actions\getincargo_ca.paa";
-                rwyl_main_isSeatTaken = alive ((_fullCrew select {(_x # 2) == _indexOrPath}) # 0 # 0);
+                rwyl_main_isSeatTaken = alive (_fullCrew # (_fullCrew findIf {(_x # 2) == _indexOrPath}) # 0);
             };
 
         };
@@ -249,7 +257,7 @@ rwyl_main_pfh_running = true;
                 _text = "Gunner " + str _cargoIndex;
             };
             _icon = "\a3\ui_f\data\IGUI\Cfg\Actions\getingunner_ca.paa";
-            rwyl_main_isSeatTaken = alive ((_fullCrew select {(_x # 3) isEqualTo _indexOrPath}) # 0 # 0);
+            rwyl_main_isSeatTaken = alive (_fullCrew # (_fullCrew findIf {(_x # 3) isEqualTo _indexOrPath}) # 0);
         };
         case "driver": {
             _text = "Driver";
