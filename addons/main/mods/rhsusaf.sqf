@@ -107,6 +107,12 @@ if (isClass (configFile >> "CfgPatches" >> "rhsusf_main")) then {
         ]];
     }, true, [], true] call CBA_fnc_addClassEventHandler;
 
+    ["RHS_CH_47F_base", "init", {
+        (_this select 0) setVariable ["RWYL_cargoProxyIndexes", [
+            1,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,2,25
+        ]];
+    }, true, ["RHS_CH_47F_cargo_base"], true] call CBA_fnc_addClassEventHandler;
+
     ["RHS_CH_47F_cargo_base", "init", {
         (_this select 0) setVariable ["RWYL_proxyBlacklist", [
             "proxy:\ca\temp\proxies\ch47\cargo01.014",
