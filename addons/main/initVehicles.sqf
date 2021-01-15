@@ -34,4 +34,16 @@ player addAction ["Next Cargo Seat", {
         amp_cargoIndex = amp_cargoIndex + 1;
     };
 }, nil, 10, true, false]
+
+// get order of seat proxies
+amp_turretIndex = 0;
+player addAction ["Next Turret Seat", {
+    systemChat str amp_turretIndex;
+    [vehicle player] spawn {
+        moveOut player;
+        waitUntil {vehicle player == player };
+        player moveInTurret [_this # 0,[amp_turretIndex]];
+        amp_turretIndex = amp_turretIndex + 1;
+    };
+}, nil, 10, true, false]
 */
