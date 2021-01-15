@@ -225,11 +225,11 @@ rwyl_main_pfh_running = true;
 
             private _turretConfig = configFile >> "CfgVehicles" >> typeOf rwyl_main_vehicle >> "Turrets";
             {
-                if (_cargoIndex == (getNumber (_turretConfig >> _x >> "proxyIndex")) && {
-                "CPCargo" isEqualTo (getText (_turretConfig >> _x >> "proxyType"))}) then {
+                if (_cargoIndex == (getNumber (_x >> "proxyIndex")) && {
+                "CPCargo" isEqualTo (getText (_x >> "proxyType"))}) then {
                     _indexOrPath = [_forEachIndex];
                 };
-            } forEach (("true" configClasses (_turretConfig)) apply {configName _x});
+            } forEach (("true" configClasses (_turretConfig)));
 
             if (_indexOrPath isEqualType []) then {
                 _text = "FFV " + str _cargoIndex;
@@ -246,12 +246,12 @@ rwyl_main_pfh_running = true;
             private _indexOrPath = [];
             private _turretConfig = configFile >> "CfgVehicles" >> typeOf rwyl_main_vehicle >> "Turrets";
             {
-                if (_cargoIndex == (getNumber (_turretConfig >> _x >> "proxyIndex")) && {
-                "CPGunner" isEqualTo (getText (_turretConfig >> _x >> "proxyType"))}) then {
-                    _text = getText (_turretConfig >> _x >> "gunnerName");
+                if (_cargoIndex == (getNumber (_x >> "proxyIndex")) && {
+                "CPGunner" isEqualTo (getText (_x >> "proxyType"))}) then {
+                    _text = getText (_x >> "gunnerName");
                     _indexOrPath = [_forEachIndex];
                 };
-            } forEach (("true" configClasses (_turretConfig)) apply {configName _x});
+            } forEach (("true" configClasses (_turretConfig)));
 
             if (_text isEqualTo "") then {
                 _text = "Gunner " + str _cargoIndex;
@@ -305,11 +305,11 @@ rwyl_main_pfh_running = true;
 
                         private _turretConfig = configFile >> "CfgVehicles" >> typeOf rwyl_main_vehicle >> "Turrets";
                         {
-                            if (_cargoIndex == (getNumber (_turretConfig >> _x >> "proxyIndex")) && {
-                            "CPCargo" isEqualTo (getText (_turretConfig >> _x >> "proxyType"))}) then {
+                            if (_cargoIndex == (getNumber (_x >> "proxyIndex")) && {
+                            "CPCargo" isEqualTo (getText (_x >> "proxyType"))}) then {
                                 _indexOrPath = [_forEachIndex];
                             };
-                        } forEach (("true" configClasses (_turretConfig)) apply {configName _x});
+                        } forEach (("true" configClasses (_turretConfig)));
 
                         if (_indexOrPath isEqualType []) then {
                             _text = "FFV " + str _cargoIndex;
@@ -324,12 +324,12 @@ rwyl_main_pfh_running = true;
                         private _indexOrPath = [];
                         private _turretConfig = configFile >> "CfgVehicles" >> typeOf rwyl_main_vehicle >> "Turrets";
                         {
-                            if (_cargoIndex == (getNumber (_turretConfig >> _x >> "proxyIndex")) && {
-                            "CPGunner" isEqualTo (getText (_turretConfig >> _x >> "proxyType"))}) then {
-                                _text = getText (_turretConfig >> _x >> "gunnerName");
+                            if (_cargoIndex == (getNumber (_x >> "proxyIndex")) && {
+                            "CPGunner" isEqualTo (getText (_x >> "proxyType"))}) then {
+                                _text = getText (_x >> "gunnerName");
                                 _indexOrPath = [_forEachIndex];
                             };
-                        } forEach (("true" configClasses (_turretConfig)) apply {configName _x});
+                        } forEach (("true" configClasses (_turretConfig)));
 
                         if (_text isEqualTo "") then {
                             _text = "Gunner " + str _cargoIndex;

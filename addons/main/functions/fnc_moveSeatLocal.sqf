@@ -180,11 +180,11 @@ if (_mustMoveOut) then {
             };
             private _turretConfig = _vehicleConfig >> "Turrets" ;
             {
-                if (_proxyIndex == (getNumber (_turretConfig >> _x >> "proxyIndex")) && {
-                "CPCargo" isEqualTo (getText (_turretConfig >> _x >> "proxyType"))}) then {
+                if (_proxyIndex == (getNumber (_x >> "proxyIndex")) && {
+                "CPCargo" isEqualTo (getText (_x >> "proxyType"))}) then {
                     _indexOrPath = [_forEachIndex];
                 };
-            } forEach (("true" configClasses _turretConfig) apply {configName _x});
+            } forEach (("true" configClasses _turretConfig));
 
             [_unit, _vehicle, _mustMoveOut, _indexOrPath] call _fnc_sendIntoCargoOrTurret;
         };
@@ -193,11 +193,11 @@ if (_mustMoveOut) then {
 
             private _turretConfig = configFile >> "CfgVehicles" >> typeOf _vehicle >> "Turrets" ;
             {
-                if (_proxyIndex == (getNumber (_turretConfig >> _x >> "proxyIndex")) && {
-                "CPGunner" isEqualTo (getText (_turretConfig >> _x >> "proxyType"))}) then {
+                if (_proxyIndex == (getNumber (_x >> "proxyIndex")) && {
+                "CPGunner" isEqualTo (getText (_x >> "proxyType"))}) then {
                     _indexOrPath = [_forEachIndex];
                 };
-            } forEach (("true" configClasses _turretConfig) apply {configName _x});
+            } forEach (("true" configClasses _turretConfig));
 
             [_unit, _vehicle, _mustMoveOut, _indexOrPath] call _fnc_sendIntoCargoOrTurret;
         };
