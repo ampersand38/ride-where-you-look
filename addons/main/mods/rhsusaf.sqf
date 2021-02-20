@@ -107,6 +107,41 @@ if (isClass (configFile >> "CfgPatches" >> "rhsusf_main")) then {
         ]];
     }, true, [], true] call CBA_fnc_addClassEventHandler;
 
+    ["rhsusf_m1151_base", "init", {
+        (_this select 0) setVariable ["RWYL_proxyOffsets", [
+            "proxy:driver.001",
+            "proxy:gunner.001"
+        ]];
+    }, true, [], true] call CBA_fnc_addClassEventHandler;
+
+    ["rhsusf_m1152_base", "init", {
+        (_this select 0) setVariable ["RWYL_proxyOffsets", [
+            "proxy:driver.001"
+        ]];
+    }, true, [], true] call CBA_fnc_addClassEventHandler;
+
+    ["rhssaf_m1152_olive", "init", {
+        (_this select 0) setVariable ["RWYL_proxyBlacklist", [
+            "proxy:\ca\temp\proxies\skodovka\cargo.005",
+            "proxy:\ca\temp\proxies\skodovka\cargo.002",
+            "proxy:\ca\temp\proxies\skodovka\cargo.007",
+            "proxy:\ca\temp\proxies\skodovka\cargo.004",
+            "proxy:\ca\temp\proxies\skodovka\cargo.003",
+            "proxy:\ca\temp\proxies\skodovka\cargo.006"
+        ]];
+    }, true, [], true] call CBA_fnc_addClassEventHandler;
+
+    ["rhssaf_m1152_rsv_olive", "init", {
+        (_this select 0) setVariable ["RWYL_proxyBlacklist", [
+            "proxy:\ca\temp\proxies\skodovka\cargo.005",
+            "proxy:\ca\temp\proxies\skodovka\cargo.002",
+            "proxy:\ca\temp\proxies\skodovka\cargo.007",
+            "proxy:\ca\temp\proxies\skodovka\cargo.004",
+            "proxy:\ca\temp\proxies\skodovka\cargo.003",
+            "proxy:\ca\temp\proxies\skodovka\cargo.006"
+        ]];
+    }, true, [], true] call CBA_fnc_addClassEventHandler;
+
     ["RHS_CH_47F_base", "init", {
         (_this select 0) setVariable ["RWYL_cargoProxyIndexes", [
             1,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,2,25

@@ -14,8 +14,15 @@ if (isClass (configFile >> "CfgPatches" >> "rhs_main")) then {
     ["RHS_Ural_BaseTurret", "init", {
         (_this select 0) setVariable ["RWYL_proxyOffsets", [
             "proxy:\ca\temp\proxies\truck\cargo01.001",
+            "proxy:\ca\temp\proxies\truck\cargo01.002",
             "proxy:\ca\temp\proxies\uaz\driver.001",
             "proxy:\ca\temp\proxies\truck\gunner.001"
+        ]];
+    }, true, [], true] call CBA_fnc_addClassEventHandler;
+
+    ["rhs_kraz255_base", "init", {
+        (_this select 0) setVariable ["RWYL_proxyOffsets", [
+            "proxy:cargo01.001"
         ]];
     }, true, [], true] call CBA_fnc_addClassEventHandler;
 
