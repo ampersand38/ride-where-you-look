@@ -6,4 +6,6 @@ ADDON = false;
 
 #include "initSettings.sqf"
 
+GVAR(offset_proxies) = [];
+
 ADDON = true;

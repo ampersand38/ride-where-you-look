@@ -1,3 +1,4 @@
+#include "script_component.hpp"
 #define OFFSET [0, 0, -2]
 /*
 Author: Ampers
@@ -133,19 +134,15 @@ if (_sn isEqualTo []) exitWith { // no seat proxies found in selectionNames
 
 private _sp = _sn apply {rwyl_main_vehicle selectionPosition _x};
 // adjust proxies offset from character position
-//private _proxyOffsets = getArray (configFile >> "CfgVehicles" >> typeOf rwyl_main_vehicle >> "RWYL_proxyOffsets");
 private _proxyOffsets = (rwyl_main_vehicle getVariable ["RWYL_proxyOffsets", []]);
-if !(_proxyOffsets isEqualTo []) then {
-    {
-        private _index = _sn find _x;
-        if (_index != -1) then {
-            _sp set [
-                _index,
-                (_sp select _index) vectorAdd OFFSET
-            ];
-        };
-    } forEach _proxyOffsets;
-};
+{
+    if (_x in GVAR(offset_proxies) || {_x in _proxyOffsets}) then {
+        _sp set [
+            _forEachIndex,
+            (_sp select _forEachIndex) vectorAdd OFFSET
+        ];
+    };
+} forEach _sn;
 
 rwyl_main_colour = ["IGUI", "TEXT_RGB"] call BIS_fnc_displayColorGet;
 rwyl_main_colour_faded = [
@@ -238,7 +235,8 @@ rwyl_main_pfh_running = true;
             } else {
                 _text = "Cargo " + str _cargoIndex;
                 _icon = "\a3\ui_f\data\IGUI\Cfg\Actions\getincargo_ca.paa";
-                rwyl_main_isSeatTaken = alive (_fullCrew # (_fullCrew findIf {(_x # 2) == _indexOrPath}) # 0);
+                private _crewIndex = _fullCrew findIf {(_x # 2) == _indexOrPath};
+                rwyl_main_isSeatTaken = _crewIndex > 0 && {alive (_fullCrew # _crewIndex # 0)};
             };
 
         };
