@@ -279,7 +279,7 @@ if (_mustMoveOut) then {
     };
 
     _unit enableSimulation true;
-}, _this + [_mustMoveOut]] call CBA_fnc_waitUntilAndExecute;
+}, _this + [_mustMoveOut], 1] call CBA_fnc_waitUntilAndExecute;
 /*
 [{
     ////params ["_unit", "_vehicle"];
