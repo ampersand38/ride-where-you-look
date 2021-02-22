@@ -4,7 +4,7 @@ if (!hasInterface) exitWith {};
 
 #include "initVehicles.sqf"
 
-["rwyl_main_moveSeat", {
+["rwyl_main_moveSeatLocal", {
     //params ["_unit", "_vehicle", "_proxy"];
     call rwyl_main_fnc_moveSeatLocal;
 }] call CBA_fnc_addEventHandler;

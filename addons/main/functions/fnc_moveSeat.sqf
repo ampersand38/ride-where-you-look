@@ -59,6 +59,7 @@ if rwyl_main_isSeatTaken then {
 };
 
 ["rwyl_main_moveSeat", [_unit, rwyl_main_vehicle, rwyl_main_proxy], _unit] call CBA_fnc_targetEvent;
+["rwyl_main_moveSeatLocal", [_unit, rwyl_main_vehicle, rwyl_main_proxy], _unit] call CBA_fnc_targetEvent;
 
 rwyl_main_vehicle = objNull;
 rwyl_main_proxy = nil;
