@@ -164,6 +164,7 @@ if (_mustMoveOut) then {
         };
     };
 
+    //private _canMove = !(_unit getVariable ["ACE_isUnconscious", false] || {_unit getVariable ["ace_captives_isHandcuffed", false]});
     // check seat type of proxy
     switch (true) do {
         case ("cargo" in toLower _proxy): {
@@ -270,8 +271,8 @@ if (_mustMoveOut) then {
                 [_unit, _vehicle, _mustMoveOut, _indexOrPath] call _fnc_sendIntoCargoOrTurret;
             };
             private _emptySeatsTurret = _emptySeats select {!((_x # 3) isEqualTo [])};
-            if !(_emptySeatsCargo isEqualTo []) exitWith {
-                _indexOrPath = (_emptySeatsCargo select (count _emptySeatsCargo - 1)) # 3;
+            if !(_emptySeatsTurret isEqualTo []) exitWith {
+                _indexOrPath = (_emptySeatsTurret select (count _emptySeatsTurret - 1)) # 3;
                 [_unit, _vehicle, _mustMoveOut, _indexOrPath] call _fnc_sendIntoCargoOrTurret;
             };
             _unit moveInAny _vehicle;
