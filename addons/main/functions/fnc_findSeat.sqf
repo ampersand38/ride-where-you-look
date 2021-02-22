@@ -39,15 +39,17 @@ rwyl_main_vehicle = if _useParentVehicle then {
             private _minDistance = 1000;
             private _indexClosest = -1;
             {
-                private _w2s = worldToScreen (getPos _x);
-                private _distance = if (_w2s isEqualTo []) then {
-                    1000
-                } else {
-                    _reference distance2D _w2s
-                };
-                if (_distance < _minDistance) then {
-                    _minDistance = _distance;
-                    _indexClosest = _forEachIndex;
+                if (0 < (count fullCrew [_x, "", true])) then {
+                    private _w2s = worldToScreen (getPos _x);
+                    private _distance = if (_w2s isEqualTo []) then {
+                        1000
+                    } else {
+                        _reference distance2D _w2s
+                    };
+                    if (_distance < _minDistance) then {
+                        _minDistance = _distance;
+                        _indexClosest = _forEachIndex;
+                    };
                 };
             } forEach _entities;
             if (_indexClosest > -1) then {
