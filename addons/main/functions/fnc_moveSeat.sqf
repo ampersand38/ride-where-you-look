@@ -58,7 +58,54 @@ if rwyl_main_isSeatTaken then {
     };
 };
 
-["rwyl_main_moveSeat", [_unit, rwyl_main_vehicle, rwyl_main_proxy], _unit] call CBA_fnc_targetEvent;
+private _draggedUnit = _unit getVariable ["ace_dragging_draggedObject", objNull];
+if (!isNull _draggedUnit && {_draggedUnit isKindOf "CAManBase"}) exitWith {
+    systemChat "drag";
+    [_unit, _draggedUnit] call ace_dragging_fnc_dropObject;
+    [{
+        isNull ((_this select 0) getVariable ["ace_dragging_draggedObject", objNull])
+    }, {
+        params ["", "_draggedUnit", "_vehicle", "_proxy"];
+
+        ["rwyl_main_moveSeatLocal", [_draggedUnit, _vehicle, _proxy], _draggedUnit] call CBA_fnc_targetEvent;
+        rwyl_main_vehicle = objNull;
+        rwyl_main_proxy = nil;
+        true
+    }, [_unit, _draggedUnit, rwyl_main_vehicle, rwyl_main_proxy], 5] call CBA_fnc_waitUntilAndExecute;
+};
+
+private _carriedUnit = _unit getVariable ["ace_dragging_carriedObject", objNull];
+if (!isNull _carriedUnit && {_carriedUnit isKindOf "CAManBase"}) exitWith {
+    systemChat "carry";
+    [_unit, _carriedUnit] call ace_dragging_fnc_dropObject_carry;
+    [{
+        isNull ((_this select 0) getVariable ["ace_dragging_carriedObject", objNull])
+    }, {
+        params ["", "_carriedUnit", "_vehicle", "_proxy"];
+
+        ["rwyl_main_moveSeatLocal", [_carriedUnit, _vehicle, _proxy], _carriedUnit] call CBA_fnc_targetEvent;
+        rwyl_main_vehicle = objNull;
+        rwyl_main_proxy = nil;
+        true
+    }, [_unit, _carriedUnit, rwyl_main_vehicle, rwyl_main_proxy], 5] call CBA_fnc_waitUntilAndExecute;
+};
+
+private _escortedUnit = _unit getVariable ["ace_captives_escortedUnit", objNull];
+if (!isNull _escortedUnit && {_escortedUnit isKindOf "CAManBase"}) exitWith {
+    systemChat "escort";
+    [_unit, _escortedUnit] call ace_dragging_fnc_dropObject_carry;
+    [{
+        isNull ((_this select 0) getVariable ["ace_captives_escortedUnit", objNull])
+    }, {
+        params ["", "_escortedUnit", "_vehicle", "_proxy"];
+
+        ["rwyl_main_moveSeatLocal", [_escortedUnit, _vehicle, _proxy], _escortedUnit] call CBA_fnc_targetEvent;
+        rwyl_main_vehicle = objNull;
+        rwyl_main_proxy = nil;
+        true
+    }, [_unit, _escortedUnit, rwyl_main_vehicle, rwyl_main_proxy], 5] call CBA_fnc_waitUntilAndExecute;
+};
+
 ["rwyl_main_moveSeatLocal", [_unit, rwyl_main_vehicle, rwyl_main_proxy], _unit] call CBA_fnc_targetEvent;
 
 rwyl_main_vehicle = objNull;
