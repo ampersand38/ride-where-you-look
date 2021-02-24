@@ -120,7 +120,7 @@ if (_hopVehicle) then {
 };
 
 // filter out blacklisted non-functional proxies
-//_sn = _sn - getArray (configFile >> "CfgVehicles" >> typeOf rwyl_main_vehicle >> "RWYL_proxyBlacklist");
+//_sn = _sn - getArray (configOf rwyl_main_vehicle >> "RWYL_proxyBlacklist");
 _sn = _sn - (rwyl_main_vehicle getVariable ["RWYL_proxyBlacklist", []]);
 {
     _sn pushBackUnique _x;
@@ -222,7 +222,7 @@ rwyl_main_pfh_running = true;
                 _indexOrPath = _cargoIndex - 1;
             };
 
-            private _turretConfig = configFile >> "CfgVehicles" >> typeOf rwyl_main_vehicle >> "Turrets";
+            private _turretConfig = configOf rwyl_main_vehicle >> "Turrets";
             {
                 if (_cargoIndex == (getNumber (_x >> "proxyIndex")) && {
                 "CPCargo" isEqualTo (getText (_x >> "proxyType"))}) then {
@@ -244,7 +244,7 @@ rwyl_main_pfh_running = true;
         };
         case "gunner": {
             private _indexOrPath = [];
-            private _turretConfig = configFile >> "CfgVehicles" >> typeOf rwyl_main_vehicle >> "Turrets";
+            private _turretConfig = configOf rwyl_main_vehicle >> "Turrets";
             {
                 if (_cargoIndex == (getNumber (_x >> "proxyIndex")) && {
                 "CPGunner" isEqualTo (getText (_x >> "proxyType"))}) then {
@@ -303,7 +303,7 @@ rwyl_main_pfh_running = true;
                     case "cargo": {
                         private _indexOrPath = _cargoIndex - 1;
 
-                        private _turretConfig = configFile >> "CfgVehicles" >> typeOf rwyl_main_vehicle >> "Turrets";
+                        private _turretConfig = configOf rwyl_main_vehicle >> "Turrets";
                         {
                             if (_cargoIndex == (getNumber (_x >> "proxyIndex")) && {
                             "CPCargo" isEqualTo (getText (_x >> "proxyType"))}) then {
@@ -322,7 +322,7 @@ rwyl_main_pfh_running = true;
                     };
                     case "gunner": {
                         private _indexOrPath = [];
-                        private _turretConfig = configFile >> "CfgVehicles" >> typeOf rwyl_main_vehicle >> "Turrets";
+                        private _turretConfig = configOf rwyl_main_vehicle >> "Turrets";
                         {
                             if (_cargoIndex == (getNumber (_x >> "proxyIndex")) && {
                             "CPGunner" isEqualTo (getText (_x >> "proxyType"))}) then {

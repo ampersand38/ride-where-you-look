@@ -192,7 +192,7 @@ if (_mustMoveOut) then {
         case ("gunner" in toLower _proxy): {
             private _proxyIndex = parseNumber (_proxy select [(_proxy find ".") + 1]);
 
-            private _turretConfig = configFile >> "CfgVehicles" >> typeOf _vehicle >> "Turrets" ;
+            private _turretConfig = configOf _vehicle >> "Turrets" ;
             {
                 if (_proxyIndex == (getNumber (_x >> "proxyIndex")) && {
                 "CPGunner" isEqualTo (getText (_x >> "proxyType"))}) then {
