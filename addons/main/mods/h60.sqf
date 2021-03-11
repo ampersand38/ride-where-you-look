@@ -130,7 +130,6 @@ if (isClass (configFile >> "CfgPatches" >> "vtx_uh60")) then {
             "proxy:\ca\temp\proxies\m113\cargo03.011",
             "proxy:\ca\temp\proxies\m113\cargo03.018",
             "proxy:\ca\temp\proxies\m113\cargo03.019",
-            "proxy:\ca\temp\proxies\m113\cargo03.020",
             "proxy:\ca\temp\proxies\uh60m\gunner.004",
             "proxy:\ca\temp\proxies\uh60m\gunner.005"
         ]];
