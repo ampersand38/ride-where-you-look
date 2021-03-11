@@ -1,6 +1,6 @@
 name = "Ride Where You Look"
 prefix = "rwyl"
-author = "ACE-Team"
+author = "Ampersand"
 files = [
     "mod.cpp",
     "README.md",
