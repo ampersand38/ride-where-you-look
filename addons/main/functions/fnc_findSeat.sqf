@@ -14,58 +14,54 @@ PFH to show which seat the unit is looking at
 * [player] call rwyl_main_fnc_findSeat
 */
 
-params ["_unit", ["_useParentVehicle", false]];
+params ["_unit"];
 
 // get vehicle
 private _notInZeus = isNull curatorCamera;
 private _currentVehicle = vehicle _unit;
 private _isOnFoot = _currentVehicle == _unit;
 
-// check cursorObject, parentVehicle, and nearEntities
-rwyl_main_vehicle = if _useParentVehicle then {
-    _currentVehicle
-} else {
-    if (isNull cursorObject) then {
-        if _isOnFoot then {
-            // get entity being looked at
-            private _reference = [0.5,0.5];
-            private _entities = if (_notInZeus) then {
-                (_unit nearEntities ["AllVehicles", 3]) - [_unit];
-            } else {
-                _reference = getMousePosition;
-                (screenToWorld getMousePosition nearEntities ["AllVehicles", 10]) - [_unit];
-            };
+private _fnc_nearestOnScreen = {
+    params ["_reference", "_entities"];
 
-            private _minDistance = 1000;
-            private _indexClosest = -1;
-            {
-                if (0 < (count fullCrew [_x, "", true])) then {
-                    private _w2s = worldToScreen (getPos _x);
-                    private _distance = if (_w2s isEqualTo []) then {
-                        1000
-                    } else {
-                        _reference distance2D _w2s
-                    };
-                    if (_distance < _minDistance) then {
-                        _minDistance = _distance;
-                        _indexClosest = _forEachIndex;
-                    };
-                };
-            } forEach _entities;
-            if (_indexClosest > -1) then {
-                _entities # _indexClosest
+    private _minDistance = 1000;
+    private _indexClosest = -1;
+    { // Get closest to center of screen
+        if (0 < (count fullCrew [_x, "", true])) then {
+            private _w2s = worldToScreen (getPos _x);
+            private _distance = if (_w2s isEqualTo []) then {
+                1000
             } else {
-                objNull
-            }
-        } else {
-            _currentVehicle
-        }
+                _reference distance2D _w2s
+            };
+            if (_distance < _minDistance) then {
+                _minDistance = _distance;
+                _indexClosest = _forEachIndex;
+            };
+        };
+    } forEach _entities;
+    if (_indexClosest > -1) then {
+        _entities # _indexClosest
     } else {
-        if (_isOnFoot && {_notInZeus}) then {
-            objNull
-        } else {
-            cursorObject
-        }
+        objNull
+    };
+};
+
+// check parentVehicle and nearEntities
+rwyl_main_vehicle = if (_notInZeus) then {
+    if (_isOnFoot) then {
+        private _entities = (_unit nearEntities ["AllVehicles", 3]);
+        [[0.5,0.5], _entities] call _fnc_nearestOnScreen;
+    } else {
+        objNull
+    }
+} else {
+    // In Zeus
+    if (_isOnFoot) then {
+        private _entities = (screenToWorld getMousePosition nearEntities ["AllVehicles", 10]) - [_unit];
+        [getMousePosition, _entities] call _fnc_nearestOnScreen;
+    } else {
+        _currentVehicle
     };
 };
 
@@ -75,7 +71,8 @@ if (isNull rwyl_main_vehicle) then {
         private _start = AGLtoASL (_unit modelToWorldVisual (_unit selectionPosition "pilot"));
         private _end = (_start vectorAdd (getCameraViewDirection _unit vectorMultiply 3));
         private _objects = lineIntersectsSurfaces [_start, _end, _unit, _currentVehicle];
-        rwyl_main_vehicle = (_objects param [0, []]) param [2, objNull];
+        private _vehicle = (_objects param [0, []]) param [2, objNull];
+        rwyl_main_vehicle = [_currentVehicle, _vehicle] select (0 < (count fullCrew [_vehicle, "", true]));
     } else {
         private _start = AGLtoASL positionCameraToWorld [0, 0, 0];
         private _end = AGLtoASL screenToWorld getMousePosition;
