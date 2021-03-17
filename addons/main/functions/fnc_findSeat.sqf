@@ -50,7 +50,7 @@ private _fnc_nearestOnScreen = {
 // check parentVehicle and nearEntities
 rwyl_main_vehicle = if (_notInZeus) then {
     if (_isOnFoot) then {
-        private _entities = (_unit nearEntities ["AllVehicles", 3]);
+        private _entities = ((_unit modelToWorld [0, 1.5, 0]) nearEntities ["AllVehicles", 1.5]);
         [[0.5,0.5], _entities] call _fnc_nearestOnScreen;
     } else {
         objNull
