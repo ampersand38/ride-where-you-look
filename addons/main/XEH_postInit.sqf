@@ -17,8 +17,8 @@ if (!hasInterface) exitWith {};
         } else {
             if (count (curatorSelected # 0) == 1) then {
                 private _unit = (curatorSelected # 0 # 0);
-                if (_unit isKindOf "CAManBase" && {_unit != vehicle _unit}) then {
-                    [_unit, true] call rwyl_main_fnc_findSeat;
+                if (_unit isKindOf "CAManBase") then {
+                    [_unit] call rwyl_main_fnc_findSeat;
                 };
             };
         };
@@ -39,8 +39,8 @@ if (!hasInterface) exitWith {};
                 [player] call rwyl_main_fnc_findSeat;
             } else {
                 private _unit = (curatorSelected # 0 # 0);
-                if (_unit isKindOf "CAManBase" && {_unit != vehicle _unit}) then {
-                    [_unit, true] call rwyl_main_fnc_findSeat;
+                if (_unit isKindOf "CAManBase") then {
+                    [_unit] call rwyl_main_fnc_findSeat;
                 };
             };
         };
