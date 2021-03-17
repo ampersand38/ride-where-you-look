@@ -1,13 +1,13 @@
 #include "script_component.hpp"
 
-if (!hasInterface) exitWith {};
-
-#include "initVehicles.sqf"
-
 ["rwyl_main_moveSeatLocal", {
     //params ["_unit", "_vehicle", "_proxy"];
     call rwyl_main_fnc_moveSeatLocal;
 }] call CBA_fnc_addEventHandler;
+
+if (!hasInterface) exitWith {};
+
+#include "initVehicles.sqf"
 
 [
     "Ride Where You Look", "rwyl_main_showSeats", "Show Seats (Hold)",{
@@ -49,7 +49,6 @@ if (!hasInterface) exitWith {};
 
 [
     "Ride Where You Look", "rwyl_main_selectSeat", "Select Seat",{
-
         if (!rwyl_main_pfh_running) exitWith {};
         if (isNull curatorCamera) then {
             [player] call rwyl_main_fnc_moveSeat;
