@@ -14,15 +14,7 @@ Move unit into vehicle seat near center of view
 
 params ["_unit"];
 
-if (isNull rwyl_main_vehicle) then {
-    rwyl_main_vehicle = vehicle _unit;
-    if (rwyl_main_vehicle == _unit) then {
-        private _start = AGLtoASL (_unit modelToWorldVisual (_unit selectionPosition "pilot"));
-        private _end = (_start vectorAdd (getCameraViewDirection _unit vectorMultiply 3));
-        private _objects = lineIntersectsSurfaces [_start, _end, _unit];
-        rwyl_main_vehicle = (_objects param [0, []]) param [2, objNull];
-    };
-};
+if (isNull rwyl_main_vehicle) exitWith {}; // no vehicle
 
 if (rwyl_main_isSeatTaken || {rwyl_main_isSeatLocked}) then {
     rwyl_main_proxy = ""; // Move into other empty seat
