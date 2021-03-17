@@ -16,8 +16,6 @@ Move unit into vehicle seat near center of view
 * [player, cursorObject, ""] call rwyl_main_fnc_moveSeatLocal
 */
 
-params ["_unit", "_vehicle", "_proxy"];
-
 #define TAKEN_SEAT_TIMEOUT 0.5
 
 #define TO_COMPARTMENT_STRING(var) if !(var isEqualType "") then {var = format [ARR_2("Compartment%1",var)]}
@@ -53,6 +51,7 @@ params ["_unit", "_vehicle", "_proxy"];
 #define MOVE_IN_CODE(command) (_this select 0) command (_this select 1)
 
 if (rwyl_main_isSeatTaken && {_vehicle == vehicle _unit}) exitWith {false};
+params ["_unit", "_vehicle", "_proxy"];
 
 // Check if unit needs to be moved out of current vehicle
 private _mustMoveOut = (_unit != vehicle _unit);
