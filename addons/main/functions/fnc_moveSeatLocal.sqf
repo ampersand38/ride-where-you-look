@@ -267,17 +267,14 @@ if (_mustMoveOut) then {
             if (!isPlayer _unit) then {
                 unassignVehicle _unit;
             };
-            private _emptySeats = (fullCrew [_vehicle, "", true]) select {isNull (_x # 0)};
-            //_x params ["_seatOccupant", "_seatRole", "_seatCargoIndex", "_seatTurretPath"];
-            private _emptySeatsCargo = _emptySeats select {_x # 2 >= 0};
-            if !(_emptySeatsCargo isEqualTo []) exitWith {
-                _indexOrPath = (_emptySeatsCargo select (count _emptySeatsCargo - 1)) # 2;
-                [_unit, _vehicle, _mustMoveOut, _indexOrPath] call _fnc_sendIntoCargoOrTurret;
+            if (_vehicle emptyPositions "cargo" >= 0) exitWith {
+                _unit moveInCargo _vehicle;
             };
-            private _emptySeatsTurret = _emptySeats select {!((_x # 3) isEqualTo [])};
-            if !(_emptySeatsTurret isEqualTo []) exitWith {
-                _indexOrPath = (_emptySeatsTurret select (count _emptySeatsTurret - 1)) # 3;
-                [_unit, _vehicle, _mustMoveOut, _indexOrPath] call _fnc_sendIntoCargoOrTurret;
+            if (_vehicle emptyPositions "gunner" >= 0) exitWith {
+                _unit moveInGunner _vehicle;
+            };
+            if (_vehicle emptyPositions "commander" >= 0) exitWith {
+                _unit moveInCommander _vehicle;
             };
             _unit moveInAny _vehicle;
         };
