@@ -50,56 +50,33 @@ if (rwyl_main_isSeatTaken || {rwyl_main_isSeatLocked}) then {
     };
 };
 
-private _draggedUnit = _unit getVariable ["ace_dragging_draggedObject", objNull];
-if (!isNull _draggedUnit && {_draggedUnit isKindOf "CAManBase"}) exitWith {
-    systemChat "drag";
-    [_unit, _draggedUnit] call ace_dragging_fnc_dropObject;
-    [{
-        isNull ((_this select 0) getVariable ["ace_dragging_draggedObject", objNull])
-    }, {
-        params ["", "_draggedUnit", "_vehicle", "_proxy"];
-
-        ["rwyl_main_moveSeatLocal", [_draggedUnit, _vehicle, _proxy], _draggedUnit] call CBA_fnc_targetEvent;
-        rwyl_main_vehicle = objNull;
-        rwyl_main_proxy = nil;
-        true
-    }, [_unit, _draggedUnit, rwyl_main_vehicle, rwyl_main_proxy], 5] call CBA_fnc_waitUntilAndExecute;
+// Check for drag, carry, escort
+if (isClass (configFile >> "CfgPatches" >> "ace_main")) then {
+    private _draggedUnit = _unit getVariable ["ace_dragging_draggedObject", objNull];
+    if (!isNull _draggedUnit && {_draggedUnit isKindOf "CAManBase"}) then {
+        [_unit, _draggedUnit] call ace_dragging_fnc_dropObject;
+        _unit = _draggedUnit;
+    } else {
+        private _carriedUnit = _unit getVariable ["ace_dragging_carriedObject", objNull];
+        if (!isNull _carriedUnit && {_carriedUnit isKindOf "CAManBase"}) then {
+            [_unit, _carriedUnit] call ace_dragging_fnc_dropObject_carry;
+            _unit = _carriedUnit;
+        } else {
+            private _escortedUnit = _unit getVariable ["ace_captives_escortedUnit", objNull];
+            if (!isNull _escortedUnit) then {
+                [_unit, _escortedUnit, false] call ace_captives_fnc_doEscortCaptive;
+                _unit = _escortedUnit;
+            };
+        };
+    };
 };
 
-private _carriedUnit = _unit getVariable ["ace_dragging_carriedObject", objNull];
-if (!isNull _carriedUnit && {_carriedUnit isKindOf "CAManBase"}) exitWith {
-    systemChat "carry";
-    [_unit, _carriedUnit] call ace_dragging_fnc_dropObject_carry;
-    [{
-        isNull ((_this select 0) getVariable ["ace_dragging_carriedObject", objNull])
-    }, {
-        params ["", "_carriedUnit", "_vehicle", "_proxy"];
-
-        ["rwyl_main_moveSeatLocal", [_carriedUnit, _vehicle, _proxy], _carriedUnit] call CBA_fnc_targetEvent;
-        rwyl_main_vehicle = objNull;
-        rwyl_main_proxy = nil;
-        true
-    }, [_unit, _carriedUnit, rwyl_main_vehicle, rwyl_main_proxy], 5] call CBA_fnc_waitUntilAndExecute;
-};
-
-private _escortedUnit = _unit getVariable ["ace_captives_escortedUnit", objNull];
-if (!isNull _escortedUnit && {_escortedUnit isKindOf "CAManBase"}) exitWith {
-    systemChat "escort";
-    [_unit, _escortedUnit] call ace_dragging_fnc_dropObject_carry;
-    [{
-        isNull ((_this select 0) getVariable ["ace_captives_escortedUnit", objNull])
-    }, {
-        params ["", "_escortedUnit", "_vehicle", "_proxy"];
 // If same vehicle and selected seat is taken/locked then do nothing
 if (rwyl_main_proxy == "" && {rwyl_main_vehicle == vehicle _unit}) exitWith {
     rwyl_main_vehicle = objNull;
     rwyl_main_proxy = nil;
 
-        ["rwyl_main_moveSeatLocal", [_escortedUnit, _vehicle, _proxy], _escortedUnit] call CBA_fnc_targetEvent;
-        rwyl_main_vehicle = objNull;
-        rwyl_main_proxy = nil;
-        true
-    }, [_unit, _escortedUnit, rwyl_main_vehicle, rwyl_main_proxy], 5] call CBA_fnc_waitUntilAndExecute;
+    false
 };
 
 ["rwyl_main_moveSeatLocal", [_unit, rwyl_main_vehicle, rwyl_main_proxy], _unit] call CBA_fnc_targetEvent;
