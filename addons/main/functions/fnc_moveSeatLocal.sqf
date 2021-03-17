@@ -131,21 +131,21 @@ if (_mustMoveOut) then {
         params ["_unit", "_vehicle", "_mustMoveOut", ["_indexOrPath", nil]];
         if (_mustMoveOut) then {
             if (_indexOrPath isEqualType []) then {
-                _unit moveInTurret [_vehicle, _indexOrPath];
                 if (isPlayer _unit) then {
                 } else {
                     unassignVehicle _unit;
                     _unit assignAsTurret [_vehicle, _indexOrPath];
                     [_unit] orderGetIn true;
                 };
+                _unit moveInTurret [_vehicle, _indexOrPath];
             } else {
-                _unit moveInCargo [_vehicle, _indexOrPath];
                 if (isPlayer _unit) then {
                 } else {
                     unassignVehicle _unit;
                     _unit assignAsCargoIndex [_vehicle, _indexOrPath];
                     [_unit] orderGetIn true;
                 };
+                _unit moveInCargo [_vehicle, _indexOrPath];
             };
         } else {
             if (_indexOrPath isEqualType []) then {
@@ -155,6 +155,7 @@ if (_mustMoveOut) then {
                     unassignVehicle _unit;
                     _unit assignAsTurret [_vehicle, _indexOrPath];
                     [_unit] orderGetIn true;
+                    _unit moveInTurret [_vehicle, _indexOrPath];
                 };
             } else {
                 if (isPlayer _unit) then {
@@ -163,6 +164,7 @@ if (_mustMoveOut) then {
                     unassignVehicle _unit;
                     _unit assignAsCargoIndex [_vehicle, _indexOrPath];
                     [_unit] orderGetIn true;
+                    _unit moveInCargo [_vehicle, _indexOrPath];
                 };
             };
         };
@@ -222,6 +224,7 @@ if (_mustMoveOut) then {
                     unassignVehicle _unit;
                     _unit assignAsDriver _vehicle;
                     [_unit] orderGetIn true;
+                    _unit moveInDriver _vehicle;
                 };
             };
         };
@@ -241,6 +244,7 @@ if (_mustMoveOut) then {
                     unassignVehicle _unit;
                     _unit assignAsDriver _vehicle;
                     [_unit] orderGetIn true;
+                    _unit moveInDriver _vehicle;
                 };
             };
         };
@@ -260,6 +264,7 @@ if (_mustMoveOut) then {
                     unassignVehicle _unit;
                     _unit assignAsCommander _vehicle;
                     [_unit] orderGetIn true;
+                    _unit moveInCommander _vehicle;
                 };
             };
         };
