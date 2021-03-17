@@ -24,8 +24,8 @@ if (isNull rwyl_main_vehicle) then {
     };
 };
 
-if rwyl_main_isSeatTaken then {
-    rwyl_main_proxy = "";
+if (rwyl_main_isSeatTaken || {rwyl_main_isSeatLocked}) then {
+    rwyl_main_proxy = ""; // Move into other empty seat
 } else {
     if (isNil "rwyl_main_proxy") then {
         private _sn = selectionNames rwyl_main_vehicle select {
@@ -98,6 +98,10 @@ if (!isNull _escortedUnit && {_escortedUnit isKindOf "CAManBase"}) exitWith {
         isNull ((_this select 0) getVariable ["ace_captives_escortedUnit", objNull])
     }, {
         params ["", "_escortedUnit", "_vehicle", "_proxy"];
+// If same vehicle and selected seat is taken/locked then do nothing
+if (rwyl_main_proxy == "" && {rwyl_main_vehicle == vehicle _unit}) exitWith {
+    rwyl_main_vehicle = objNull;
+    rwyl_main_proxy = nil;
 
         ["rwyl_main_moveSeatLocal", [_escortedUnit, _vehicle, _proxy], _escortedUnit] call CBA_fnc_targetEvent;
         rwyl_main_vehicle = objNull;

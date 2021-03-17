@@ -234,11 +234,13 @@ rwyl_main_pfh_running = true;
                 _text = "FFV " + str _cargoIndex;
                 _icon = "\a3\ui_f\data\IGUI\Cfg\Actions\getingunner_ca.paa";
                 rwyl_main_isSeatTaken = alive (_fullCrew # (_fullCrew findIf {(_x # 3) isEqualTo _indexOrPath}) # 0);
+                rwyl_main_isSeatLocked = rwyl_main_vehicle lockedTurret _indexOrPath;
             } else {
                 _text = "Cargo " + str _cargoIndex;
                 _icon = "\a3\ui_f\data\IGUI\Cfg\Actions\getincargo_ca.paa";
                 private _crewIndex = _fullCrew findIf {(_x # 2) == _indexOrPath};
                 rwyl_main_isSeatTaken = _crewIndex > 0 && {alive (_fullCrew # _crewIndex # 0)};
+                rwyl_main_isSeatLocked = rwyl_main_vehicle lockedCargo _indexOrPath;
             };
 
         };
@@ -258,27 +260,44 @@ rwyl_main_pfh_running = true;
             };
             _icon = "\a3\ui_f\data\IGUI\Cfg\Actions\getingunner_ca.paa";
             rwyl_main_isSeatTaken = alive (_fullCrew # (_fullCrew findIf {(_x # 3) isEqualTo _indexOrPath}) # 0);
+            rwyl_main_isSeatLocked = rwyl_main_vehicle lockedTurret _indexOrPath;
         };
         case "driver": {
             _text = "Driver";
             _icon = "\a3\ui_f\data\IGUI\Cfg\Actions\getindriver_ca.paa";
             rwyl_main_isSeatTaken = alive driver rwyl_main_vehicle;
+            rwyl_main_isSeatLocked = lockedDriver rwyl_main_vehicle;
         };
         case "commander": {
             _text = "Commander";
             _icon = "\a3\ui_f\data\IGUI\Cfg\Actions\getincommander_ca.paa";
             rwyl_main_isSeatTaken = alive commander rwyl_main_vehicle;
+            private _indexOrPath = [];
+            private _turretConfig = configOf rwyl_main_vehicle >> "Turrets";
+            {
+                if (_cargoIndex == (getNumber (_x >> "proxyIndex")) && {
+                "CPGunner" isEqualTo (getText (_x >> "proxyType"))}) then {
+                    _indexOrPath = [_forEachIndex];
+                };
+            } forEach (("true" configClasses (_turretConfig)));
+            rwyl_main_isSeatLocked = rwyl_main_vehicle lockedTurret _indexOrPath;
         };
         case "pilot": {
             _text = "Pilot";
             _icon = "\a3\ui_f\data\IGUI\Cfg\Actions\getindriver_ca.paa";
             rwyl_main_isSeatTaken = alive driver rwyl_main_vehicle;
+            rwyl_main_isSeatLocked = lockedDriver rwyl_main_vehicle;
         };
     };
 
     if (rwyl_main_isSeatTaken) then {
         _icon = "\a3\ui_f\data\Map\MapControl\taskIconCanceled_ca.paa";
         _text = _text + " seat taken";
+    };
+
+    if (rwyl_main_isSeatLocked) then {
+        _icon = "\a3\ui_f\data\Map\MapControl\taskIconCanceled_ca.paa";
+        _text = _text + " seat locked";
     };
 
     drawIcon3D [_icon, rwyl_main_colour, rwyl_main_vehicle modelToWorldVisual (_sp select _indexClosest), 1, 1, 0, _text];
