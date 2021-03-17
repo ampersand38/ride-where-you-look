@@ -50,8 +50,12 @@ Move unit into vehicle seat near center of view
 
 #define MOVE_IN_CODE(command) (_this select 0) command (_this select 1)
 
-if (rwyl_main_isSeatTaken && {_vehicle == vehicle _unit}) exitWith {false};
 params ["_unit", "_vehicle", "_proxy"];
+
+if ( // If seat taken or locked, and same vehicle, exit
+    _proxy == ""
+    && {_vehicle == vehicle _unit} // If other vehicle, move into empty seat
+) exitWith {false};
 
 // Check if unit needs to be moved out of current vehicle
 private _mustMoveOut = (_unit != vehicle _unit);
