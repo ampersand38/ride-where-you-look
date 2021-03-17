@@ -54,6 +54,7 @@ params ["_unit", "_vehicle", "_proxy"];
 
 if (rwyl_main_isSeatTaken && {_vehicle == vehicle _unit}) exitWith {false};
 
+// Check if unit needs to be moved out of current vehicle
 private _mustMoveOut = (_unit != vehicle _unit);
 if (_mustMoveOut) then {
     private ["_driverCompartments", "_isDriverIsolated", "_cargoCompartments", "_cargoCompartmentsLast", "_compartment", "_currentTurret", "_moveBackCode", "_moveBackParams"];
@@ -281,13 +282,5 @@ if (_mustMoveOut) then {
 
     _unit enableSimulation true;
 }, _this + [_mustMoveOut], 1] call CBA_fnc_waitUntilAndExecute;
-/*
-[{
-    ////params ["_unit", "_vehicle"];
-    if (vehicle _unit == _unit) then {
-        systemChat "fallback";
-        _unit moveInAny _vehicle;
-    };
-}, _this] call CBA_fnc_execNextFrame;
-*/
+
 true
