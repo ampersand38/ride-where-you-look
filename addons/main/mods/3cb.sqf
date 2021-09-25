@@ -1,5 +1,17 @@
 if (isClass (configFile >> "CfgPatches" >> "UK3CB_BAF_Vehicles")) then {
 
+    ["UK3CB_SUV_Base", "init", {
+        (_this select 0) setVariable ["RWYL_proxyOffsets", [
+            "proxy:a3\data_f\proxies\driver_offroad\driver.001",
+            "proxy:a3\data_f\proxies\hunter\cargo.001",
+            "proxy:a3\data_f\proxies\hunter\cargo.002",
+            "proxy:a3\data_f\proxies\hunter\cargo.003",
+            "proxy:a3\data_f\proxies\hunter\cargo.004",
+            "proxy:a3\data_f\proxies\hunter\cargo.005",
+            "proxy:\a3\data_f\proxies\gunner_standup01\gunner.001"
+        ]];
+    }, true, [], true] call CBA_fnc_addClassEventHandler;
+
     ["UK3CB_BAF_LandRover_Hard_Base", "init", {
         (_this select 0) setVariable ["RWYL_proxyOffsets", [
             "proxy:\a3\data_f\proxies\hemtt\driver.001",
