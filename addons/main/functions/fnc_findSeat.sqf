@@ -69,7 +69,7 @@ rwyl_main_vehicle = if (_notInZeus) then {
 if (isNull rwyl_main_vehicle) then {
     if _notInZeus then {
         private _start = AGLtoASL (_unit modelToWorldVisual (_unit selectionPosition "pilot"));
-        private _end = (_start vectorAdd (getCameraViewDirection _unit vectorMultiply 3));
+        private _end = (_start vectorAdd (getCameraViewDirection _unit vectorMultiply RWYL_HopVehicleRange));
         private _objects = lineIntersectsSurfaces [_start, _end, _unit, _currentVehicle];
         private _vehicle = (_objects param [0, []]) param [2, objNull];
         rwyl_main_vehicle = [_currentVehicle, _vehicle] select (0 < (count fullCrew [_vehicle, "", true]));
@@ -112,8 +112,9 @@ if (_sn isEqualTo []) exitWith {};
 private _hopVehicle = !_isOnFoot && {(_currentVehicle != rwyl_main_vehicle) && {_notInZeus}};
 if (_hopVehicle) then {
     _sn = _sn select {
-        (rwyl_main_vehicle selectionPosition _x) distance (rwyl_main_vehicle worldToModel getPos _unit) < 3
+        (rwyl_main_vehicle selectionPosition _x) distance (rwyl_main_vehicle worldToModel getPos _unit) < RWYL_HopVehicleRange
     };
+    rwyl_main_vehicle_distance = _unit distance rwyl_main_vehicle + RWYL_HopVehicleRange;
 };
 
 // filter out blacklisted non-functional proxies
@@ -156,8 +157,14 @@ rwyl_main_pfh_running = true;
     params ["_args", "_pfID"];
     _args params ["_unit", "_sn", "_sp"];
     rwyl_main_proxy = nil;
-    if (!rwyl_main_pfh_running) exitWith {
+    if (
+        !rwyl_main_pfh_running
+        || { // Hop vehicle target is too far
+            rwyl_main_vehicle_distance > 0 && {_unit distance rwyl_main_vehicle > rwyl_main_vehicle_distance}
+        }
+    ) exitWith {
         [_pfID] call CBA_fnc_removePerFrameHandler;
+        rwyl_main_vehicle_distance = -1;
     };
 
     private _reference = if (
