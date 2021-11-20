@@ -144,13 +144,6 @@ private _proxyOffsets = (rwyl_main_vehicle getVariable ["RWYL_proxyOffsets", []]
     };
 } forEach _sn;
 
-rwyl_main_colour = ["IGUI", "TEXT_RGB"] call BIS_fnc_displayColorGet;
-rwyl_main_colour_faded = [
-    rwyl_main_colour select 0,
-    rwyl_main_colour select 1,
-    rwyl_main_colour select 2,
-    (rwyl_main_colour select 3) / 2
-];
 
 rwyl_main_pfh_running = true;
 [{
@@ -304,7 +297,7 @@ rwyl_main_pfh_running = true;
         _text = _text + " seat locked";
     };
 
-    drawIcon3D [_icon, rwyl_main_colour, rwyl_main_vehicle modelToWorldVisual (_sp select _indexClosest), 1, 1, 0, _text];
+    drawIcon3D [_icon, RWYL_SelectedSeatColour, rwyl_main_vehicle modelToWorldVisual (_sp select _indexClosest), 1, 1, 0, _text];
 
     if RWYL_ShowAllSeats then {
         {
@@ -373,7 +366,7 @@ rwyl_main_pfh_running = true;
                     };
                 };
 
-                drawIcon3D [_icon, rwyl_main_colour_faded, rwyl_main_vehicle modelToWorldVisual (_sp select _forEachIndex), 0.8, 0.8, 0, _text];
+                drawIcon3D [_icon, RWYL_OtherSeatsColour, rwyl_main_vehicle modelToWorldVisual (_sp select _forEachIndex), 0.8, 0.8, 0, _text];
             };
         } forEach _sn;
     };
