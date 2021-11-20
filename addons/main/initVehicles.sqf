@@ -47,7 +47,7 @@ player addAction ["Next Turret Seat", {
         player moveInTurret [_this # 0,[amp_turretIndex]];
         amp_turretIndex = amp_turretIndex + 1;
     };
-}, nil, 10, true, false]
+}, nil, 10, true, false];
 
 // draw seat proxies
 if !(isNil "amp_id") then { removeMissionEventHandler ["Draw3D", amp_id]; };
