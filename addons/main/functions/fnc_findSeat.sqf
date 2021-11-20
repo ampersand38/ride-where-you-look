@@ -1,5 +1,5 @@
 #include "script_component.hpp"
-#define OFFSET [0, 0, -2]
+#define OFFSET 2
 /*
 Author: Ampers
 PFH to show which seat the unit is looking at
@@ -132,18 +132,19 @@ if (_sn isEqualTo []) exitWith { // no seat proxies found in selectionNames
     };
 };
 
-private _sp = _sn apply {rwyl_main_vehicle selectionPosition _x};
-// adjust proxies offset from character position
 private _proxyOffsets = (rwyl_main_vehicle getVariable ["RWYL_proxyOffsets", []]);
-{
-    if (_x in GVAR(offset_proxies) || {_x in _proxyOffsets}) then {
-        _sp set [
-            _forEachIndex,
-            (_sp select _forEachIndex) vectorAdd OFFSET
-        ];
+private _boundingTop = boundingBoxReal rwyl_main_vehicle # 1 # 2;
+private _sp = _sn apply {
+    private _pos = rwyl_main_vehicle selectionPosition _x;
+    if (((_pos # 2) + OFFSET) > _boundingTop) then {
+        _pos set [2, _pos # 2 - OFFSET]; // If proxy pos is less than 2m from model top, then it's too high
+    } else {
+        if (_x in GVAR(offset_proxies) || {_x in _proxyOffsets}) then {
+            _pos set [2, _pos # 2 - OFFSET];
+        };
     };
-} forEach _sn;
-
+    _pos
+};
 
 rwyl_main_pfh_running = true;
 [{
