@@ -104,6 +104,12 @@
     ]];
 }, true, [], true] call CBA_fnc_addClassEventHandler;
 
+["Heli_Light_02_base_F", "init", {
+    (_this select 0) setVariable ["RWYL_cargoProxyIndexes", [
+        1,2,3,4,5,6
+    ]];
+}, true, [], true] call CBA_fnc_addClassEventHandler;
+
 ["Heli_Light_01_civil_base_F", "init", {
     (_this select 0) setVariable ["RWYL_proxyBlacklist", [
             "proxy:\a3\data_f\proxies\heli_light_01\cargo01.001",
