@@ -71,12 +71,21 @@ if (isClass (configFile >> "CfgPatches" >> "ace_main")) then {
     };
 };
 
+private _currentVehicle = vehicle _unit;
+private _isSameVehicle = rwyl_main_vehicle == _currentVehicle;
 // If same vehicle and selected seat is taken/locked then do nothing
-if (rwyl_main_proxy == "" && {rwyl_main_vehicle == vehicle _unit}) exitWith {
+if (rwyl_main_proxy == "" && {_isSameVehicle}) exitWith {
     rwyl_main_vehicle = objNull;
     rwyl_main_proxy = nil;
 
     false
+};
+
+// If same vehicle then enable moveToSeat actions
+private _effectiveCommander = effectiveCommander _currentVehicle;
+if (_isSameVehicle && {_effectiveCommander != _unit}) then {
+    _currentVehicle setVariable ["rwyl_main_effectiveCommander", _effectiveCommander, true];
+    ["rwyl_main_setEffectiveCommander", [_currentVehicle, _unit], _unit] call CBA_fnc_globalEvent;
 };
 
 ["rwyl_main_moveSeatLocal", [_unit, rwyl_main_vehicle, rwyl_main_proxy], _unit] call CBA_fnc_targetEvent;
