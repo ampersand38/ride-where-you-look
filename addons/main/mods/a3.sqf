@@ -150,6 +150,13 @@
     ]];
 }, true, [], true] call CBA_fnc_addClassEventHandler;
 
+["Heli_Transport_03_unarmed_base_F", "init", {
+    (_this select 0) setVariable ["RWYL_proxyBlacklist", [
+        "proxy:\a3\data_f\proxies\heli_transport_01\gunner.002",
+        "proxy:\a3\data_f\proxies\heli_transport_01\gunner.001"
+    ]];
+}, true, [], true] call CBA_fnc_addClassEventHandler;
+
 ["B_Boat_Transport_01_F", "init", {
     (_this select 0) setVariable ["RWYL_proxyOffsets", [
         "proxy:\a3\data_f\proxies\rubber_boat\cargo02.002",
