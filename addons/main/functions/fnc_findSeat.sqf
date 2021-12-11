@@ -114,8 +114,8 @@ if (_hopVehicle) then {
     _sn = _sn select {
         (rwyl_main_vehicle selectionPosition _x) distance (rwyl_main_vehicle worldToModel getPos _unit) < RWYL_HopVehicleRange
     };
-    rwyl_main_vehicle_distance = _unit distance rwyl_main_vehicle + RWYL_HopVehicleRange;
 };
+rwyl_main_vehicle_distance = (_unit distance rwyl_main_vehicle) + RWYL_HopVehicleRange;
 
 // filter out blacklisted non-functional proxies
 //_sn = _sn - getArray (configOf rwyl_main_vehicle >> "RWYL_proxyBlacklist");
