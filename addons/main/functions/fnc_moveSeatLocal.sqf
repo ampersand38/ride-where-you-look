@@ -26,7 +26,7 @@ Move unit into vehicle seat near center of view
         {!isNull objectParent (_this select 0)}, \
         { \
             LOG_1("moved in after %1 frames",diag_frameno-GVAR(frame)); \
-            (_this select 0) enableSimulationGlobal true; \
+            (_this select 0) enableSimulation true; \
         }, \
         [ARR_3(_unit,_moveBackCode,_moveBackParams)], \
         TAKEN_SEAT_TIMEOUT, \
@@ -35,7 +35,7 @@ Move unit into vehicle seat near center of view
             WARNING_1("failed move in after %1 frames",diag_frameno-GVAR(frame)); \
             [ARR_2(_unit,_moveBackParams)] call _moveBackCode; \
             localize "str_mis_state_failed" call ace_common_fnc_displayTextStructured; \
-            _unit enableSimulationGlobal true; \
+            _unit enableSimulation true; \
         } \
     )] call CBA_fnc_waitUntilAndExecute;
 
@@ -55,8 +55,7 @@ params ["_unit", "_vehicle", "_proxy"];
 private _currentVehicle = vehicle _unit;
 
 // Other Vehicle
-private _mustMoveOut = (_unit != _currentVehicle && {_vehicle != _currentVehicle}) ||
-{_vehicle == _currentVehicle && {!isPlayer effectiveCommander _vehicle}};
+private _mustMoveOut = _unit != _currentVehicle && {_vehicle != _currentVehicle};
 
 // Check if unit needs to be moved out of current vehicle
 if (_mustMoveOut) then {
@@ -94,7 +93,7 @@ if (_mustMoveOut) then {
         };
     };
 
-    _unit enableSimulationGlobal false;
+    _unit enableSimulation false;
 
     private _preserveEngineOn = _unit == driver _vehicle && {isEngineOn _vehicle};
     moveOut _unit;
@@ -121,10 +120,10 @@ if (_mustMoveOut) then {
 };
 
 [{
-    params ["_unit", "_vehicle", "", "_mustMoveOut"];
+    params ["_unit", "_vehicle"];
     private _currentVehicle = vehicle _unit;
     _currentVehicle == _unit ||
-    {_vehicle == _currentVehicle}
+    {_vehicle == _currentVehicle && {effectiveCommander _vehicle == _unit}}
 },{
     params ["_unit", "_vehicle", "_proxy", "_mustMoveOut", ["_indexOrPath", nil]];
 
@@ -304,7 +303,13 @@ if (_mustMoveOut) then {
         };
     };
 
-    _unit enableSimulationGlobal true;
+    _unit enableSimulation true;
+    private _effectiveCommander = _vehicle getVariable ["rwyl_main_effectiveCommander", objNull];
+    if (!isNull _effectiveCommander) then {
+        ["rwyl_main_setEffectiveCommander", [_currentVehicle, _effectiveCommander]] call CBA_fnc_globalEvent;
+        _currentVehicle setVariable ["rwyl_main_effectiveCommander", objNull, true];
+    };
+
 }, _this + [_mustMoveOut], 1] call CBA_fnc_waitUntilAndExecute;
 
 true

@@ -85,7 +85,7 @@ if (rwyl_main_proxy == "" && {_isSameVehicle}) exitWith {
 private _effectiveCommander = effectiveCommander _currentVehicle;
 if (_isSameVehicle && {_effectiveCommander != _unit}) then {
     _currentVehicle setVariable ["rwyl_main_effectiveCommander", _effectiveCommander, true];
-    ["rwyl_main_setEffectiveCommander", [_currentVehicle, _unit], _unit] call CBA_fnc_globalEvent;
+    ["rwyl_main_setEffectiveCommander", [_currentVehicle, _unit]] call CBA_fnc_globalEvent;
 };
 
 ["rwyl_main_moveSeatLocal", [_unit, rwyl_main_vehicle, rwyl_main_proxy], _unit] call CBA_fnc_targetEvent;
