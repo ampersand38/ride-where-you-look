@@ -56,7 +56,7 @@ private _currentVehicle = vehicle _unit;
 
 // Other Vehicle
 private _mustMoveOut = (_unit != _currentVehicle && {_vehicle != _currentVehicle}) ||
-{_vehicle == _currentVehicle};
+{_vehicle == _currentVehicle && {!isPlayer effectiveCommander _vehicle}};
 
 // Check if unit needs to be moved out of current vehicle
 if (_mustMoveOut) then {
