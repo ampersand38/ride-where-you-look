@@ -104,9 +104,14 @@
     ]];
 }, true, [], true] call CBA_fnc_addClassEventHandler;
 
-["Heli_Light_02_base_F", "init", {
+// Hellcat
+["Heli_Light_03_base_F", "init", {
     (_this select 0) setVariable ["RWYL_cargoProxyIndexes", [
         1,2,3,4,5,6
+    ]];
+    // For basegame MoveToSeat actions, needed when FFV seats are lower proxyIndex than cargo
+    (_this select 0) setVariable ["RWYL_moveToCargoIndexes", [
+        0,0,1,2,3,4
     ]];
 }, true, [], true] call CBA_fnc_addClassEventHandler;
 
