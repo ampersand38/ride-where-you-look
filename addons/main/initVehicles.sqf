@@ -6,6 +6,7 @@
 #include "mods\3cb.sqf"
 #include "mods\h60.sqf"
 #include "mods\vme_pla.sqf"
+#include "mods\tfc.sqf"
 
 /*
 // get seat proxies
