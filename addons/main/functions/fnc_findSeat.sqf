@@ -1,5 +1,4 @@
 #include "script_component.hpp"
-#define OFFSET 2
 /*
 Author: Ampers
 PFH to show which seat the unit is looking at
@@ -99,7 +98,7 @@ private _sn = rwyl_main_vehicle selectionNames "FireGeometry" select {
     private _proxy = toLower _x;
     private _proxyIndex = _proxy select [(_proxy find ".") + 1];
     // has non-zero selection position
-    !((rwyl_main_vehicle selectionPosition _proxy) isEqualTo [0, 0, 0]) && {
+    !((rwyl_main_vehicle selectionPosition [_proxy, "FireGeometry", "AveragePoint"]) isEqualTo [0, 0, 0]) && {
     // ends with a number after a period
     ((parseNumber _proxyIndex > 0) || {_proxyIndex isEqualTo "0"}) && {
     // contains seat role
@@ -112,7 +111,7 @@ if (_sn isEqualTo []) exitWith {};
 private _hopVehicle = !_isOnFoot && {(_currentVehicle != rwyl_main_vehicle) && {_notInZeus}};
 if (_hopVehicle) then {
     _sn = _sn select {
-        (rwyl_main_vehicle selectionPosition _x) distance (rwyl_main_vehicle worldToModel getPos _unit) < RWYL_HopVehicleRange
+        (rwyl_main_vehicle selectionPosition [_x, "FireGeometry", "AveragePoint"]) distance (rwyl_main_vehicle worldToModel getPos _unit) < RWYL_HopVehicleRange
     };
 };
 rwyl_main_vehicle_distance = (_unit distance rwyl_main_vehicle) + RWYL_HopVehicleRange;
@@ -132,19 +131,8 @@ if (_sn isEqualTo []) exitWith { // no seat proxies found in selectionNames
     };
 };
 
-private _proxyOffsets = (rwyl_main_vehicle getVariable ["RWYL_proxyOffsets", []]);
 private _boundingTop = boundingBoxReal rwyl_main_vehicle # 1 # 2;
-private _sp = _sn apply {
-    private _pos = rwyl_main_vehicle selectionPosition _x;
-    if (((_pos # 2) + OFFSET) > _boundingTop) then {
-        _pos set [2, _pos # 2 - OFFSET]; // If proxy pos is less than 2m from model top, then it's too high
-    } else {
-        if (_x in GVAR(offset_proxies) || {_x in _proxyOffsets}) then {
-            _pos set [2, _pos # 2 - OFFSET];
-        };
-    };
-    _pos
-};
+private _sp = _sn apply {rwyl_main_vehicle selectionPosition [_x, "FireGeometry", "AveragePoint"]};
 
 rwyl_main_pfh_running = true;
 [{
@@ -383,9 +371,9 @@ rwyl_main_pfh_running = true;
 v = ([[curatorSelected # 0 # 0, [vehicle player, cursorObject] select (vehicle player == player)] select isNull curatorCamera, (get3DENSelected "" # 0 # 0)] select is3DEN);
 onEachFrame {
     {
-        drawIcon3D ["\a3\missions_f_oldman\Systems\UI\CenterDot\Data\centerDot_ca.paa", [1,1,1,1], v modelToWorldVisual (v selectionPosition _x), 1, 1, 0, _x];
+        drawIcon3D ["\a3\missions_f_oldman\Systems\UI\CenterDot\Data\centerDot_ca.paa", [1,1,1,1], v modelToWorldVisual (v selectionPosition [_x, "FireGeometry", "AveragePoint"]), 1, 1, 0, _x];
     } forEach (selectionNames v select {
-        !((v selectionPosition _x) isEqualTo [0,0,0])
+        !((v selectionPosition [_x, "FireGeometry", "AveragePoint"]) isEqualTo [0,0,0])
     });
 };
 */

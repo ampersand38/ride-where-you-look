@@ -9,10 +9,9 @@ class CfgPatches {
         requiredAddons[] = {"cba_common"};
         author = "Ampersand";
         authors[] = {"Ampersand"};
-        authorUrl = "https://github.com/ampersand38/rwyl";
+        authorUrl = "https://github.com/ampersand38/ride-where-you-look";
         VERSION_CONFIG;
     };
 };
 
 #include "CfgEventHandlers.hpp"
-#include "CfgModuleCategories.hpp"

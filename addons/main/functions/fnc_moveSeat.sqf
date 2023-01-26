@@ -1,3 +1,4 @@
+#include "script_component.hpp"
 /*
 Author: Ampers
 Move unit into vehicle seat near center of view
@@ -24,7 +25,7 @@ if (rwyl_main_isSeatTaken || {rwyl_main_isSeatLocked}) then {
             private _proxy = toLower _x;
             private _proxyIndex = _proxy select [(_proxy find ".") + 1];
             // has non-zero selection position
-            !((rwyl_main_vehicle selectionPosition _proxy) isEqualTo [0,0,0]) && {
+            !((rwyl_main_vehicle selectionPosition [_proxy, "FireGeometry", "AveragePoint"]) isEqualTo [0,0,0]) && {
             // ends with a number after a period
             ((parseNumber _proxyIndex > 0) || {_proxyIndex isEqualTo "0"}) && {
             // contains seat role
@@ -35,7 +36,7 @@ if (rwyl_main_isSeatTaken || {rwyl_main_isSeatLocked}) then {
         //"no cargo proxies found in selectionNames"
         if (_sn isEqualTo []) exitWith {false};
 
-        private _sp = _sn apply {rwyl_main_vehicle selectionPosition _x};
+        private _sp = _sn apply {rwyl_main_vehicle selectionPosition [_x, "FireGeometry", "AveragePoint"]};
 
         private _screenPosArray = _sp apply {
             private _w2s = worldToScreen (rwyl_main_vehicle modelToWorld _x);

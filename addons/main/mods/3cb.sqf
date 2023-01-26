@@ -1,92 +1,5 @@
 if (isClass (configFile >> "CfgPatches" >> "UK3CB_BAF_Vehicles")) then {
 
-    ["UK3CB_SUV_Base", "init", {
-        (_this select 0) setVariable ["RWYL_proxyOffsets", [
-            "proxy:a3\data_f\proxies\driver_offroad\driver.001",
-            "proxy:a3\data_f\proxies\hunter\cargo.001",
-            "proxy:a3\data_f\proxies\hunter\cargo.002",
-            "proxy:a3\data_f\proxies\hunter\cargo.003",
-            "proxy:a3\data_f\proxies\hunter\cargo.004",
-            "proxy:a3\data_f\proxies\hunter\cargo.005",
-            "proxy:\a3\data_f\proxies\gunner_standup01\gunner.001"
-        ]];
-    }, true, [], true] call CBA_fnc_addClassEventHandler;
-
-    ["UK3CB_BAF_LandRover_Hard_Base", "init", {
-        (_this select 0) setVariable ["RWYL_proxyOffsets", [
-            "proxy:\a3\data_f\proxies\hemtt\driver.001",
-            "proxy:\a3\data_f\proxies\passenger_hunter_back\cargo01.001"
-        ]];
-    }, true, [], true] call CBA_fnc_addClassEventHandler;
-
-    ["UK3CB_BAF_LandRover_Soft_Base", "init", {
-        (_this select 0) setVariable ["RWYL_proxyOffsets", [
-            "proxy:\a3\data_f\proxies\hemtt\driver.001",
-            "proxy:\a3\data_f\proxies\passenger_hunter_back\cargo01.001"
-        ]];
-    }, true, [], true] call CBA_fnc_addClassEventHandler;
-
-    ["UK3CB_BAF_LandRover_Snatch_Base", "init", {
-        (_this select 0) setVariable ["RWYL_proxyOffsets", [
-            "proxy:\a3\data_f\proxies\hemtt\driver.001",
-            "proxy:\a3\data_f\proxies\passenger_hunter_back\cargo01.001"
-        ]];
-    }, true, [], true] call CBA_fnc_addClassEventHandler;
-
-    ["UK3CB_BAF_LandRover_WMIK_GMG_Base", "init", {
-        (_this select 0) setVariable ["RWYL_proxyOffsets", [
-            "proxy:\a3\data_f\proxies\driver_offroad\driver.001",
-            "proxy:\a3\data_f\proxies\gunner_static_low01\gunner.001",
-            "proxy:\a3\data_f\proxies\gunner_standup01\gunner.002",
-            "proxy:\a3\data_f\proxies\passenger_low01\cargo01.001"
-        ]];
-    }, true, [], true] call CBA_fnc_addClassEventHandler;
-
-    ["UK3CB_BAF_LandRover_WMIK_GPMG_Base", "init", {
-        (_this select 0) setVariable ["RWYL_proxyOffsets", [
-            "proxy:\a3\data_f\proxies\driver_offroad\driver.001",
-            "proxy:\a3\data_f\proxies\gunner_static_low01\gunner.001",
-            "proxy:\a3\data_f\proxies\gunner_standup01\gunner.002",
-            "proxy:\a3\data_f\proxies\passenger_low01\cargo01.001"
-        ]];
-    }, true, [], true] call CBA_fnc_addClassEventHandler;
-
-    ["UK3CB_BAF_LandRover_WMIK_HMG_Base", "init", {
-        (_this select 0) setVariable ["RWYL_proxyOffsets", [
-            "proxy:\a3\data_f\proxies\driver_offroad\driver.001",
-            "proxy:\a3\data_f\proxies\gunner_static_low01\gunner.001",
-            "proxy:\a3\data_f\proxies\gunner_standup01\gunner.002",
-            "proxy:\a3\data_f\proxies\passenger_low01\cargo01.001"
-        ]];
-    }, true, [], true] call CBA_fnc_addClassEventHandler;
-
-    ["UK3CB_BAF_LandRover_WMIK_Milan_Base", "init", {
-        (_this select 0) setVariable ["RWYL_proxyOffsets", [
-            "proxy:\a3\data_f\proxies\driver_offroad\driver.001",
-            "proxy:\a3\data_f\proxies\gunner_static_low01\gunner.001",
-            "proxy:\a3\data_f\proxies\gunner_standup01\gunner.002",
-            "proxy:\a3\data_f\proxies\passenger_low01\cargo01.001"
-        ]];
-    }, true, [], true] call CBA_fnc_addClassEventHandler;
-
-    ["UK3CB_BAF_LandRover_Amb_Base", "init", {
-        (_this select 0) setVariable ["RWYL_proxyOffsets", [
-            "proxy:\a3\data_f\proxies\hemtt\driver.001",
-            "proxy:\a3\data_f\proxies\passenger_hunter_back\cargo01.001",
-            "proxy:\a3\data_f\proxies\passenger_hunter_back\cargo01.004",
-            "proxy:\a3\data_f\proxies\passenger_low01\cargo01.005",
-            "proxy:\a3\data_f\proxies\passenger_hunter_back\cargo01.003",
-            "proxy:\a3\data_f\proxies\passenger_hunter_back\cargo01.002"
-        ]];
-    }, true, [], true] call CBA_fnc_addClassEventHandler;
-
-    ["UK3CB_BAF_RHIB_Base", "init", {
-        (_this select 0) setVariable ["RWYL_proxyOffsets", [
-            "proxy:\a3\data_f\proxies\assault_boat\driver.001",
-            "proxy:\a3\data_f\proxies\assault_boat\gunner.001"
-        ]];
-    }, true, [], true] call CBA_fnc_addClassEventHandler;
-
     ["UK3CB_BAF_Coyote_Logistics_L111A1_D", "init", {
         (_this select 0) setVariable ["RWYL_proxyBlacklist", [
             "proxy:\a3\data_f\proxies\passenger_apc_narrow_generic01\cargo.005",
@@ -95,12 +8,6 @@ if (isClass (configFile >> "CfgPatches" >> "UK3CB_BAF_Vehicles")) then {
             "proxy:\a3\data_f\proxies\passenger_apc_narrow_generic01\cargo.008",
             "proxy:\a3\data_f\proxies\passenger_apc_narrow_generic01\cargo.009",
             "proxy:\a3\data_f\proxies\passenger_apc_narrow_generic01\cargo.004"
-        ]];
-        (_this select 0) setVariable ["RWYL_proxyOffsets", [
-            "proxy:\a3\data_f\proxies\hemtt\driver.001",
-            "proxy:\a3\data_f\proxies\gunner_static_low01\gunner.002",
-            "proxy:\a3\data_f\proxies\passenger_hunter_back\cargo.001",
-            "proxy:\a3\data_f\proxies\passenger_hunter_back\cargo.002"
         ]];
     }, true, [], true] call CBA_fnc_addClassEventHandler;
 
@@ -113,23 +20,11 @@ if (isClass (configFile >> "CfgPatches" >> "UK3CB_BAF_Vehicles")) then {
             "proxy:\a3\data_f\proxies\passenger_apc_narrow_generic01\cargo.009",
             "proxy:\a3\data_f\proxies\passenger_apc_narrow_generic01\cargo.004"
         ]];
-        (_this select 0) setVariable ["RWYL_proxyOffsets", [
-            "proxy:\a3\data_f\proxies\hemtt\driver.001",
-            "proxy:\a3\data_f\proxies\gunner_static_low01\gunner.002",
-            "proxy:\a3\data_f\proxies\passenger_hunter_back\cargo.001",
-            "proxy:\a3\data_f\proxies\passenger_hunter_back\cargo.002"
-        ]];
     }, true, [], true] call CBA_fnc_addClassEventHandler;
 
     ["UK3CB_BAF_Coyote_Passenger_L111A1_D", "init", {
         (_this select 0) setVariable ["RWYL_proxyBlacklist", [
             "proxy:\a3\data_f\proxies\passenger_low01\cargo.003"
-        ]];
-        (_this select 0) setVariable ["RWYL_proxyOffsets", [
-            "proxy:\a3\data_f\proxies\hemtt\driver.001",
-            "proxy:\a3\data_f\proxies\gunner_static_low01\gunner.002",
-            "proxy:\a3\data_f\proxies\passenger_hunter_back\cargo.001",
-            "proxy:\a3\data_f\proxies\passenger_hunter_back\cargo.002"
         ]];
     }, true, ["UK3CB_BAF_Coyote_Logistics_L111A1_D"], true] call CBA_fnc_addClassEventHandler;
 
@@ -137,12 +32,7 @@ if (isClass (configFile >> "CfgPatches" >> "UK3CB_BAF_Vehicles")) then {
         (_this select 0) setVariable ["RWYL_proxyBlacklist", [
             "proxy:\a3\data_f\proxies\passenger_low01\cargo.003"
         ]];
-        (_this select 0) setVariable ["RWYL_proxyOffsets", [
-            "proxy:\a3\data_f\proxies\hemtt\driver.001",
-            "proxy:\a3\data_f\proxies\gunner_static_low01\gunner.002",
-            "proxy:\a3\data_f\proxies\passenger_hunter_back\cargo.001",
-            "proxy:\a3\data_f\proxies\passenger_hunter_back\cargo.002"
-        ]];
+        
     }, true, ["UK3CB_BAF_Coyote_Logistics_L134A1_D"], true] call CBA_fnc_addClassEventHandler;
 
     ["UK3CB_BAF_Husky_Logistics_GMG_Green", "init", {
@@ -153,19 +43,6 @@ if (isClass (configFile >> "CfgPatches" >> "UK3CB_BAF_Vehicles")) then {
         ]];
     }, true, [], true] call CBA_fnc_addClassEventHandler;
 
-    ["UK3CB_BAF_Jackal2_L111A1_D", "init", {
-        (_this select 0) setVariable ["RWYL_proxyOffsets", [
-            "proxy:\a3\data_f\proxies\hunter\driver.001",
-            "proxy:\a3\data_f\proxies\gunner_static_low01\gunner.002"
-        ]];
-    }, true, [], true] call CBA_fnc_addClassEventHandler;
-
-    ["UK3CB_BAF_Jackal2_L134A1_D", "init", {
-        (_this select 0) setVariable ["RWYL_proxyOffsets", [
-            "proxy:\a3\data_f\proxies\hunter\driver.001",
-            "proxy:\a3\data_f\proxies\gunner_static_low01\gunner.002"
-        ]];
-    }, true, [], true] call CBA_fnc_addClassEventHandler;
     ["UK3CB_BAF_Merlin_HC3_18", "init", {
         (_this select 0) setVariable ["RWYL_cargoProxyIndexes", [
             1,2,3,8,24,23,20,19,9 ,10,11,12,18,17,16,15

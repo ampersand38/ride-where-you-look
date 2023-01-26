@@ -11,36 +11,14 @@ if (isClass (configFile >> "CfgPatches" >> "rhs_main")) then {
         ]];
     }, true, [], true] call CBA_fnc_addClassEventHandler;
 
-    ["RHS_Ural_BaseTurret", "init", {
-        (_this select 0) setVariable ["RWYL_proxyOffsets", [
-            "proxy:\ca\temp\proxies\truck\cargo01.001",
-            "proxy:\ca\temp\proxies\truck\cargo01.002",
-            "proxy:\ca\temp\proxies\uaz\driver.001",
-            "proxy:\ca\temp\proxies\truck\gunner.001"
-        ]];
-    }, true, [], true] call CBA_fnc_addClassEventHandler;
-
-    ["rhs_kraz255_base", "init", {
-        (_this select 0) setVariable ["RWYL_proxyOffsets", [
-            "proxy:cargo01.001"
-        ]];
-    }, true, [], true] call CBA_fnc_addClassEventHandler;
-
     ["RHS_UAZ_Base", "init", {
         (_this select 0) setVariable ["RWYL_proxyWhitelist", [
             "proxy:\ca\temp\proxies\uaz\driver.001"
         ]];
-        (_this select 0) setVariable ["RWYL_proxyOffsets", [
-            "proxy:\ca\temp\proxies\uaz\cargo01.001"
-        ]];
+
     }, true, [], true] call CBA_fnc_addClassEventHandler;
 
     ["rhs_tigr_base", "init", {
-        (_this select 0) setVariable ["RWYL_proxyOffsets", [
-            "proxy:\ca\temp\proxies\uaz\cargo01.001",
-            "proxy:cargo01.008",
-            "proxy:cargo02.001"
-        ]];
         (_this select 0) setVariable ["RWYL_proxyBlacklist", [
             "proxy:gunner02.002"
         ]];
@@ -50,53 +28,16 @@ if (isClass (configFile >> "CfgPatches" >> "rhs_main")) then {
         (_this select 0) setVariable ["RWYL_proxyWhitelist", [
             "proxy:\ca\temp\proxies\bmp2\driver.001"
         ]];
-        (_this select 0) setVariable ["RWYL_proxyOffsets", [
-            "proxy:commander.001",
-            "proxy:gunner.001"
-        ]];
+
     }, true, ["rhs_bmp1d_vdv", "rhs_bmp1k_vdv", "rhs_bmp1p_vdv", "rhs_bmp2e_vdv", "rhs_prp3_vdv"], true] call CBA_fnc_addClassEventHandler;
 
-    ["rhs_bmp1d_vdv", "init", {
-        (_this select 0) setVariable ["RWYL_proxyOffsets", [
-            "proxy:\ca\temp\proxies\bmp2\driver.001",
-            "proxy:commander.001",
-            "proxy:gunner.001"
-        ]];
-    }, true, [], true] call CBA_fnc_addClassEventHandler;
-
-    ["rhs_bmp1k_vdv", "init", {
-        (_this select 0) setVariable ["RWYL_proxyOffsets", [
-            "proxy:\ca\temp\proxies\bmp2\driver.001",
-            "proxy:commander.001",
-            "proxy:gunner.001"
-        ]];
-    }, true, [], true] call CBA_fnc_addClassEventHandler;
-
     ["rhs_bmp1p_vdv", "init", {
-        (_this select 0) setVariable ["RWYL_proxyOffsets", [
-            "proxy:\ca\temp\proxies\bmp2\driver.001",
-            "proxy:commander.001",
-            "proxy:gunner.001"
-        ]];
         (_this select 0) setVariable ["RWYL_proxyBlacklist", [
             "proxy:gunner.002"
         ]];
     }, true, [], true] call CBA_fnc_addClassEventHandler;
 
-    ["rhs_prp3_vdv", "init", {
-        (_this select 0) setVariable ["RWYL_proxyOffsets", [
-            "proxy:commander.001",
-            "proxy:gunner.002",
-            "proxy:gunner.001",
-            "proxy:gunner.003"
-        ]];
-    }, true, [], true] call CBA_fnc_addClassEventHandler;
-
     ["rhs_gaz66_vmf", "init", {
-        (_this select 0) setVariable ["RWYL_proxyOffsets", [
-            "proxy:\ca\temp\proxies\uaz\driver.001",
-            "proxy:\ca\temp\proxies\truck\cargo.001"
-        ]];
         (_this select 0) setVariable ["RWYL_proxyBlacklist", [
             "proxy:cargo02.023",
             "proxy:cargo04.024"
@@ -104,10 +45,6 @@ if (isClass (configFile >> "CfgPatches" >> "rhs_main")) then {
     }, true, ["rhs_gaz66_flat_vmf", "rhs_gaz66o_flat_vmf", "rhs_gaz66_zu23_base"], true] call CBA_fnc_addClassEventHandler;
 
     ["rhs_gaz66_flat_vmf", "init", {
-        (_this select 0) setVariable ["RWYL_proxyOffsets", [
-            "proxy:\ca\temp\proxies\uaz\driver.001",
-            "proxy:\ca\temp\proxies\truck\cargo.001"
-        ]];
         (_this select 0) setVariable ["RWYL_proxyBlacklist", [
             "proxy:cargo02.023",
             "proxy:cargo04.024",
@@ -127,10 +64,6 @@ if (isClass (configFile >> "CfgPatches" >> "rhs_main")) then {
     }, true, [], true] call CBA_fnc_addClassEventHandler;
 
     ["rhs_gaz66o_flat_vmf", "init", {
-        (_this select 0) setVariable ["RWYL_proxyOffsets", [
-            "proxy:\ca\temp\proxies\uaz\driver.001",
-            "proxy:\ca\temp\proxies\truck\cargo.001"
-        ]];
         (_this select 0) setVariable ["RWYL_proxyBlacklist", [
             "proxy:cargo02.023",
             "proxy:cargo04.024",
@@ -149,28 +82,9 @@ if (isClass (configFile >> "CfgPatches" >> "rhs_main")) then {
         ]];
     }, true, [], true] call CBA_fnc_addClassEventHandler;
 
-    ["rhs_gaz66_zu23_base", "init", {
-        (_this select 0) setVariable ["RWYL_proxyOffsets", [
-            "proxy:\ca\temp\proxies\basiccrew\gunner.001",
-            "proxy:\ca\temp\proxies\basiccrew\cargo.003",
-            "proxy:cargo02.004",
-            "proxy:\ca\temp\proxies\uaz\driver.001",
-            "proxy:\ca\temp\proxies\truck\cargo.001"
-        ]];
-    }, true, [], true] call CBA_fnc_addClassEventHandler;
-
     ["RHS_ZU23_base", "init", {
-        (_this select 0) setVariable ["RWYL_proxyOffsets", [
-            "proxy:cargo01.001"
-        ]];
         (_this select 0) setVariable ["RWYL_proxyWhitelist", [
             "proxy:\ca\temp\proxies\basiccrew\gunner.01"
-        ]];
-    }, true, [], true] call CBA_fnc_addClassEventHandler;
-
-    ["rhs_nsv_tripod_base", "init", {
-        (_this select 0) setVariable ["RWYL_proxyOffsets", [
-            "proxy:\ca\temp\proxies\kord\gunner.001"
         ]];
     }, true, [], true] call CBA_fnc_addClassEventHandler;
 
@@ -192,36 +106,15 @@ if (isClass (configFile >> "CfgPatches" >> "rhs_main")) then {
         ]];
     }, true, [], true] call CBA_fnc_addClassEventHandler;
 
-    ["rhs_2s3tank_base", "init", {
-        (_this select 0) setVariable ["RWYL_proxyOffsets", [
-            "proxy:commander.001",
-            "proxy:gunner.001"
-        ]];
-    }, true, [], true] call CBA_fnc_addClassEventHandler;
-
-    ["rhs_2s1tank_base", "init", {
-        (_this select 0) setVariable ["RWYL_proxyOffsets", [
-            "proxy:commander.001",
-            "proxy:gunner.001",
-            "proxy:commander.002"
-        ]];
-    }, true, [], true] call CBA_fnc_addClassEventHandler;
-
     ["rhs_a3t72tank_base", "init", {
         (_this select 0) setVariable ["RWYL_proxyBlacklist", [
             "proxy:commander.002"
-        ]];
-        (_this select 0) setVariable ["RWYL_proxyOffsets", [
-            "proxy:\ca\temp\proxies\t72\driver.001"
         ]];
     }, true, [], true] call CBA_fnc_addClassEventHandler;
 
     ["rhs_t80b", "init", {
         (_this select 0) setVariable ["RWYL_proxyBlacklist", [
             "proxy:commander.002"
-        ]];
-        (_this select 0) setVariable ["RWYL_proxyOffsets", [
-            "proxy:driver.001"
         ]];
     }, true, [], true] call CBA_fnc_addClassEventHandler;
 
@@ -235,9 +128,6 @@ if (isClass (configFile >> "CfgPatches" >> "rhs_main")) then {
         (_this select 0) setVariable ["RWYL_proxyWhitelist", [
             "proxy:\ca\temp\proxies\zsu\gunner.01"
         ]];
-        (_this select 0) setVariable ["RWYL_proxyOffsets", [
-            "proxy:\ca\temp\proxies\bmp2\driver.001"
-        ]];
     }, true, [], true] call CBA_fnc_addClassEventHandler;
 
     ["rhs_p37_turret_base", "init", {
@@ -250,11 +140,6 @@ if (isClass (configFile >> "CfgPatches" >> "rhs_main")) then {
         (_this select 0) setVariable ["RWYL_proxyBlacklist", [
             "proxy:cargo02.023",
             "proxy:cargo04.024"
-        ]];
-        (_this select 0) setVariable ["RWYL_proxyOffsets", [
-            "proxy:\a3\data_f\proxies\passenger_generic01_leanleft\cargo01.002",
-            "proxy:driver.001",
-            "proxy:cargo03.001"
         ]];
     }, true, ["rhs_kamaz5350_flatbed"], true] call CBA_fnc_addClassEventHandler;
 
@@ -277,10 +162,6 @@ if (isClass (configFile >> "CfgPatches" >> "rhs_main")) then {
             "proxy:\a3\data_f\proxies\passenger_generic01_leanleft\cargo01.013",
             "proxy:\a3\data_f\proxies\passenger_generic01_leanleft\cargo01.015"
         ]];
-        (_this select 0) setVariable ["RWYL_proxyOffsets", [
-            "proxy:\a3\data_f\proxies\passenger_generic01_leanleft\cargo01.002",
-            "proxy:cargo03.001"
-        ]];
     }, true, [], true] call CBA_fnc_addClassEventHandler;
 
     ["RHS_Ural_Flat_MSV_01", "init", {
@@ -297,11 +178,6 @@ if (isClass (configFile >> "CfgPatches" >> "rhs_main")) then {
             "proxy:\ca\temp\proxies\truck\cargo02.008",
             "proxy:\ca\temp\proxies\truck\cargo04.009",
             "proxy:\ca\temp\proxies\truck\cargo01.011"
-        ]];
-        (_this select 0) setVariable ["RWYL_proxyOffsets", [
-            "proxy:\ca\temp\proxies\uaz\driver.001",
-            "proxy:\ca\temp\proxies\truck\cargo01.001",
-            "proxy:\ca\temp\proxies\truck\cargo01.002"
         ]];
     }, true, [], true] call CBA_fnc_addClassEventHandler;
 
@@ -322,19 +198,7 @@ if (isClass (configFile >> "CfgPatches" >> "rhs_main")) then {
             "proxy:cargo02.023",
             "proxy:cargo04.024"
         ]];
-        (_this select 0) setVariable ["RWYL_proxyOffsets", [
-            "proxy:\ca\temp\proxies\uaz\driver.001",
-            "proxy:\ca\temp\proxies\truck\cargo01.001",
-            "proxy:\ca\temp\proxies\truck\cargo01.002"
-        ]];
     }, true, [], true] call CBA_fnc_addClassEventHandler;
-
-    ["rhs_zil131_base", "init", {
-        (_this select 0) setVariable ["RWYL_proxyOffsets", [
-            "proxy:\ca\temp\proxies\truck\cargo01.001",
-            "proxy:\ca\temp\proxies\truck\cargo01.002"
-        ]];
-    }, true, ["rhs_zil131_flatbed_base"], true] call CBA_fnc_addClassEventHandler;
 
     ["rhs_zil131_flatbed_base", "init", {
         (_this select 0) setVariable ["RWYL_proxyBlacklist", [
@@ -349,9 +213,6 @@ if (isClass (configFile >> "CfgPatches" >> "rhs_main")) then {
             "proxy:\ca\temp\proxies\truck\cargo04.012",
             "proxy:\ca\temp\proxies\truck\cargo01.009"
         ]];
-        (_this select 0) setVariable ["RWYL_proxyOffsets", [
-            "proxy:\ca\temp\proxies\truck\cargo01.001",
-            "proxy:\ca\temp\proxies\truck\cargo01.002"
-        ]];
     }, true, [], true] call CBA_fnc_addClassEventHandler;
+
 };

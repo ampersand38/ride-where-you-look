@@ -124,23 +124,6 @@
     ]];
 }, true, [], true] call CBA_fnc_addClassEventHandler;
 
-["B_APC_Wheeled_01_base_F", "init", {
-    (_this select 0) setVariable ["RWYL_proxyOffsets", [
-            "proxy:\a3\data_f\proxies\crew_tank01\commander.001",
-            "proxy:\a3\data_f\proxies\crew_tank01\gunner.001",
-            "proxy:\a3\data_f\proxies\crew_tank01\driver.001"
-    ]];
-}, true, [], true] call CBA_fnc_addClassEventHandler;
-
-["Heli_Light_01_base_F", "init", {
-    (_this select 0) setVariable ["RWYL_proxyOffsets", [
-        "proxy:\a3\data_f\proxies\heli_light_01\cargo01.001",
-        "proxy:\a3\data_f\proxies\heli_light_01\cargo01.002",
-        "proxy:\a3\data_f\proxies\heli_light_01\cargo01.004",
-        "proxy:\a3\data_f\proxies\heli_light_01\cargo01.003"
-    ]];
-}, true, [], true] call CBA_fnc_addClassEventHandler;
-
 ["Heli_Light_01_armed_base_F", "init", {
     (_this select 0) setVariable ["RWYL_proxyBlacklist", [
         "proxy:\a3\data_f\proxies\heli_light_01\cargo01.001",
@@ -157,37 +140,6 @@
     ]];
 }, true, [], true] call CBA_fnc_addClassEventHandler;
 
-["B_Boat_Transport_01_F", "init", {
-    (_this select 0) setVariable ["RWYL_proxyOffsets", [
-        "proxy:\a3\data_f\proxies\rubber_boat\cargo02.002",
-        "proxy:\a3\data_f\proxies\rubber_boat\cargo01.001",
-        "proxy:\a3\data_f\proxies\rubber_boat\cargo03.003",
-        "proxy:\a3\data_f\proxies\rubber_boat\cargo04.004",
-        "proxy:\a3\data_f\proxies\rubber_boat\driver.001"
-    ]];
-}, true, [], true] call CBA_fnc_addClassEventHandler;
-
-["Truck_02_base_F", "init", {
-    (_this select 0) setVariable ["RWYL_proxyOffsets", [
-        "proxy:\a3\data_f\proxies\passenger_generic01_leanleft\cargo01.001",
-        "proxy:\a3\data_f\proxies\passenger_generic01_leanleft\cargo01.002"
-    ]];
-}, true, [], true] call CBA_fnc_addClassEventHandler;
-
-["Truck_02_box_base_F", "init", {
-    (_this select 0) setVariable ["RWYL_proxyOffsets", [
-        "proxy:\a3\data_f\proxies\truck_02\cargo01.001",
-        "proxy:\a3\data_f\proxies\truck_02\cargo01.002"
-    ]];
-}, true, [], true] call CBA_fnc_addClassEventHandler;
-
-["Truck_02_fuel_base_F", "init", {
-    (_this select 0) setVariable ["RWYL_proxyOffsets", [
-        "proxy:\a3\data_f\proxies\truck_02\cargo01.001",
-        "proxy:\a3\data_f\proxies\truck_02\cargo01.002"
-    ]];
-}, true, [], true] call CBA_fnc_addClassEventHandler;
-
 ["Truck_02_MRL_base_F", "init", {
     (_this select 0) setVariable ["RWYL_proxyWhitelist", [
         "proxy:gunner.001"
@@ -195,19 +147,4 @@
 }, true, [], true] call CBA_fnc_addClassEventHandler;
 
 // H-60 Devlopment
-["vtx_mh60m", "init", {
-    (_this select 0) setVariable ["RWYL_proxyOffsets", [
-        "proxy:\ca\temp\proxies\m113\cargo02.001",
-        "proxy:\ca\temp\proxies\m113\cargo02.002",
-        "proxy:\ca\temp\proxies\m113\cargo03.003",
-        "proxy:\ca\temp\proxies\m113\cargo02.004",
-        "proxy:\ca\temp\proxies\m113\cargo03.009",
-        "proxy:\ca\temp\proxies\m113\cargo02.010",
-        "proxy:\ca\temp\proxies\m113\cargo02.005",
-        "proxy:\ca\temp\proxies\m113\cargo02.006",
-        "proxy:\ca\temp\proxies\m113\cargo03.007",
-        "proxy:\ca\temp\proxies\m113\cargo03.008",
-        "proxy:\ca\temp\proxies\m113\cargo03.011",
-        "proxy:\ca\temp\proxies\m113\cargo03.012"
-    ]];
-}, true, [], true] call CBA_fnc_addClassEventHandler;
+
