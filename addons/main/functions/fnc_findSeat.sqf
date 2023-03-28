@@ -98,7 +98,7 @@ private _sn = rwyl_main_vehicle selectionNames "FireGeometry" select {
     private _proxy = toLower _x;
     private _proxyIndex = _proxy select [(_proxy find ".") + 1];
     // has non-zero selection position
-    !((rwyl_main_vehicle selectionPosition [_proxy, "FireGeometry", "AveragePoint"]) isEqualTo [0, 0, 0]) && {
+    !(([rwyl_main_vehicle, _proxy] call rwyl_main_fnc_getProxyPosition) isEqualTo [0, 0, 0]) && {
     // ends with a number after a period
     ((parseNumber _proxyIndex > 0) || {_proxyIndex isEqualTo "0"}) && {
     // contains seat role
@@ -111,7 +111,7 @@ if (_sn isEqualTo []) exitWith {};
 private _hopVehicle = !_isOnFoot && {(_currentVehicle != rwyl_main_vehicle) && {_notInZeus}};
 if (_hopVehicle) then {
     _sn = _sn select {
-        (rwyl_main_vehicle selectionPosition [_x, "FireGeometry", "AveragePoint"]) distance (rwyl_main_vehicle worldToModel getPos _unit) < RWYL_HopVehicleRange
+        ([rwyl_main_vehicle, _x] call rwyl_main_fnc_getProxyPosition) distance (rwyl_main_vehicle worldToModel getPos _unit) < RWYL_HopVehicleRange
     };
 };
 rwyl_main_vehicle_distance = (_unit distance rwyl_main_vehicle) + RWYL_HopVehicleRange;
@@ -132,7 +132,7 @@ if (_sn isEqualTo []) exitWith { // no seat proxies found in selectionNames
 };
 
 private _boundingTop = boundingBoxReal rwyl_main_vehicle # 1 # 2;
-private _sp = _sn apply {rwyl_main_vehicle selectionPosition [_x, "FireGeometry", "AveragePoint"]};
+private _sp = _sn apply {[rwyl_main_vehicle, _x] call rwyl_main_fnc_getProxyPosition};
 
 rwyl_main_pfh_running = true;
 [{

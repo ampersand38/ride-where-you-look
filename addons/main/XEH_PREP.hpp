@@ -4,3 +4,4 @@
 PREP(findSeat);
 PREP(moveSeat);
 PREP(moveSeatLocal);
+PREP(getProxyPosition);
