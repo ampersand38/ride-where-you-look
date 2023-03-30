@@ -97,10 +97,10 @@ if (_fullCrew isEqualTo []) exitWith { // no seats
 private _sn = rwyl_main_vehicle selectionNames "FireGeometry" select {
     private _proxy = toLower _x;
     private _proxyIndex = _proxy select [(_proxy find ".") + 1];
-    // has non-zero selection position
-    !(([rwyl_main_vehicle, _proxy] call rwyl_main_fnc_getProxyPosition) isEqualTo [0, 0, 0]) && {
     // ends with a number after a period
     ((parseNumber _proxyIndex > 0) || {_proxyIndex isEqualTo "0"}) && {
+    // has non-zero selection position
+    !((rwyl_main_vehicle selectionPosition _proxy) isEqualTo [0, 0, 0]) && {
     // contains seat role
     (("cargo" in toLower _proxy) || {("gunner" in toLower _proxy) || {("driver" in toLower _proxy) ||
     {("commander" in toLower _proxy) || {("pilot" in toLower _proxy)}}}})}}

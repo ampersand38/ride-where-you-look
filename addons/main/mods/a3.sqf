@@ -133,6 +133,13 @@
     ]];
 }, true, [], true] call CBA_fnc_addClassEventHandler;
 
+["Heli_Transport_03_base_F", "init", {
+    (_this select 0) setVariable ["RWYL_proxyBlacklist", [
+        "proxy:\a3\data_f\proxies\heli_transport_01\gunner.004",
+        "proxy:\a3\data_f\proxies\heli_transport_01\gunner.005"
+    ]];
+}, true, [], true] call CBA_fnc_addClassEventHandler;
+
 ["Heli_Transport_03_unarmed_base_F", "init", {
     (_this select 0) setVariable ["RWYL_proxyBlacklist", [
         "proxy:\a3\data_f\proxies\heli_transport_01\gunner.002",
@@ -147,4 +154,3 @@
 }, true, [], true] call CBA_fnc_addClassEventHandler;
 
 // H-60 Devlopment
-

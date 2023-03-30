@@ -16,7 +16,13 @@ Return the position of the right angle vertex of the proxy
 
 params ["_vehicle", "_proxy"];
 
+private _firstPoint = _vehicle selectionPosition [_proxy, LOD_FIREGEO, "FirstPoint"];
 private _averagePoint = _vehicle selectionPosition [_proxy, LOD_FIREGEO, "AveragePoint"];
-// by Leopard20
-_vehicle selectionVectorDirAndUp [_proxy, LOD_FIREGEO] params ["_vy", "_vz"];
-_averagePoint vectorAdd (_vy vectorMultiply 1/3) vectorAdd (_vz vectorMultiply -2/3)
+
+if (_firstPoint distance _averagePoint > 0.85) then {
+    _firstPoint vectorAdd [0, 0,
+        (_averagePoint # 2 - _firstPoint # 2) * 2 / 1.333333
+    ]
+} else {
+    _firstPoint
+}
