@@ -90,6 +90,14 @@
     ]];
 }, true, [], true] call CBA_fnc_addClassEventHandler;
 
+["Offroad_01_armed_base_F", "init", {
+    (_this select 0) setVariable ["RWYL_proxyBlacklist", [
+        "proxy:\a3\data_f\proxies\passenger_flatground_leanright\cargo.003",
+        "proxy:\a3\data_f\proxies\passenger_flatground_crosslegs\cargo.004",
+        "proxy:\a3\data_f\proxies\passenger_flatground_leanleft\cargo.005"
+    ]];
+}, true, [], true] call CBA_fnc_addClassEventHandler;
+
 ["Van_02_vehicle_base_F", "init", {
     (_this select 0) setVariable ["RWYL_proxyBlacklist", [
         "proxy:\a3\data_f\proxies\passenger_flatground_crosslegs\cargo.002",
@@ -152,5 +160,3 @@
         "proxy:gunner.001"
     ]];
 }, true, [], true] call CBA_fnc_addClassEventHandler;
-
-// H-60 Devlopment
