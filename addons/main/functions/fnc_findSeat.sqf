@@ -117,11 +117,11 @@ if (_hopVehicle) then {
 rwyl_main_vehicle_distance = (_unit distance rwyl_main_vehicle) + RWYL_HopVehicleRange;
 
 // filter out blacklisted non-functional proxies
-//_sn = _sn - getArray (configOf rwyl_main_vehicle >> "RWYL_proxyBlacklist");
-_sn = _sn - (rwyl_main_vehicle getVariable ["RWYL_proxyBlacklist", []]);
+//_sn = _sn - getArray (configOf rwyl_main_vehicle >> "RWYL_proxyExcludeList");
+_sn = _sn - (rwyl_main_vehicle getVariable ["RWYL_proxyExcludeList", []]);
 {
     _sn pushBackUnique _x;
-} forEach (rwyl_main_vehicle getVariable ["RWYL_proxyWhitelist", []]);
+} forEach (rwyl_main_vehicle getVariable ["RWYL_proxyIncludeList", []]);
 
 
 if (_sn isEqualTo []) exitWith { // no seat proxies found in selectionNames
