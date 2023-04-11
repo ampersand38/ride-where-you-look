@@ -271,11 +271,8 @@ rwyl_main_pfh_running = true;
     switch (_seatType) do {
         case "cargo": {
             private _vehicleConfig = configOf rwyl_main_vehicle;
-            private _cargoIndexes = if (rwyl_main_vehicle == vehicle _unit) then {
-                rwyl_main_vehicle getVariable ["RWYL_moveToCargoIndexes", []];
-            } else {
-                rwyl_main_vehicle getVariable ["RWYL_cargoProxyIndexes", []];
-            };
+            private _cargoIndexes = rwyl_main_vehicle getVariable ["RWYL_cargoProxyIndexes", []];
+
             if (_cargoIndexes isEqualTo []) then {
                 _cargoIndexes = getArray (_vehicleConfig >> "cargoProxyIndexes");
             };

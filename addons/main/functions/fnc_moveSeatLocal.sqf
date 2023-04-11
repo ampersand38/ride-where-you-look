@@ -61,6 +61,19 @@ private _mustMoveOut = _unit != _currentVehicle && {_vehicle != _currentVehicle}
 if (_mustMoveOut) then {
     private ["_driverCompartments", "_isDriverIsolated", "_cargoCompartments", "_cargoCompartmentsLast", "_compartment", "_currentTurret", "_moveBackCode", "_moveBackParams"];
 
+    _driverCompartments = (_vehicleConfig >> "driverCompartments") call BIS_fnc_getCfgData;
+    // Air class by default has driverCompartments=0 and cargoCompartments[]={0}, so we have to disable them
+    _isDriverIsolated = _driverCompartments isEqualTo 0 && {_vehicle isKindOf "Air"};
+    TO_COMPARTMENT_STRING(_driverCompartments);
+
+    _cargoCompartments = getArray (_vehicleConfig >> "cargoCompartments");
+    {
+        if !(_x isEqualType "") then {
+            _cargoCompartments set [_forEachIndex, format ["Compartment%1", _x]];
+        };
+    } forEach _cargoCompartments;
+    _cargoCompartmentsLast = count _cargoCompartments - 1;
+
     // find current compartment
     private _fullCrew = fullCrew [_currentVehicle, "", true];
     (
@@ -129,6 +142,7 @@ if (_mustMoveOut) then {
 
     private _fnc_sendIntoCargoOrTurret = {
         params ["_unit", "_vehicle", "_mustMoveOut", ["_indexOrPath", nil]];
+
         if (_vehicle == vehicle _unit) exitWith {
             if (_indexOrPath isEqualType []) then {
                 if (isPlayer _unit) then {
@@ -139,6 +153,10 @@ if (_mustMoveOut) then {
                 };
                 _unit action ["MoveToTurret", _vehicle, _indexOrPath];
             } else {
+                private _cargoIndexes = getArray (configOf _vehicle >> "cargoProxyIndexes");
+                if (_cargoIndexes isNotEqualTo []) then {
+                    _indexOrPath = _cargoIndexes find (_indexOrPath + 1);
+                };
                 if (isPlayer _unit) then {
                 } else {
                     unassignVehicle _unit;
@@ -201,6 +219,7 @@ if (_mustMoveOut) then {
                 _cargoIndexes = getArray (_vehicleConfig >> "cargoProxyIndexes");
             };
             private _indexOrPath = _cargoIndexes find _proxyIndex;
+
             if (_indexOrPath == -1) then {
                 _indexOrPath = _proxyIndex - 1;
             };
