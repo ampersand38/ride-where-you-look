@@ -1,7 +1,7 @@
 if (isClass (configFile >> "CfgPatches" >> "VME_PLA_WHEELED_C")) then {
 
     ["rhs_zil131_flatbed_base", "init", {
-        (_this select 0) setVariable ["RWYL_proxyBlacklist", [
+        (_this select 0) setVariable ["RWYL_proxyExcludeList", [
             "proxy:\ca\temp\proxies\truck\cargo04.003",
             "proxy:\ca\temp\proxies\truck\cargo01.005",
             "proxy:\ca\temp\proxies\truck\cargo02.007",

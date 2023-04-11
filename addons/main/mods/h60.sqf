@@ -1,7 +1,7 @@
 if (isClass (configFile >> "CfgPatches" >> "vtx_uh60")) then {
 
     ["vtx_UH60M", "init", {
-        (_this select 0) setVariable ["RWYL_proxyBlacklist", [
+        (_this select 0) setVariable ["RWYL_proxyExcludeList", [
             // Door FFV
             "proxy:\ca\temp\proxies\m113\cargo03.012",
             "proxy:\ca\temp\proxies\m113\cargo03.013",
@@ -29,7 +29,7 @@ if (isClass (configFile >> "CfgPatches" >> "vtx_uh60")) then {
     }, true, ["vtx_HH60"], true] call CBA_fnc_addClassEventHandler;
 
     ["vtx_UH60M_SLICK", "init", {
-        (_this select 0) setVariable ["RWYL_proxyBlacklist", [
+        (_this select 0) setVariable ["RWYL_proxyExcludeList", [
             // Cargo
             "proxy:\ca\temp\proxies\m113\cargo02.001",
             "proxy:\ca\temp\proxies\m113\cargo02.002",
@@ -67,7 +67,7 @@ if (isClass (configFile >> "CfgPatches" >> "vtx_uh60")) then {
     }, true, ["vtx_HH60"], true] call CBA_fnc_addClassEventHandler;
 
     ["vtx_UH60M_MEDEVAC", "init", {
-        (_this select 0) setVariable ["RWYL_proxyBlacklist", [
+        (_this select 0) setVariable ["RWYL_proxyExcludeList", [
             // Cargo
             "proxy:\ca\temp\proxies\m113\cargo02.005",
             "proxy:\ca\temp\proxies\m113\cargo02.006",
@@ -92,7 +92,7 @@ if (isClass (configFile >> "CfgPatches" >> "vtx_uh60")) then {
     }, true, [], true] call CBA_fnc_addClassEventHandler;
 
     ["vtx_MH60S", "init", {
-        (_this select 0) setVariable ["RWYL_proxyBlacklist", [
+        (_this select 0) setVariable ["RWYL_proxyExcludeList", [
             // Floor FFV
             "proxy:\ca\temp\proxies\m113\cargo03.012",
             "proxy:\ca\temp\proxies\m113\cargo03.013",
@@ -119,7 +119,7 @@ if (isClass (configFile >> "CfgPatches" >> "vtx_uh60")) then {
     }, true, [], true] call CBA_fnc_addClassEventHandler;
 
     ["vtx_HH60", "init", {
-        (_this select 0) setVariable ["RWYL_proxyBlacklist", [
+        (_this select 0) setVariable ["RWYL_proxyExcludeList", [
             // Cargo
             "proxy:\ca\temp\proxies\m113\cargo02.001",
             "proxy:\ca\temp\proxies\m113\cargo02.002",
@@ -148,7 +148,7 @@ if (isClass (configFile >> "CfgPatches" >> "vtx_uh60")) then {
     }, true, [], true] call CBA_fnc_addClassEventHandler;
 
     ["vtx_MH60M", "init", {
-        (_this select 0) setVariable ["RWYL_proxyBlacklist", [
+        (_this select 0) setVariable ["RWYL_proxyExcludeList", [
             // Cargo
             "proxy:\ca\temp\proxies\m113\cargo02.001",
             "proxy:\ca\temp\proxies\m113\cargo02.002",
@@ -177,7 +177,7 @@ if (isClass (configFile >> "CfgPatches" >> "vtx_uh60")) then {
     }, true, [], true] call CBA_fnc_addClassEventHandler;
 
     ["vtx_MH60S_Pylons", "init", {
-        (_this select 0) setVariable ["RWYL_proxyBlacklist", [
+        (_this select 0) setVariable ["RWYL_proxyExcludeList", [
             // Cargo
             "proxy:\ca\temp\proxies\m113\cargo02.001",
             "proxy:\ca\temp\proxies\m113\cargo02.002",
@@ -206,7 +206,7 @@ if (isClass (configFile >> "CfgPatches" >> "vtx_uh60")) then {
     }, true, [], true] call CBA_fnc_addClassEventHandler;
 
     ["vtx_MH60S_GAU21L", "init", {
-        (_this select 0) setVariable ["RWYL_proxyBlacklist", [
+        (_this select 0) setVariable ["RWYL_proxyExcludeList", [
             // Cargo
             "proxy:\ca\temp\proxies\m113\cargo02.001",
             "proxy:\ca\temp\proxies\m113\cargo02.002",
@@ -239,7 +239,7 @@ if (isClass (configFile >> "CfgPatches" >> "vtx_uh60")) then {
     }, true, [], true] call CBA_fnc_addClassEventHandler;
 
     ["vtx_MH60S_Pylons_GAU21L", "init", {
-        (_this select 0) setVariable ["RWYL_proxyBlacklist", [
+        (_this select 0) setVariable ["RWYL_proxyExcludeList", [
             // Cargo
             "proxy:\ca\temp\proxies\m113\cargo02.001",
             "proxy:\ca\temp\proxies\m113\cargo02.002",
@@ -272,7 +272,7 @@ if (isClass (configFile >> "CfgPatches" >> "vtx_uh60")) then {
     }, true, [], true] call CBA_fnc_addClassEventHandler;
 
     ["vtx_MH60M_DAP", "init", {
-        (_this select 0) setVariable ["RWYL_proxyBlacklist", [
+        (_this select 0) setVariable ["RWYL_proxyExcludeList", [
             // Cargo
             "proxy:\ca\temp\proxies\m113\cargo02.001",
             "proxy:\ca\temp\proxies\m113\cargo02.002",

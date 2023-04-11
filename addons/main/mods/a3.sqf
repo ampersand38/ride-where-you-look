@@ -1,5 +1,5 @@
 ["LSV_01_armed_base_F", "init", {
-    (_this select 0) setVariable ["RWYL_proxyBlacklist", [
+    (_this select 0) setVariable ["RWYL_proxyExcludeList", [
         "proxy:\a3\data_f\proxies\passenger_low01\cargo.004",
         "proxy:\a3\data_f\proxies\passenger_low01\cargo.005",
         "proxy:\a3\data_f\proxies\gunner_standup01\cargo.006"
@@ -7,7 +7,7 @@
 }, true, [], true] call CBA_fnc_addClassEventHandler;
 
 ["LSV_01_AT_base_F", "init", {
-    (_this select 0) setVariable ["RWYL_proxyBlacklist", [
+    (_this select 0) setVariable ["RWYL_proxyExcludeList", [
         "proxy:\a3\data_f\proxies\passenger_low01\cargo.004",
         "proxy:\a3\data_f\proxies\passenger_low01\cargo.005",
         "proxy:\a3\data_f\proxies\gunner_standup01\cargo.006"
@@ -15,7 +15,7 @@
 }, true, [], true] call CBA_fnc_addClassEventHandler;
 
 ["B_T_VTOL_01_vehicle_F", "init", {
-    (_this select 0) setVariable ["RWYL_proxyBlacklist", [
+    (_this select 0) setVariable ["RWYL_proxyExcludeList", [
         "proxy:\a3\data_f\proxies\passenger_apc_generic04\cargo.003",
         "proxy:\a3\data_f\proxies\passenger_generic01_leanleft\cargo.004",
         "proxy:\a3\data_f\proxies\passenger_apc_narrow_generic02\cargo.005",
@@ -52,7 +52,7 @@
 }, true, [], true] call CBA_fnc_addClassEventHandler;
 
 ["O_T_VTOL_02_vehicle_dynamicLoadout_F", "init", {
-    (_this select 0) setVariable ["RWYL_proxyBlacklist", [
+    (_this select 0) setVariable ["RWYL_proxyExcludeList", [
         "proxy:\a3\data_f\proxies\passenger_generic01_leanleft\cargo01.001",
         "proxy:\a3\data_f\proxies\passenger_generic01_leanleft\cargo01.002",
         "proxy:\a3\data_f\proxies\passenger_generic01_leanleft\cargo01.003",
@@ -73,7 +73,7 @@
 }, true, [], true] call CBA_fnc_addClassEventHandler;
 
 ["Mortar_01_base_F", "init", {
-    (_this select 0) setVariable ["RWYL_proxyBlacklist", [
+    (_this select 0) setVariable ["RWYL_proxyExcludeList", [
         "proxy:\a3\data_f\proxies\mortar_01\cargo.001"
     ]];
 }, true, [], true] call CBA_fnc_addClassEventHandler;
@@ -91,7 +91,7 @@
 }, true, [], true] call CBA_fnc_addClassEventHandler;
 
 ["Offroad_01_armed_base_F", "init", {
-    (_this select 0) setVariable ["RWYL_proxyBlacklist", [
+    (_this select 0) setVariable ["RWYL_proxyExcludeList", [
         "proxy:\a3\data_f\proxies\passenger_flatground_leanright\cargo.003",
         "proxy:\a3\data_f\proxies\passenger_flatground_crosslegs\cargo.004",
         "proxy:\a3\data_f\proxies\passenger_flatground_leanleft\cargo.005"
@@ -99,7 +99,7 @@
 }, true, [], true] call CBA_fnc_addClassEventHandler;
 
 ["Van_02_vehicle_base_F", "init", {
-    (_this select 0) setVariable ["RWYL_proxyBlacklist", [
+    (_this select 0) setVariable ["RWYL_proxyExcludeList", [
         "proxy:\a3\data_f\proxies\passenger_flatground_crosslegs\cargo.002",
         "proxy:\a3\data_f\proxies\passenger_flatground_crosslegs\cargo.003",
         "proxy:\a3\data_f\proxies\passenger_flatground_crosslegs\cargo.004",
@@ -124,7 +124,7 @@
 }, true, [], true] call CBA_fnc_addClassEventHandler;
 
 ["Heli_Light_01_civil_base_F", "init", {
-    (_this select 0) setVariable ["RWYL_proxyBlacklist", [
+    (_this select 0) setVariable ["RWYL_proxyExcludeList", [
             "proxy:\a3\data_f\proxies\heli_light_01\cargo01.001",
             "proxy:\a3\data_f\proxies\heli_light_01\cargo01.002",
             "proxy:\a3\data_f\proxies\heli_light_01\cargo01.004",
@@ -133,7 +133,7 @@
 }, true, [], true] call CBA_fnc_addClassEventHandler;
 
 ["Heli_Light_01_armed_base_F", "init", {
-    (_this select 0) setVariable ["RWYL_proxyBlacklist", [
+    (_this select 0) setVariable ["RWYL_proxyExcludeList", [
         "proxy:\a3\data_f\proxies\heli_light_01\cargo01.001",
         "proxy:\a3\data_f\proxies\heli_light_01\cargo01.002",
         "proxy:\a3\data_f\proxies\heli_light_01\cargo01.004",
@@ -142,21 +142,21 @@
 }, true, [], true] call CBA_fnc_addClassEventHandler;
 
 ["Heli_Transport_03_base_F", "init", {
-    (_this select 0) setVariable ["RWYL_proxyBlacklist", [
+    (_this select 0) setVariable ["RWYL_proxyExcludeList", [
         "proxy:\a3\data_f\proxies\heli_transport_01\gunner.004",
         "proxy:\a3\data_f\proxies\heli_transport_01\gunner.005"
     ]];
 }, true, [], true] call CBA_fnc_addClassEventHandler;
 
 ["Heli_Transport_03_unarmed_base_F", "init", {
-    (_this select 0) setVariable ["RWYL_proxyBlacklist", [
+    (_this select 0) setVariable ["RWYL_proxyExcludeList", [
         "proxy:\a3\data_f\proxies\heli_transport_01\gunner.002",
         "proxy:\a3\data_f\proxies\heli_transport_01\gunner.001"
     ]];
 }, true, [], true] call CBA_fnc_addClassEventHandler;
 
 ["Truck_02_MRL_base_F", "init", {
-    (_this select 0) setVariable ["RWYL_proxyWhitelist", [
+    (_this select 0) setVariable ["RWYL_proxyIncludeList", [
         "proxy:gunner.001"
     ]];
 }, true, [], true] call CBA_fnc_addClassEventHandler;
