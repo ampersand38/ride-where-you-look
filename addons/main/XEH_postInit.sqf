@@ -63,3 +63,28 @@ if (!hasInterface) exitWith {};
     },{
     }, [45, [false, true, false]], false                  //, 0, true
 ] call CBA_fnc_addKeybind; // x
+
+[
+    "Ride Where You Look", "rwyl_main_holdRelease", "Show (Hold) and Select (Release)",{
+        if (visibleMap) exitWith {};
+        if (isNull curatorCamera) then {
+            [player] call rwyl_main_fnc_findSeat;
+        } else {
+            if (count (curatorSelected # 0) == 1) then {
+                private _unit = (curatorSelected # 0 # 0);
+                if (_unit isKindOf "CAManBase") then {
+                    [_unit] call rwyl_main_fnc_findSeat;
+                };
+            };
+        };
+    },{
+        if (isNull curatorCamera) then {
+            [player] call rwyl_main_fnc_moveSeat;
+        } else {
+            if (count (curatorSelected # 0) == 1) then {
+                [curatorSelected # 0 # 0] call rwyl_main_fnc_moveSeat;
+            };
+        };
+        rwyl_main_pfh_running = false;
+    }
+] call CBA_fnc_addKeybind; // x
