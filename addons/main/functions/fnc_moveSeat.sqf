@@ -1,6 +1,6 @@
 #include "script_component.hpp"
 /*
-Author: Ampers
+Author: Ampersand
 Move unit into vehicle seat near center of view
 
 * Arguments:

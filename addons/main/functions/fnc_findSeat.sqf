@@ -1,6 +1,6 @@
 #include "script_component.hpp"
 /*
-Author: Ampers
+Author: Ampersand
 PFH to show which seat the unit is looking at
 
 * Arguments:

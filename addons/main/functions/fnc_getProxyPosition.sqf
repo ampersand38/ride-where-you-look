@@ -1,6 +1,6 @@
 #include "script_component.hpp"
 /*
-Author: Ampers
+Author: Ampersand
 Return the position of the right angle vertex of the proxy
 
 * Arguments:

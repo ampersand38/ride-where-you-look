@@ -1,6 +1,6 @@
 #include "script_component.hpp"
 /*
-Author: Ampers
+Author: Ampersand
 Return the list of seat proxies
 
 * Arguments:
