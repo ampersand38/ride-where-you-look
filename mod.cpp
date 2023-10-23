@@ -1,12 +1,12 @@
 name = "Ride Where You look";
-picture = "logo_rwyl_ca.paa";
+picture = "logo_ampersand_ca.paa";
 actionName = "GitHub";
 action = "https://github.com/ampersand38/ride-where-you-look";
 description = "Pick your vehicle seat by looking.";
-logo = "logo_rwyl_ca.paa";
-logoOver = "logo_rwyl_ca.paa";
+logo = "logo_ampersand_ca.paa";
+logoOver = "logo_ampersand_ca.paa";
 tooltip = "Ride Where You look";
 tooltipOwned = "Ride Where You look";
 overview = "Pick your vehicle seat by looking.";
 author = "Ampersand";
-overviewPicture = "logo_rwyl_ca.paa";
+overviewPicture = "logo_ampersand_ca.paa";

@@ -72,7 +72,7 @@ dssignfile = ""
 prefix = "rwyl"
 pbo_name_prefix = "rwyl_"
 signature_blacklist = []
-importantFiles = ["mod.cpp", "README.md", "AUTHORS.txt", "LICENSE", "logo_rwyl_ca.paa"]
+importantFiles = ["mod.cpp", "README.md", "AUTHORS.txt", "LICENSE", "logo_ampersand_ca.paa"]
 versionFiles = ["README.md", "mod.cpp"]
 
 ciBuild = False # Used for CI builds
