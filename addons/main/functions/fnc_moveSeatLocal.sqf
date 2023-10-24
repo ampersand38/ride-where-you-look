@@ -50,7 +50,8 @@ Move unit into vehicle seat near center of view
 
 #define MOVE_IN_CODE(command) (_this select 0) command (_this select 1)
 
-params ["_unit", "_vehicle", "_proxy"];
+params ["_unit", "_vehicle", "_seat"];
+_seat params ["_proxy", "_icon", "_cargoIndex", "_turretPath", "_isFFV"];
 
 private _currentVehicle = vehicle _unit;
 
@@ -138,7 +139,8 @@ if (_mustMoveOut) then {
     _currentVehicle == _unit ||
     {_vehicle == _currentVehicle && {effectiveCommander _vehicle == _unit}}
 },{
-    params ["_unit", "_vehicle", "_proxy", "_mustMoveOut", ["_indexOrPath", nil]];
+    params ["_unit", "_vehicle", "_seat", "_mustMoveOut", ["_indexOrPath", nil]];
+    _seat params ["_proxy", "_selectionPosition", "_cargoIndex", "_turretPath", "_isFFV"];
 
     private _fnc_sendIntoCargoOrTurret = {
         params ["_unit", "_vehicle", "_mustMoveOut", ["_indexOrPath", nil]];
@@ -153,10 +155,6 @@ if (_mustMoveOut) then {
                 };
                 _unit action ["MoveToTurret", _vehicle, _indexOrPath];
             } else {
-                private _cargoIndexes = getArray (configOf _vehicle >> "cargoProxyIndexes");
-                if (_cargoIndexes isNotEqualTo []) then {
-                    _indexOrPath = _cargoIndexes find (_indexOrPath + 1);
-                };
                 if (isPlayer _unit) then {
                 } else {
                     unassignVehicle _unit;
@@ -210,44 +208,13 @@ if (_mustMoveOut) then {
     //private _canMove = !(_unit getVariable ["ACE_isUnconscious", false] || {_unit getVariable ["ace_captives_isHandcuffed", false]});
     // check seat type of proxy
     switch (true) do {
-        case ("cargo" in toLower _proxy): {
-            // get cargo index from proxy name
-            private _proxyIndex = parseNumber (_proxy select [(_proxy find ".") + 1]);
-            private _vehicleConfig = configOf _vehicle;
-            private _cargoIndexes = _vehicle getVariable ["RWYL_cargoProxyIndexes", []];
-            if (_cargoIndexes isEqualTo []) then {
-                _cargoIndexes = getArray (_vehicleConfig >> "cargoProxyIndexes");
-            };
-            private _indexOrPath = _cargoIndexes find _proxyIndex;
-
-            if (_indexOrPath == -1) then {
-                _indexOrPath = _proxyIndex - 1;
-            };
-            private _turretConfig = _vehicleConfig >> "Turrets" ;
-            {
-                if (_proxyIndex == (getNumber (_x >> "proxyIndex")) && {
-                "CPCargo" isEqualTo (getText (_x >> "proxyType"))}) then {
-                    _indexOrPath = [_forEachIndex];
-                };
-            } forEach (("true" configClasses _turretConfig));
-
-            [_unit, _vehicle, _mustMoveOut, _indexOrPath] call _fnc_sendIntoCargoOrTurret;
+        case (_turretPath isEqualType [] && {_turretPath isNotEqualTo []}): {
+            [_unit, _vehicle, _mustMoveOut, _turretPath] call _fnc_sendIntoCargoOrTurret;
         };
-        case ("gunner" in toLower _proxy): {
-            private _proxyIndex = parseNumber (_proxy select [(_proxy find ".") + 1]);
-
-            private _turretConfig = configOf _vehicle >> "Turrets" ;
-            {
-                if (_proxyIndex == (getNumber (_x >> "proxyIndex")) && {
-                "CPGunner" isEqualTo (getText (_x >> "proxyType"))}) then {
-                    _indexOrPath = [_forEachIndex];
-                };
-            } forEach (("true" configClasses _turretConfig));
-
-            [_unit, _vehicle, _mustMoveOut, _indexOrPath] call _fnc_sendIntoCargoOrTurret;
+        case (_cargoIndex > -1): {
+            [_unit, _vehicle, _mustMoveOut, _cargoIndex] call _fnc_sendIntoCargoOrTurret;
         };
-        case ("driver" in toLower _proxy);
-        case ("pilot" in toLower _proxy): {
+        case (_cargoIndex == -1): {
             if (_vehicle == vehicle _unit) exitWith {
                 _unit action ["MoveToDriver", _vehicle];
                 if (isPlayer _unit) then {

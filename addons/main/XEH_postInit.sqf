@@ -26,8 +26,6 @@ if (!hasInterface) exitWith {};
         };
     },{
         rwyl_main_pfh_running = false;
-        //rwyl_main_vehicle = nil;
-        //rwyl_main_proxy = nil;
     }, [29, [false, false, false]], false                  //, 0, true
 ] call CBA_fnc_addKeybind; // LCTRL
 

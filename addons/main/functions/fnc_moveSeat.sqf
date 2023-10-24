@@ -15,41 +15,7 @@ Move unit into vehicle seat near center of view
 
 params ["_unit"];
 
-if (isNull rwyl_main_vehicle) exitWith {}; // no vehicle
-
-if (rwyl_main_isSeatTaken || {rwyl_main_isSeatLocked}) then {
-    rwyl_main_proxy = ""; // Move into other empty seat
-} else {
-    if (isNil "rwyl_main_proxy") then {
-        private _sn = selectionNames rwyl_main_vehicle select {
-            private _proxy = toLower _x;
-            private _proxyIndex = _proxy select [(_proxy find ".") + 1];
-            // has non-zero selection position
-            !((rwyl_main_vehicle selectionPosition [_proxy, "FireGeometry", "AveragePoint"]) isEqualTo [0,0,0]) && {
-            // ends with a number after a period
-            ((parseNumber _proxyIndex > 0) || {_proxyIndex isEqualTo "0"}) && {
-            // contains seat role
-            (("cargo" in toLower _proxy) || {("gunner" in toLower _proxy) || {("driver" in toLower _proxy) ||
-            {("commander" in toLower _proxy) || {("pilot" in toLower _proxy)}}}})}}
-        };
-
-        //"no cargo proxies found in selectionNames"
-        if (_sn isEqualTo []) exitWith {false};
-
-        private _sp = _sn apply {rwyl_main_vehicle selectionPosition [_x, "FireGeometry", "AveragePoint"]};
-
-        private _screenPosArray = _sp apply {
-            private _w2s = worldToScreen (rwyl_main_vehicle modelToWorld _x);
-            if (_w2s isEqualTo []) then {
-                1000
-            } else {
-                ([getMousePosition, [0.5,0.5]] select (isNull curatorCamera && {isNil "ace_interact_menu_openedMenuType"})) distance2D _w2s
-            };
-        };
-
-        rwyl_main_proxy = _sn # (_screenPosArray findIf {_x == selectMin _screenPosArray});
-    };
-};
+if (isNull rwyl_main_vehicle || {GVAR(indexClosest) < 0}) exitWith {false}; // no vehicle
 
 // Check for drag, carry, escort
 if (isClass (configFile >> "CfgPatches" >> "ace_main")) then {
@@ -75,9 +41,9 @@ if (isClass (configFile >> "CfgPatches" >> "ace_main")) then {
 private _currentVehicle = vehicle _unit;
 private _isSameVehicle = rwyl_main_vehicle == _currentVehicle;
 // If same vehicle and selected seat is taken/locked then do nothing
-if (rwyl_main_proxy == "" && {_isSameVehicle}) exitWith {
+if (GVAR(CANCEL) && {_isSameVehicle}) exitWith {
     rwyl_main_vehicle = objNull;
-    rwyl_main_proxy = nil;
+    GVAR(seats) = nil;
 
     false
 };
@@ -89,9 +55,9 @@ if (_isSameVehicle && {_effectiveCommander != _unit}) then {
     ["rwyl_main_setEffectiveCommander", [_currentVehicle, _unit]] call CBA_fnc_globalEvent;
 };
 
-["rwyl_main_moveSeatLocal", [_unit, rwyl_main_vehicle, rwyl_main_proxy], _unit] call CBA_fnc_targetEvent;
+["rwyl_main_moveSeatLocal", [_unit, rwyl_main_vehicle, GVAR(seats) select GVAR(indexClosest)], _unit] call CBA_fnc_targetEvent;
 
 rwyl_main_vehicle = objNull;
-rwyl_main_proxy = nil;
+GVAR(seats) = nil;
 
 true
