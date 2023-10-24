@@ -84,7 +84,6 @@ if (isNull rwyl_main_vehicle) then {
 if (isNull rwyl_main_vehicle) exitWith {}; // no vehicle
 
 if (locked rwyl_main_vehicle in [2,3] && {_notInZeus}) exitWith { // locked
-    //hintSilent "Vehicle Locked";
     rwyl_main_vehicle = objNull;
 };
 
@@ -128,12 +127,44 @@ GVAR(indexClosest) = -1;
     };
 
     private _fullCrew = [rwyl_main_vehicle] call FUNC(fullCrew);
+    //private _unitCrewIndex = _fullCrew findIf {_unit == _x select 0};
+    //private _unitCompartment = if (_unitCrewIndex != -1) then { GVAR(seats) select _unitCrewIndex select 7 } else { "" };
     private _minDistance = 10000;
     private _indexClosest = -1;
     {
-        _x params ["_proxy", "_selectionPosition", "_cargoIndex", "_turretPath", "_isFFV", "_icon", "_seatName"];
+        _x params ["_proxy", "_selectionPosition", "_cargoIndex", "_turretPath", "_isFFV", "_icon", "_seatName", "_compartment"];
         if !(_proxy isEqualType "") then { continue; };
+        // Compartment check disabled due to some very silly configs e.g. Apex Van Ambulance
+        //if (_unitCompartment isNotEqualTo "" && {_unitCompartment isNotEqualTo _compartment}) then { continue; };
 
+        // Draw
+        private _continue = false;
+        private _text = localize _seatName;
+        if (_cargoIndex >= 0 && {_turretPath isEqualType 0}) then {
+            _text = format ["%1 %2", _text, _turretPath];
+            if (rwyl_main_vehicle lockedCargo _cargoIndex) then {
+                LOG_2("Locked cargo %1 %2",_cargoIndex,_turretPath);
+                _continue = true;
+            };
+        };
+        if (_cargoIndex == -1 && {lockedDriver rwyl_main_vehicle}) then {
+            LOG("Locked driver");
+            _continue = true;
+        };
+        if (_cargoIndex >= 0 && {_turretPath isEqualType []} && {_turretPath isNotEqualTo []} && {rwyl_main_vehicle lockedTurret _turretPath}) then {
+            LOG_2("Locked turret %1 %2",_cargoIndex,_turretPath);
+            _continue = true;
+        };
+        if (alive ((_fullCrew select _forEachIndex) select 0)) then {
+            LOG_2("Seat Taken %1 %2",_cargoIndex,_turretPath);
+            _continue = true;
+        };
+        if (_continue) then {
+            drawIcon3D [ICON_CANCELED, RWYL_OtherSeatsColour, rwyl_main_vehicle modelToWorldVisual _selectionPosition, 0.8, 0.8, 0, _text];
+            continue;
+        };
+
+        // Check closest
         private _w2s = worldToScreen (rwyl_main_vehicle modelToWorldVisual _selectionPosition);
         private _distance = if (_w2s isEqualTo []) then {
             1000
@@ -145,36 +176,14 @@ GVAR(indexClosest) = -1;
             _indexClosest = _forEachIndex;
         };
 
-        // Draw
-        private _text = localize _seatName;
-        if (_cargoIndex >= 0 && {_turretPath isEqualType 0}) then {
-            _text = format ["%1 %2", _text, _turretPath];
-            if (rwyl_main_vehicle lockedCargo _cargoIndex) then {
-                LOG_2("Locked cargo %1 %2",_cargoIndex,_turretPath);
-                _icon = ICON_CANCELED;
-            };
-        };
-        if (_cargoIndex == -1 && {lockedDriver rwyl_main_vehicle}) then {
-            LOG("Locked driver");
-            _icon = ICON_CANCELED;
-        };
-        if (_cargoIndex >= 0 && {_turretPath isEqualType []} && {_turretPath isNotEqualTo []} && {rwyl_main_vehicle lockedTurret _turretPath}) then {
-            LOG_2("Locked turret %1 %2",_cargoIndex,_turretPath);
-            _icon = ICON_CANCELED;
-        };
-        if (alive ((_fullCrew select _forEachIndex) select 0)) then {
-            LOG_2("Seat Taken %1 %2",_cargoIndex,_turretPath);
-            _icon = ICON_CANCELED;
-        };
-
         if (GVAR(indexClosest) == _forEachIndex) then {
-            GVAR(CANCEL) = (_icon == ICON_CANCELED);
             [RWYL_SelectedSeatColour, 1.0]
         } else {
             [RWYL_OtherSeatsColour, 0.8]
         } params ["_colour", "_size"];
 
         drawIcon3D [_icon, _colour, rwyl_main_vehicle modelToWorldVisual _selectionPosition, _size, _size, 0, _text];
+
     } forEach GVAR(seats);
 
     // no seat proxies on screen

@@ -17,6 +17,6 @@ params ["_vehicle"];
 
 fullCrew [_vehicle, "cargo", true] +
 fullCrew [_vehicle, "driver", true] +
-fullCrew [_vehicle, "commander", true] +
 fullCrew [_vehicle, "gunner", true] +
+fullCrew [_vehicle, "commander", true] +
 fullCrew [_vehicle, "turret", true]

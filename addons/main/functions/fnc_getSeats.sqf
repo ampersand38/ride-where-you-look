@@ -15,6 +15,8 @@ Return the list of seat proxies
 *       3: Turret path <ARRAY>
 *       4: Is FFV <BOOLEAN>
 *       5: Icon <STRING>
+*       6: Seat Name <STRING>
+*       7: Compartment <STRING>
 *
 * Example:
 * [_vehicle] call rwyl_main_fnc_getSeats
@@ -25,18 +27,22 @@ params ["_vehicle"];
 GVAR(proxyCache) getOrDefaultCall [typeOf _vehicle, {
 
 // Which proxy index in order of cargo index
+private _vehicleCfg = configOf _vehicle;
 private _seatsC = fullCrew [_vehicle, "cargo", true];
-private _cargoProxyIndexes = getArray (configOf _vehicle >> "cargoProxyIndexes");
-if (_cargoProxyIndexes isNotEqualTo []) then {
-    {
+private _cargoProxyIndexes = getArray (_vehicleCfg >> "cargoProxyIndexes");
+private _cargoCompartments = getArray (_vehicleCfg >> "cargoCompartments");
+{
+    if (_cargoProxyIndexes isNotEqualTo []) then {
         _x set [2, _foreachIndex];
         _x set [3, _cargoProxyIndexes select _foreachIndex];
-    } forEach _seatsC;
-};
+    };
+    _x pushBack (_cargoCompartments param [_forEachIndex, _cargoCompartments param [0, ""]]);
+} forEach _seatsC;
 
 private _seatsD = fullCrew [_vehicle, "driver", true];
-private _seatsG = fullCrew [_vehicle, "gunner", true] + fullCrew [_vehicle, "turret", true] + fullCrew [_vehicle, "commander", true];
+_seatsD select 0 pushBack getText (_vehicleCfg >> "driverCompartments");
 
+private _seatsG = fullCrew [_vehicle, "gunner", true] + fullCrew [_vehicle, "commander", true] + fullCrew [_vehicle, "turret", true];
 {
     private _seat = _x;
     //["_unit", "_role", "_cargoIndex", "_turretPath", "isFFV", "_assignedUnit", "_positionName"]
@@ -44,6 +50,7 @@ private _seatsG = fullCrew [_vehicle, "gunner", true] + fullCrew [_vehicle, "tur
     _turretsCfg = [_vehicle, _turretPath] call CBA_fnc_getTurret;
     _seat set [1, getText (_turretsCfg >> "proxyType")];
     _seat set [2, getNumber (_turretsCfg >> "proxyIndex")];
+    _seat pushBack getText (_turretsCfg >> "gunnerCompartments");
 } forEach _seatsG;
 
 if (_seatsC isEqualTo [] && {_seatsD isEqualTo []} && {_seatsG isEqualTo []}) exitWith { [] };
@@ -60,23 +67,23 @@ if (_seatsC isEqualTo [] && {_seatsD isEqualTo []} && {_seatsG isEqualTo []}) ex
         _role = {
             if (_x in _role) exitWith {
                 _x
-            };
+            }
         } forEach PROXY_TYPES;
     };
 
     switch (_role) do {
         //["_unit", "_role", "_cargoIndex", "_turretPath", "isFFV", "_assignedUnit", "_positionName"]
         case "cargo": {
-            LOG_3("%1 %2 %3",_role,_proxyIndex,_x);
+            LOG_3("%1 %2 %3 %4",_role,_proxyIndex,_x,_seatIndex);
             private _seatIndex = _seatsG findIf {_x select 1 == "CPCargo" && {_proxyIndex == (_x select 2)}};
             if (_seatIndex >= 0) then { // FFV
                 (_seatsG select _seatIndex) set [0, _proxy];
                 (_seatsG select _seatIndex) set [5, ICON_GUNNER];
                 continue;
             };
-            _seatIndex = _seatsC findIf {
-                _proxyIndex == (_x select 3)
-                || {_proxyIndex == (_x select 2) + 1}
+            _seatIndex = _seatsC findIf {_proxyIndex isEqualTo (_x select 3)};
+            if (_seatIndex == -1) then {
+                _seatIndex = _seatsC findIf {_proxyIndex isEqualTo (_x select 2) + 1};
             };
             if (_seatIndex >= 0) then {
                 (_seatsC select _seatIndex) set [0, _proxy];
