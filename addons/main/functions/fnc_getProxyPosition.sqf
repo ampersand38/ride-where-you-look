@@ -14,7 +14,8 @@ Return the position of the right angle vertex of the proxy
 * [_vehicle, _proxy] call rwyl_main_fnc_getProxyPosition
 */
 
-params ["_vehicle", "_proxy"];
+params [["_vehicle", objNull], ["_proxy", ""]];
+if !(_proxy isEqualType "") exitWith { [0,0,0] };
 
 private _firstPoint = _vehicle selectionPosition [_proxy, LOD_FIREGEO, "FirstPoint"];
 private _averagePoint = _vehicle selectionPosition [_proxy, LOD_FIREGEO, "AveragePoint"];

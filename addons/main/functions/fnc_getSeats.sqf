@@ -50,8 +50,8 @@ if (_seatsC isEqualTo [] && {_seatsD isEqualTo []} && {_seatsG isEqualTo []}) ex
 
 {
     private _proxy = _x;
-    private _parts = toLower _proxy splitString "\.";
-    if (_parts select 0 isNotEqualTo "proxy:") then { continue; };
+    private _parts = toLower _proxy splitString ":\.";
+    if (_parts select 0 isNotEqualTo "proxy") then { continue; };
     private _role = _parts select -2;
     private _proxyIndex = parseNumber (_parts select -1);
 

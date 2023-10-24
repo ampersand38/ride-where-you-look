@@ -92,16 +92,16 @@ if (locked rwyl_main_vehicle in [2,3] && {_notInZeus}) exitWith { // locked
 private _hopVehicle = !_isOnFoot && {(_currentVehicle != rwyl_main_vehicle) && {_notInZeus}};
 if (_hopVehicle) then {
     _sn = _sn select {
-        ([rwyl_main_vehicle, _x] call FUNC(getProxyPosition)) distance (rwyl_main_vehicle worldToModel getPos _unit) < RWYL_HopVehicleRange
+        ([rwyl_main_vehicle, _x select 0] call FUNC(getProxyPosition)) distance (rwyl_main_vehicle worldToModel getPos _unit) < RWYL_HopVehicleRange
     };
 };
 rwyl_main_vehicle_distance = (_unit distance rwyl_main_vehicle) + RWYL_HopVehicleRange;
 
 GVAR(seats) = [rwyl_main_vehicle] call FUNC(getSeats);
 {
+    if !(_proxy isEqualType "") then { continue; };
     _x set [1, [rwyl_main_vehicle, _x select 0] call FUNC(getProxyPosition)];
 } forEach GVAR(seats);
-LOG_1("%1",GVAR(seats) joinString endl);
 
 rwyl_main_pfh_running = true;
 GVAR(indexClosest) = -1;
@@ -132,6 +132,7 @@ GVAR(indexClosest) = -1;
     private _indexClosest = -1;
     {
         _x params ["_proxy", "_selectionPosition", "_cargoIndex", "_turretPath", "_isFFV", "_icon", "_seatName"];
+        if !(_proxy isEqualType "") then { continue; };
 
         private _w2s = worldToScreen (rwyl_main_vehicle modelToWorldVisual _selectionPosition);
         private _distance = if (_w2s isEqualTo []) then {
@@ -145,16 +146,24 @@ GVAR(indexClosest) = -1;
         };
 
         // Draw
-        if (_cargoIndex >= 0 && {_turretPath isEqualType []} && {rwyl_main_vehicle lockedCargo _cargoIndex}) then {
-            _icon = ICON_CANCELED;
+        private _text = localize _seatName;
+        if (_cargoIndex >= 0 && {_turretPath isEqualType 0}) then {
+            _text = format ["%1 %2", _text, _turretPath];
+            if (rwyl_main_vehicle lockedCargo _cargoIndex) then {
+                LOG_2("Locked cargo %1 %2",_cargoIndex,_turretPath);
+                _icon = ICON_CANCELED;
+            };
         };
         if (_cargoIndex == -1 && {lockedDriver rwyl_main_vehicle}) then {
+            LOG("Locked driver");
             _icon = ICON_CANCELED;
         };
         if (_cargoIndex >= 0 && {_turretPath isEqualType []} && {_turretPath isNotEqualTo []} && {rwyl_main_vehicle lockedTurret _turretPath}) then {
+            LOG_2("Locked turret %1 %2",_cargoIndex,_turretPath);
             _icon = ICON_CANCELED;
         };
         if (alive ((_fullCrew select _forEachIndex) select 0)) then {
+            LOG_2("Seat Taken %1 %2",_cargoIndex,_turretPath);
             _icon = ICON_CANCELED;
         };
 
@@ -164,7 +173,8 @@ GVAR(indexClosest) = -1;
         } else {
             [RWYL_OtherSeatsColour, 0.8]
         } params ["_colour", "_size"];
-        drawIcon3D [_icon, _colour, rwyl_main_vehicle modelToWorldVisual _selectionPosition, _size, _size, 0, localize _seatName];
+
+        drawIcon3D [_icon, _colour, rwyl_main_vehicle modelToWorldVisual _selectionPosition, _size, _size, 0, _text];
     } forEach GVAR(seats);
 
     // no seat proxies on screen
