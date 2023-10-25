@@ -6,7 +6,7 @@ ADDON = false;
 
 #include "initSettings.sqf"
 
-rwyl_main_vehicle_distance = -1;
+GVAR(distance) = -1;
 GVAR(proxyCache) = createHashMap;
 
 ADDON = true;

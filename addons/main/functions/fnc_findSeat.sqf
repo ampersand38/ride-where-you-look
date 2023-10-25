@@ -10,9 +10,10 @@ PFH to show which seat the unit is looking at
 * -
 
 * Example:
-* [player] call rwyl_main_fnc_findSeat
+* [player] call rwyl_main_fnc_showSeats
 */
 
+if (visibleMap) exitWith {};
 params ["_unit"];
 
 // get vehicle
@@ -20,6 +21,7 @@ private _notInZeus = isNull curatorCamera;
 private _currentVehicle = vehicle _unit;
 private _isOnFoot = _currentVehicle == _unit;
 
+private _posFront = positionCameraToWorld [0, 5, 0];
 private _fnc_nearestOnScreen = {
     params ["_reference", "_entities"];
 
@@ -27,7 +29,7 @@ private _fnc_nearestOnScreen = {
     private _indexClosest = -1;
     { // Get closest to center of screen
         if (0 < (count fullCrew [_x, "", true])) then {
-            private _w2s = worldToScreen (getPos _x);
+            private _w2s = worldToScreen (ASLToAGL getPosWorld _x);
             private _distance = if (_w2s isEqualTo []) then {
                 1000
             } else {
@@ -49,7 +51,7 @@ private _fnc_nearestOnScreen = {
 // check parentVehicle and nearEntities
 rwyl_main_vehicle = if (_notInZeus) then {
     if (_isOnFoot) then {
-        private _entities = ((_unit modelToWorld [0, 1.5, 0]) nearEntities ["AllVehicles", 1.5]);
+        private _entities = (_posFront nearEntities ["AllVehicles", 5]);
         [[0.5,0.5], _entities] call _fnc_nearestOnScreen;
     } else {
         objNull
@@ -83,9 +85,7 @@ if (isNull rwyl_main_vehicle) then {
 // exit checks
 if (isNull rwyl_main_vehicle) exitWith {}; // no vehicle
 
-if (locked rwyl_main_vehicle in [2,3] && {_notInZeus}) exitWith { // locked
-    rwyl_main_vehicle = objNull;
-};
+if (locked rwyl_main_vehicle in [2,3] && {_notInZeus}) exitWith { rwyl_main_vehicle = objNull; }; // locked
 
 // hop vehicle filter for near proxies
 private _hopVehicle = !_isOnFoot && {(_currentVehicle != rwyl_main_vehicle) && {_notInZeus}};
@@ -94,13 +94,24 @@ if (_hopVehicle) then {
         ([rwyl_main_vehicle, _x select 0] call FUNC(getProxyPosition)) distance (rwyl_main_vehicle worldToModel getPos _unit) < RWYL_HopVehicleRange
     };
 };
-rwyl_main_vehicle_distance = (_unit distance rwyl_main_vehicle) + RWYL_HopVehicleRange;
+GVAR(distance) = (_unit distance rwyl_main_vehicle) + RWYL_HopVehicleRange;
 
 GVAR(seats) = [rwyl_main_vehicle] call FUNC(getSeats);
 {
-    if !(_proxy isEqualType "") then { continue; };
-    _x set [1, [rwyl_main_vehicle, _x select 0] call FUNC(getProxyPosition)];
+    _x set [SEAT_SELPOS, [rwyl_main_vehicle, _x select SEAT_PROXYLOD] call FUNC(getProxyPosition)];
 } forEach GVAR(seats);
+
+private _fullCrew = [rwyl_main_vehicle] call FUNC(fullCrew);
+private _unitCrewIndex = _fullCrew findIf {_unit == _x select 0};
+private _isUnitLocked = _notInZeus
+    && {(_unitCrewIndex != -1)}
+    && {
+        GVAR(seats) select _unitCrewIndex params ["", "", "_cargoIndex", "_turretPath"];
+        _turretPath isEqualTo [] && {lockedDriver rwyl_main_vehicle}
+        || {(_turretPath isEqualType []) && {rwyl_main_vehicle lockedTurret _turretPath}}
+        || {(_turretPath isEqualType 0) && {rwyl_main_vehicle lockedCargo _cargoIndex}}
+    };
+if (_isUnitLocked) exitWith { rwyl_main_vehicle = objNull; };
 
 rwyl_main_pfh_running = true;
 GVAR(indexClosest) = -1;
@@ -109,12 +120,12 @@ GVAR(indexClosest) = -1;
 
     if (
         !rwyl_main_pfh_running
-        || { // Hop vehicle target is too far
-            rwyl_main_vehicle_distance > 0 && {_unit distance rwyl_main_vehicle > rwyl_main_vehicle_distance}
-        }
+        // Hop vehicle target is too far
+        || {GVAR(distance) > 0 && {_unit distance rwyl_main_vehicle > GVAR(distance)}}
+        || {!alive _unit} || {!alive rwyl_main_vehicle}
     ) exitWith {
         [_pfID] call CBA_fnc_removePerFrameHandler;
-        rwyl_main_vehicle_distance = -1;
+        GVAR(distance) = -1;
     };
 
     private _reference = if (
@@ -132,57 +143,51 @@ GVAR(indexClosest) = -1;
     private _minDistance = 10000;
     private _indexClosest = -1;
     {
-        _x params ["_proxy", "_selectionPosition", "_cargoIndex", "_turretPath", "_isFFV", "_icon", "_seatName", "_compartment"];
-        if !(_proxy isEqualType "") then { continue; };
+        _x params ["_id", "_role", "_cargoIndex", "_turretPath", "_proxyIndex", "_actionIndex", "_seatName", "_proxyLOD", "_selectionPosition", "_icon", "_compartment"];
+
+        // Intentionally hidden
+        if (_proxyLOD isEqualTo false) then { continue; };
+        // Did not find proxy for seat
+        if (_proxyLOD isEqualTo []) then {
+            _icon = if (_turretPath isEqualType 0) then {
+                ICON_CARGO
+            } else {
+                if (_turretPath isEqualTo []) then { ICON_DRIVER } else { ICON_GUNNER }
+            };
+        };
+
         // Compartment check disabled due to some very silly configs e.g. Apex Van Ambulance
         //if (_unitCompartment isNotEqualTo "" && {_unitCompartment isNotEqualTo _compartment}) then { continue; };
 
-        // Draw
         private _continue = false;
-        private _text = localize _seatName;
-        if (_cargoIndex >= 0 && {_turretPath isEqualType 0}) then {
-            _text = format ["%1 %2", _text, _turretPath];
-            if (rwyl_main_vehicle lockedCargo _cargoIndex) then {
-                LOG_2("Locked cargo %1 %2",_cargoIndex,_turretPath);
-                _continue = true;
-            };
-        };
-        if (_cargoIndex == -1 && {lockedDriver rwyl_main_vehicle}) then {
-            LOG("Locked driver");
-            _continue = true;
-        };
-        if (_cargoIndex >= 0 && {_turretPath isEqualType []} && {_turretPath isNotEqualTo []} && {rwyl_main_vehicle lockedTurret _turretPath}) then {
-            LOG_2("Locked turret %1 %2",_cargoIndex,_turretPath);
-            _continue = true;
-        };
-        if (alive ((_fullCrew select _forEachIndex) select 0)) then {
-            LOG_2("Seat Taken %1 %2",_cargoIndex,_turretPath);
-            _continue = true;
-        };
+        // Blocked
+        if (alive ((_fullCrew select _forEachIndex) select 0)) then { _continue = true; };
+        // Locked
+        if (!_continue && {_turretPath isEqualTo -1} && {rwyl_main_vehicle lockedCargo _cargoIndex}) then { _continue = true; };
+        if (!_continue && {_turretPath isEqualTo []} && {lockedDriver rwyl_main_vehicle}) then { _continue = true; };
+        if (!_continue && {_turretPath isEqualType []} && {rwyl_main_vehicle lockedTurret _turretPath}) then { _continue = true; };
         if (_continue) then {
-            drawIcon3D [ICON_CANCELED, RWYL_OtherSeatsColour, rwyl_main_vehicle modelToWorldVisual _selectionPosition, 0.8, 0.8, 0, _text];
+            drawIcon3D [ICON_CANCEL, RWYL_OtherSeatsColour, rwyl_main_vehicle modelToWorldVisual _selectionPosition, RWYL_OtherSeatsIconSize, RWYL_OtherSeatsIconSize, 0, _seatName];
             continue;
         };
 
         // Check closest
         private _w2s = worldToScreen (rwyl_main_vehicle modelToWorldVisual _selectionPosition);
-        private _distance = if (_w2s isEqualTo []) then {
-            1000
-        } else {
-            _reference distance2D _w2s
-        };
+        if (_w2s isEqualTo []) then { continue; }; // Not on screen
+        private _distance = _reference distance2D _w2s;
         if (_distance < _minDistance) then {
             _minDistance = _distance;
             _indexClosest = _forEachIndex;
         };
 
         if (GVAR(indexClosest) == _forEachIndex) then {
-            [RWYL_SelectedSeatColour, 1.0]
+            GVAR(selectedSeat) = [rwyl_main_vehicle, _role, _indexOrPath];
+            [RWYL_SelectedSeatColour, RWYL_SelectedSeatIconSize]
         } else {
-            [RWYL_OtherSeatsColour, 0.8]
+            [RWYL_OtherSeatsColour, RWYL_OtherSeatsIconSize]
         } params ["_colour", "_size"];
 
-        drawIcon3D [_icon, _colour, rwyl_main_vehicle modelToWorldVisual _selectionPosition, _size, _size, 0, _text];
+        drawIcon3D [_icon, _colour, rwyl_main_vehicle modelToWorldVisual _selectionPosition, _size, _size, 0, _seatName];
 
     } forEach GVAR(seats);
 
@@ -196,7 +201,7 @@ GVAR(indexClosest) = -1;
 }, 0, _unit] call CBA_fnc_addPerFrameHandler;
 
 /*
-// draw proxies
+// Draw proxies
 v = ([[curatorSelected # 0 # 0, [vehicle player, cursorObject] select (vehicle player == player)] select isNull curatorCamera, (get3DENSelected "" # 0 # 0)] select is3DEN);
 onEachFrame {
     {
@@ -205,4 +210,24 @@ onEachFrame {
         !((v selectionPosition [_x, "FireGeometry", "AveragePoint"]) isEqualTo [0,0,0])
     });
 };
+
+// Vehicle info
+rwyl_main_proxyCache = createHashMap;
+_v = call amp_fnc_gv;
+_r = [];
+_r = _r + [_v] call rwyl_main_fnc_fullCrew;
+_r = _r + ((_v selectionNames "firegeometry") select {"proxy" in _x});
+_r = _r + ([_v] call rwyl_main_fnc_getSeats);
+
+copyToClipboard (_r joinString endl);
+_r;
+
+// Move player
+_v = call amp_fnc_gv;
+_index = 10;
+if (objectParent player == _v) then {
+player action ["moveToCargo", _v, _index];
+} else {
+player moveInCargo [_v, _index];
+}
 */

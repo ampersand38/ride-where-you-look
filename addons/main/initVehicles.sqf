@@ -1,11 +1,14 @@
-// Proxy tweaks: blacklist, whitelist, index
-#include "mods\a3.sqf"
-#include "mods\rhsusaf.sqf"
-#include "mods\rhsafrf.sqf"
-#include "mods\cup.sqf"
-#include "mods\3cb.sqf"
-#include "mods\h60.sqf"
-#include "mods\vme_pla.sqf"
+// Tweaks
+
+["rhsusf_M1117_base", "init", {
+    {
+        (_this select 0) setVariable _x;
+    } forEach [
+        ["RWYL_cargoActionIndexes", [0, 1, 2, 3]],
+        ["RWYL_cargoIndexes", [2, 3, 4, 5]],
+        ["RWYL_cargoProxyIndexes", [1, 2, 3, 4]]
+    ];
+}, true, [], true] call CBA_fnc_addClassEventHandler;
 
 /*
 // get seat proxies

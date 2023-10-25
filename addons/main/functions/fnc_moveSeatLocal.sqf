@@ -1,63 +1,94 @@
 #include "script_component.hpp"
 /*
-Author: Ampersand
-Move unit into vehicle seat near center of view
-
+* Author: Ampersand
+* Move local unit into new seat
+*
 * Arguments:
 * 0: Unit <OBJECT>
-* 1: Vehicle <OBJECT>
-* 2: Proxy <STRING>
+* 1: Move Action <ARRAY>
+*   1: Action Name <STRING>
+*   2: Vehicle <OBJECT>
+*   3: Index/Path <NUMBER|ARRAY>
+* 2: Back Action <ARRAY>
+*   1: Action Name <STRING>
+*   2: Vehicle <OBJECT>
+*   3: Index/Path <NUMBER|ARRAY>
 *
 * Return Value:
 * -
-
-* Exrwylle:
-* [player, vehicle player, "proxy:\a3\data_f\proxies\passenger_low01\cargo.001"] call rwyl_main_fnc_moveSeatLocal
-* [player, cursorObject, ""] call rwyl_main_fnc_moveSeatLocal
+*
 */
 
-#define TAKEN_SEAT_TIMEOUT 0.5
 
-#define TO_COMPARTMENT_STRING(var) if !(var isEqualType "") then {var = format [ARR_2("Compartment%1",var)]}
+params ["_unit", "_moveAction", ["_backAction", []]];
+_moveAction params ["_actionName", "_vehicle", ["_indexOrPath", "driver"]];
 
-// if unit isn't moved to new seat in TAKEN_SEAT_TIMEOUT, we move him back to his seat
-#define WAIT_IN_OR_MOVE_BACK \
-    [ARR_5( \
-        {!isNull objectParent (_this select 0)}, \
-        { \
-            LOG_1("moved in after %1 frames",diag_frameno-GVAR(frame)); \
-            (_this select 0) enableSimulation true; \
-        }, \
-        [ARR_3(_unit,_moveBackCode,_moveBackParams)], \
-        TAKEN_SEAT_TIMEOUT, \
-        { \
-            params [ARR_3("_unit","_moveBackCode","_moveBackParams")]; \
-            WARNING_1("failed move in after %1 frames",diag_frameno-GVAR(frame)); \
-            [ARR_2(_unit,_moveBackParams)] call _moveBackCode; \
-            localize "str_mis_state_failed" call ace_common_fnc_displayTextStructured; \
-            _unit enableSimulation true; \
-        } \
-    )] call CBA_fnc_waitUntilAndExecute;
+/*
+if (_actionName select [0, 1] == "M") then {
+    private _effectiveCommander = _vehicle;
 
-#define IS_MOVED_OUT \
-( \
-    isNull objectParent _unit \
-    && { \
-        [] isEqualTo _currentTurret \
-        || {local _vehicle isEqualTo (_vehicle turretLocal _currentTurret)} \
-    } \
-)
+    if (_effectiveCommander != GVAR(unit)) then {
+        GVAR(currentVehicle) setVariable [QGVAR(setEffectiveCommander), _effectiveCommander, true];
+        [QGVAR(setEffectiveCommander), [GVAR(currentVehicle), GVAR(unit)]] call CBA_fnc_globalEvent;
+    };
+};
+*/
 
-#define MOVE_IN_CODE(command) (_this select 0) command (_this select 1)
+if (!local _unit) exitWith {
+    [QGVAR(moveSeatLocal), _this, GVAR(unit)] call CBA_fnc_targetEvent;
+};
 
-params ["_unit", "_vehicle", "_seat"];
-_seat params ["_proxy", "_icon", "_cargoIndex", "_turretPath", "_isFFV"];
+if (!isPlayer _unit) then {
+    unassignVehicle _unit;
+    if (_indexOrPath isEqualType 0) then { _unit assignAsCargoIndex [_vehicle, _indexOrPath];  [_unit] orderGetIn true;};
+    if (_indexOrPath isEqualType "") then { _unit assignAsDriver _vehicle; [_unit] orderGetIn true;};
+    if (_indexOrPath isEqualType []) then { _unit assignAsTurret [_vehicle, _indexOrPath];  [_unit] orderGetIn true;};
+};
 
 private _currentVehicle = vehicle _unit;
+if (_backAction isEqualTo []) exitWith {
+    if ((_actionName select [0, 1]) == "M" && {_currentVehicle == _unit}) then {
+        _unit moveInAny _vehicle;
+    };
+    _unit action _moveAction;
+};
 
-// Other Vehicle
-private _mustMoveOut = _unit != _currentVehicle && {_vehicle != _currentVehicle};
+_unit enableSimulation false;
+private _preserveEngineOn = _unit == driver _currentVehicle && {isEngineOn _currentVehicle};
+moveOut _unit;
+if (_preserveEngineOn) then {_currentVehicle engineOn true};
 
+[{
+    params ["_unit", "_moveAction"];
+    _moveAction params ["", "_vehicle"];
+
+    private _currentVehicle = vehicle _unit;
+    // Move in new vehicle
+    _currentVehicle == _unit
+    // Change seat in current vehicle
+    //|| {_vehicle == _currentVehicle && {effectiveCommander _vehicle == _unit}}
+}, {
+    params ["_unit", "_moveAction"];
+    _moveAction params ["", "_vehicle"];
+
+    _unit moveInAny _vehicle;
+    [{
+        params ["_unit", "_moveAction"];
+        _unit action _moveAction;
+        systemChat str _moveAction;
+    }, _this, 1] call CBA_fnc_waitAndExecute;
+    _unit enableSimulation true;
+    //if (!isPlayer _unit) then { [_unit] orderGetIn true; };
+
+}, _this, 1 , {
+    params ["_unit", "", "_backAction"];
+    _backAction params ["", "_currentVehicle"];
+    _unit moveInAny _currentVehicle;
+    _unit action _backAction;
+}] call CBA_fnc_waitUntilAndExecute;
+
+true
+/*
 // Check if unit needs to be moved out of current vehicle
 if (_mustMoveOut) then {
     private ["_driverCompartments", "_isDriverIsolated", "_cargoCompartments", "_cargoCompartmentsLast", "_compartment", "_currentTurret", "_moveBackCode", "_moveBackParams"];
@@ -133,87 +164,78 @@ if (_mustMoveOut) then {
     ] call CBA_fnc_waitUntilAndExecute;
 };
 
-[{
-    params ["_unit", "_vehicle"];
-    private _currentVehicle = vehicle _unit;
-    _currentVehicle == _unit ||
-    {_vehicle == _currentVehicle && {effectiveCommander _vehicle == _unit}}
-},{
-    params ["_unit", "_vehicle", "_seat", "_mustMoveOut", ["_indexOrPath", nil]];
-    _seat params ["_proxy", "_selectionPosition", "_cargoIndex", "_turretPath", "_isFFV"];
 
-    private _fnc_sendIntoCargoOrTurret = {
-        params ["_unit", "_vehicle", "_mustMoveOut", ["_indexOrPath", nil]];
+/*
 
-        if (_vehicle == vehicle _unit) exitWith {
-            if (_indexOrPath isEqualType []) then {
-                if (isPlayer _unit) then {
-                } else {
-                    unassignVehicle _unit;
-                    _unit assignAsTurret [_vehicle, _indexOrPath];
-                    [_unit] orderGetIn true;
-                };
-                _unit action ["MoveToTurret", _vehicle, _indexOrPath];
+    if (_vehicle == vehicle _unit) exitWith {
+        if (_indexOrPath isEqualType []) then {
+            if (isPlayer _unit) then {
             } else {
-                if (isPlayer _unit) then {
-                } else {
-                    unassignVehicle _unit;
-                    _unit assignAsCargoIndex [_vehicle, _indexOrPath];
-                    [_unit] orderGetIn true;
-                };
-                _unit action ["MoveToCargo", _vehicle, _indexOrPath];
+                _unit assignAsTurret [_vehicle, _indexOrPath];
+                [_unit] orderGetIn true;
             };
-        };
-        if (_mustMoveOut || {_unit distance _vehicle > RWYL_HopVehicleRange} || {speed _vehicle > 5}) then {
-            if (_indexOrPath isEqualType []) then {
-                if (isPlayer _unit) then {
-                } else {
-                    unassignVehicle _unit;
-                    _unit assignAsTurret [_vehicle, _indexOrPath];
-                    [_unit] orderGetIn true;
-                };
-                _unit moveInTurret [_vehicle, _indexOrPath];
+            _unit action ["MoveToTurret", _vehicle, _indexOrPath];
+        } else {
+            if (isPlayer _unit) then {
             } else {
-                if (isPlayer _unit) then {
-                } else {
-                    unassignVehicle _unit;
-                    _unit assignAsCargoIndex [_vehicle, _indexOrPath];
-                    [_unit] orderGetIn true;
-                };
-                _unit moveInCargo [_vehicle, _indexOrPath];
+                unassignVehicle _unit;
+                _unit assignAsCargoIndex [_vehicle, _indexOrPath];
+                [_unit] orderGetIn true;
+            };
+            _unit action ["MoveToCargo", _vehicle, _indexOrPath];
+        };
+    };
+    if (_mustMoveOut || {_unit distance _vehicle > RWYL_HopVehicleRange} || {speed _vehicle > 5}) then {
+        if (_indexOrPath isEqualType []) then {
+            if (isPlayer _unit) then {
+            } else {
+                unassignVehicle _unit;
+                _unit assignAsTurret [_vehicle, _indexOrPath];
+                [_unit] orderGetIn true;
+            };
+            _unit moveInTurret [_vehicle, _indexOrPath];
+        } else {
+            if (isPlayer _unit) then {
+            } else {
+                unassignVehicle _unit;
+                _unit assignAsCargoIndex [_vehicle, _indexOrPath];
+                [_unit] orderGetIn true;
+            };
+            _unit moveInCargo [_vehicle, _indexOrPath];
+        };
+    } else {
+        if (_indexOrPath isEqualType []) then {
+            if (isPlayer _unit) then {
+                _unit action ["GetInTurret", _vehicle, _indexOrPath];
+            } else {
+                unassignVehicle _unit;
+                _unit assignAsTurret [_vehicle, _indexOrPath];
+                [_unit] orderGetIn true;
+                _unit moveInTurret [_vehicle, _indexOrPath];
             };
         } else {
-            if (_indexOrPath isEqualType []) then {
-                if (isPlayer _unit) then {
-                    _unit action ["GetInTurret", _vehicle, _indexOrPath];
-                } else {
-                    unassignVehicle _unit;
-                    _unit assignAsTurret [_vehicle, _indexOrPath];
-                    [_unit] orderGetIn true;
-                    _unit moveInTurret [_vehicle, _indexOrPath];
-                };
+            if (isPlayer _unit) then {
+                _unit action ["GetInCargo", _vehicle, _indexOrPath];
             } else {
-                if (isPlayer _unit) then {
-                    _unit action ["GetInCargo", _vehicle, _indexOrPath];
-                } else {
-                    unassignVehicle _unit;
-                    _unit assignAsCargoIndex [_vehicle, _indexOrPath];
-                    [_unit] orderGetIn true;
-                    _unit moveInCargo [_vehicle, _indexOrPath];
-                };
+                unassignVehicle _unit;
+                _unit assignAsCargoIndex [_vehicle, _indexOrPath];
+                [_unit] orderGetIn true;
+                _unit moveInCargo [_vehicle, _indexOrPath];
             };
         };
     };
 
-    //private _canMove = !(_unit getVariable ["ACE_isUnconscious", false] || {_unit getVariable ["ace_captives_isHandcuffed", false]});
     // check seat type of proxy
     switch (true) do {
+        // Turret
         case (_turretPath isEqualType [] && {_turretPath isNotEqualTo []}): {
             [_unit, _vehicle, _mustMoveOut, _turretPath] call _fnc_sendIntoCargoOrTurret;
         };
-        case (_cargoIndex > -1): {
-            [_unit, _vehicle, _mustMoveOut, _cargoIndex] call _fnc_sendIntoCargoOrTurret;
+        // Cargo
+        case (_turretPath isEqualType 0): {
+            [_unit, _vehicle, _mustMoveOut, if (_cargoActionIndex == -1) then {_cargoIndex} else {_cargoActionIndex}] call _fnc_sendIntoCargoOrTurret;
         };
+        // Driver
         case (_cargoIndex == -1): {
             if (_vehicle == vehicle _unit) exitWith {
                 _unit action ["MoveToDriver", _vehicle];
@@ -289,13 +311,5 @@ if (_mustMoveOut) then {
         };
     };
 
-    _unit enableSimulation true;
-    private _effectiveCommander = _vehicle getVariable ["rwyl_main_effectiveCommander", objNull];
-    if (!isNull _effectiveCommander) then {
-        ["rwyl_main_setEffectiveCommander", [_currentVehicle, _effectiveCommander]] call CBA_fnc_globalEvent;
-        _currentVehicle setVariable ["rwyl_main_effectiveCommander", objNull, true];
-    };
 
-}, _this + [_mustMoveOut], 1] call CBA_fnc_waitUntilAndExecute;
-
-true
+*/

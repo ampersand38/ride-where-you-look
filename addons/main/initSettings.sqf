@@ -9,10 +9,30 @@
 ] call CBA_settings_fnc_init;
 
 [
+    "RWYL_SelectedSeatIconSize", "SLIDER",
+    ["Selected Seat Icon Size", "Size of the icon the currently selected seat."],
+    "Ride Where You Look",
+    [1, 10, 1, 2], // default value
+    false, // isGlobal
+    {},
+    false // needRestart
+] call CBA_settings_fnc_init;
+
+[
     "RWYL_OtherSeatsColour", "COLOR",
-    ["Selected Seat Colour", "Colour of the icon(s) for the other seats."],
+    ["Other Seat Colour", "Colour of the icon(s) for the other seat(s)."],
     "Ride Where You Look",
     ["IGUI", "BCG_RGB"] call BIS_fnc_displayColorGet, // default value
+    false, // isGlobal
+    {},
+    false // needRestart
+] call CBA_settings_fnc_init;
+
+[
+    "RWYL_OtherSeatsIconSize", "SLIDER",
+    ["Other Seat Icon Size", "Size of the icon(s) for the other seat(s)."],
+    "Ride Where You Look",
+    [1, 10, 0.8, 2], // default value
     false, // isGlobal
     {},
     false // needRestart

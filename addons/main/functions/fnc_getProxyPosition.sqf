@@ -5,20 +5,20 @@ Return the position of the right angle vertex of the proxy
 
 * Arguments:
 * 0: Vehicle <OBJECT>
-* 1: Proxy <STRING>
+* 1: ProxyLOD <ARRAY>
 *
 * Return Value:
 * Position <ARRAY>
 
 * Example:
-* [_vehicle, _proxy] call rwyl_main_fnc_getProxyPosition
+* [_vehicle, _proxyLOD] call rwyl_main_fnc_getProxyPosition
 */
 
-params [["_vehicle", objNull], ["_proxy", ""]];
-if !(_proxy isEqualType "") exitWith { [0,0,0] };
+params [["_vehicle", objNull], ["_proxyLOD", ""]];
+if (_proxyLOD isEqualTo []) exitWith { [0,0,0] };
 
-private _firstPoint = _vehicle selectionPosition [_proxy, LOD_FIREGEO, "FirstPoint"];
-private _averagePoint = _vehicle selectionPosition [_proxy, LOD_FIREGEO, "AveragePoint"];
+private _firstPoint = _vehicle selectionPosition flatten [_proxyLOD, "FirstPoint"];
+private _averagePoint = _vehicle selectionPosition flatten [_proxyLOD, "AveragePoint"];
 
 if (_firstPoint distance _averagePoint > 0.85) then {
     _firstPoint vectorAdd [0, 0,
