@@ -42,7 +42,6 @@ if (!isNull _vehicle) exitWith { [_vehicle, _fullCrew] };
 private _end = (_unitPos vectorAdd (_viewDir vectorMultiply RWYL_HopVehicleRange));
 _vehicle = lineIntersectsSurfaces [_unitPos, _end, _unit, _currentVehicle]
     param [0, [nil, nil, _currentVehicle]] select 2;
-    systemChat typeOf _vehicle;
 
 if (isNull _vehicle && {!_isOnFoot}) then {
     _vehicle = _currentVehicle;

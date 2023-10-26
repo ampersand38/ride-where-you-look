@@ -43,7 +43,10 @@ GVAR(proxyCache) getOrDefaultCall [typeOf _vehicle, {
         _x set [SEAT_ACTIONINDEX, _cargoActionIndexes param [_foreachIndex, -1]];
         _x set [SEAT_TURRETPATH, -1];
         _x set [SEAT_COMPARTMENT, _cargoCompartments param [_forEachIndex, _cargoCompartments param [0, ""]]];
-        if (count _cargoProxyIndexes != count _seatsC) then { continue; };
+        if (count _cargoProxyIndexes != count _seatsC) then {
+            _x set [SEAT_PROXYINDEX, _foreachIndex + 1];
+            continue;
+        };
         _x set [SEAT_PROXYINDEX, _cargoProxyIndexes param [_foreachIndex, _foreachIndex]];
     } forEach _seatsC;
 
@@ -121,7 +124,7 @@ GVAR(proxyCache) getOrDefaultCall [typeOf _vehicle, {
                     if (_seatID == -1) then {
                         _seatID = _seatsC findIf {
                             (_x select SEAT_PROXYLOD) isEqualTo []
-                            && {(_x select SEAT_PROXYINDEX) == _proxyIndex}
+                            && {_x select SEAT_PROXYINDEX == _proxyIndex}
                         };
                     };
                     if (_seatID == -1) then { continue; };

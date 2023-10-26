@@ -72,14 +72,8 @@ if (_preserveEngineOn) then {_currentVehicle engineOn true};
     _moveAction params ["", "_vehicle"];
 
     _unit moveInAny _vehicle;
-    [{
-        params ["_unit", "_moveAction"];
-        _unit action _moveAction;
-        systemChat str _moveAction;
-    }, _this, 1] call CBA_fnc_waitAndExecute;
+    _unit action _moveAction;
     _unit enableSimulation true;
-    //if (!isPlayer _unit) then { [_unit] orderGetIn true; };
-
 }, _this, 1 , {
     params ["_unit", "", "_backAction"];
     _backAction params ["", "_currentVehicle"];

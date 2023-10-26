@@ -3,8 +3,6 @@
 [QGVAR(moveSeatLocal), LINKFUNC(moveSeatLocal)] call CBA_fnc_addEventHandler;
 [QGVAR(setEffectiveCommander), {(_this select 0) setEffectiveCommander (_this select 1);}] call CBA_fnc_addEventHandler;
 
-#include "initVehicles.sqf"
-
 if (!hasInterface) exitWith {};
 
 {

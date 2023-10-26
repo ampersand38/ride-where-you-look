@@ -24,9 +24,9 @@ if (isNull _unit) exitWith {};
 private _currentVehicle = objectParent _unit;
 
 if (isNull curatorCamera) then {
-    [_unit] call FUNC(getVehicleUnit);
+    [_unit] call FUNC(getVehicleUnit)
 } else {
-    call FUNC(getVehicleCurator);
+    [] call FUNC(getVehicleCurator)
 } params ["_vehicle", "_fullCrew"];
 
 if (isNull _vehicle) exitWith {};
