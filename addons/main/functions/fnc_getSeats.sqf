@@ -55,7 +55,7 @@ GVAR(proxyCache) getOrDefaultCall [typeOf _vehicle, {
     if (getNumber (_vehicleCfg >> "hasDriver") == 1) then {
         _seatsD select 0 set [SEAT_COMPARTMENT, getText (_vehicleCfg >> "driverCompartments")];
     } else {
-        _seatsD select 0 set [0, false]; // Skip for static weapons that include a driver in fullCrew
+        _seatsD select 0 set [SEAT_PROXYLOD, false]; // Skip for static weapons that include a driver in fullCrew
     };
 
     // Turrets
