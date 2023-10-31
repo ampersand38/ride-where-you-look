@@ -21,7 +21,6 @@ private _indexClosest = -1;
 private _return = [];
 
 {
-    if (locked _x in [2, 3]) then { continue; };
     private _fullCrew = [_x] call FUNC(fullCrew);
     if (_fullCrew isEqualTo []) then { continue; };
 

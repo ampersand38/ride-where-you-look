@@ -51,7 +51,7 @@ private _indexClosest = -1;
     _x params ["_id", "_role", "_cargoIndex", "_turretPath", "_proxyIndex", "_actionIndex", "_seatName", "_proxyLOD", "_selectionPosition", "_icon", "_compartment"];
 
     // Intentionally hidden
-    if (_proxyLOD isEqualTo false) then { continue; };
+    //if (_proxyLOD isEqualTo false) then { continue; };
     // Did not find proxy for seat
     if (_proxyLOD isEqualTo []) then {
         _icon = if (_turretPath isEqualType 0) then {

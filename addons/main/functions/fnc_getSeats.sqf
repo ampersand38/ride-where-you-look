@@ -51,11 +51,10 @@ GVAR(proxyCache) getOrDefaultCall [typeOf _vehicle, {
     } forEach _seatsC;
 
     // Driver
-    private _seatsD = fullCrew [_vehicle, "driver", true];
+    private _seatsD = [];
     if (getNumber (_vehicleCfg >> "hasDriver") == 1) then {
+        _seatsD = fullCrew [_vehicle, "driver", true];
         _seatsD select 0 set [SEAT_COMPARTMENT, getText (_vehicleCfg >> "driverCompartments")];
-    } else {
-        _seatsD select 0 set [SEAT_PROXYLOD, false]; // Skip for static weapons that include a driver in fullCrew
     };
 
     // Turrets
@@ -76,18 +75,18 @@ GVAR(proxyCache) getOrDefaultCall [typeOf _vehicle, {
     private _seats = _seatsC + _seatsD + _seatsG;
     {
         _x set [SEAT_ID, _foreachIndex];
-        _x set [SEAT_PROXYLOD, []];
+        _x set [SEAT_PROXYLOD, _x param [SEAT_PROXYLOD, []]];
         // Localize position name for PFH
         _seatName = _x select SEAT_NAME;
         if (_seatName select [0, 1] != "$") then { continue; };
         _seatName = localize _seatName;
         _x set [SEAT_NAME, _seatName];
-    } forEach _seats;
+    } forEachReversed _seats;
 
     private _mappedProxies = [];
     {
         _x params ["_lod"];
-        {
+        { // forEach (_vehicle selectionNames _lod);
             private _proxy = _x;
             if (_mappedProxies pushBackUnique _proxy == -1) then { continue; };
 
