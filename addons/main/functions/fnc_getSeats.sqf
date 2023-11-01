@@ -85,7 +85,7 @@ GVAR(proxyCache) getOrDefaultCall [typeOf _vehicle, {
 
     private _mappedProxies = [];
     {
-        _x params ["_lod"];
+        _x params ["", "", "_lod"];
         { // forEach (_vehicle selectionNames _lod);
             private _proxy = _x;
             if (_mappedProxies pushBackUnique _proxy == -1) then { continue; };
