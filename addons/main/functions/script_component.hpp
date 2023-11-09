@@ -20,3 +20,4 @@
 #define ICON_GUNNER "\a3\ui_f\data\IGUI\Cfg\Actions\getingunner_ca.paa"
 #define ICON_PILOT "\a3\ui_f\data\IGUI\Cfg\Actions\getinpilot_ca.paa"
 #define ICON_CANCEL "\a3\ui_f\data\Map\MapControl\taskIconCanceled_ca.paa"
+#define ICON_VIV "\a3\ui_f\data\IGUI\Cfg\Actions\loadVehicle_ca.paa"

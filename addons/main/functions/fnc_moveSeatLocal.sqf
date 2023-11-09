@@ -19,7 +19,6 @@
 *
 */
 
-
 params ["_unit", "_moveAction", ["_backAction", []]];
 _moveAction params ["_actionName", "_vehicle", ["_indexOrPath", "driver"]];
 
@@ -36,6 +35,10 @@ if (_actionName select [0, 1] == "M") then {
 
 if (!local _unit) exitWith {
     [QGVAR(moveSeatLocal), _this, GVAR(unit)] call CBA_fnc_targetEvent;
+};
+
+if (_indexOrPath isEqualTo "viv") exitWith {
+    _this call FUNC(moveInViV);
 };
 
 if (!isPlayer _unit) then {

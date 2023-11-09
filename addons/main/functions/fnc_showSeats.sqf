@@ -41,8 +41,17 @@ if (!isNull _currentVehicle) then {
 
 GVAR(seats) = [rwyl_main_vehicle] call FUNC(getSeats);
 {
+    if ((_x select SEAT_SELPOS) isEqualType []) then {
+        if (
+            _currentVehicle isKindOf QGVAR(viv_helper)
+            || {isVehicleCargo _currentVehicle == rwyl_main_vehicle}
+        ) then {
+            GVAR(seats) deleteAt _forEachIndex;
+        };
+        continue;
+    }; // ViV
     _x set [SEAT_SELPOS, [rwyl_main_vehicle, _x select SEAT_PROXYLOD] call FUNC(getProxyPosition)];
-} forEach GVAR(seats);
+} forEachReversed GVAR(seats);
 
 GVAR(unit) = _unit;
 GVAR(indexClosest) = -1;

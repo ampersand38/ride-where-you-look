@@ -173,6 +173,23 @@ GVAR(proxyCache) getOrDefaultCall [typeOf _vehicle, {
         if ((_seats findIf {(_x select SEAT_PROXYLOD) isEqualTo []}) == -1) exitWith { LOG("Done with proxies"); };
     } forEachReversed allLODs _vehicle;
 
-    _seats
+    if (!vehicleCargoEnabled _vehicle) exitWith {_seats};
+    getArray (_vehicleCfg >> "VehicleTransport" >> "Carrier" >> "cargoBayDimensions")
+        apply {_vehicle selectionPosition _x} params [["_vivBay1", []], ["_vivBay2", []]];
+    private _vivBayPos = (_vivBay1 vectorAdd _vivBay2) vectorMultiply 0.5;
 
+
+    _seats + [[
+        "viv",
+        "cargo",
+        -1,
+        -1,
+        -1,
+        -1,
+        "Cargo",
+        -1,
+        _vivBayPos,
+        ICON_VIV,
+        "viv"
+    ]]
 }, true];

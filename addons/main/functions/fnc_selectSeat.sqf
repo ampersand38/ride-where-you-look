@@ -42,7 +42,7 @@ if (isNull GVAR(currentVehicle)) exitWith {
 };
 
 // Same vehicle, use action MoveTo
-if (GVAR(currentVehicle) == GVAR(vehicle)) exitWith {
+if (GVAR(currentVehicle) == GVAR(vehicle) && {_id isNotEqualTo "viv"}) exitWith {
     private _action = ["MoveTo" + _role, GVAR(vehicle)];
     if (_turretPath isNotEqualTo []) then {
         _action pushback (if (_turretPath isEqualType []) then {_turretPath} else {_id});
