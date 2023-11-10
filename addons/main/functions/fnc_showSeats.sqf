@@ -16,35 +16,46 @@ Start PFH to show which seat the unit is looking at
 if (
     visibleMap
     || (rwyl_main_pfh_running)
-) exitWith { rwyl_main_pfh_running = false; systemChat "stop";};
+) exitWith { rwyl_main_pfh_running = false; };
 
 private _unit = call FUNC(getUnit);
 if (isNull _unit) exitWith {};
 
 private _currentVehicle = objectParent _unit;
+private _isUnitViV = _currentVehicle isKindOf QGVAR(viv_helper);
 
 if (isNull curatorCamera) then {
     [_unit] call FUNC(getVehicleUnit)
 } else {
-    [] call FUNC(getVehicleCurator)
+    #ifdef DEBUG_MODE_FULL
+        //systemChat str ([_unit] call FUNC(getVehicleCurator));
+    #endif
+
+    [_unit] call FUNC(getVehicleCurator)
 } params ["_vehicle", "_fullCrew"];
 
 if (isNull _vehicle) exitWith {};
 
 rwyl_main_vehicle = _vehicle;
+GVAR(seats) = +([rwyl_main_vehicle] call FUNC(getSeats));
+
 if (!isNull _currentVehicle) then {
-    GVAR(currentVehicle) = _currentVehicle;
-    private _currentCrew = [_currentVehicle] call FUNC(fullCrew);
-    private _currentCrewIndex = _currentCrew findIf {_x select 0 == _unit};
-    GVAR(currentSeat) = _currentCrewIndex;
+    if (_isUnitViV) then {
+        GVAR(currentVehicle) = isVehicleCargo _currentVehicle;
+        GVAR(currentSeat) = count ([GVAR(currentVehicle)] call FUNC(getSeats));
+    } else {
+        GVAR(currentVehicle) = _currentVehicle;
+        private _currentCrew = [_currentVehicle] call FUNC(fullCrew);
+        private _currentCrewIndex = _currentCrew findIf {_x select 0 == _unit};
+        GVAR(currentSeat) = _currentCrewIndex;
+    };
 };
 
-GVAR(seats) = [rwyl_main_vehicle] call FUNC(getSeats);
 {
-    if ((_x select SEAT_SELPOS) isEqualType []) then {
+    if ((_x select SEAT_COMPARTMENT) isEqualTo "viv") then {
         if (
-            _currentVehicle isKindOf QGVAR(viv_helper)
-            || {isVehicleCargo _currentVehicle == rwyl_main_vehicle}
+            _isUnitViV
+            && {isVehicleCargo _currentVehicle == rwyl_main_vehicle}
         ) then {
             GVAR(seats) deleteAt _forEachIndex;
         };

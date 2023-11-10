@@ -22,6 +22,15 @@ if (
     || {GVAR(distance) > 0 && {_unit distance rwyl_main_vehicle > GVAR(distance)}}
     || {!alive _unit} || {!alive rwyl_main_vehicle}
 ) exitWith {
+    #ifdef DEBUG_MODE_FULL
+        if (!rwyl_main_pfh_running) then {
+            //systemChat "PFH stopped external"
+        };
+        if (GVAR(distance) > 0 && {_unit distance rwyl_main_vehicle > GVAR(distance)}) then {
+            systemChat "PFH stopped distance"
+        };
+    #endif
+
     [_pfID] call CBA_fnc_removePerFrameHandler;
     GVAR(distance) = -1;
     GVAR(currentVehicle) = objNull;
@@ -29,7 +38,8 @@ if (
     GVAR(vehicle) = objNull;
     GVAR(unit) = objNull;
     GVAR(indexClosest) = -1;
-    GVAR(seats) = nil;
+    GVAR(seats) = [];
+    deleteVehicle GVAR(viv_helper);
 };
 
 private _reference = if (
@@ -74,6 +84,11 @@ private _indexClosest = -1;
         continue;
     };
 
+    #ifdef DEBUG_MODE_FULL
+        if (_selectionPosition isEqualTo []) then {
+            //systemChat str _x;
+        };
+    #endif
     // Check closest
     private _w2s = worldToScreen (rwyl_main_vehicle modelToWorldVisual _selectionPosition);
     if (_w2s isEqualTo [] || {abs (_w2s select 0) > 3} || {abs (_w2s select 1) > 3}) then { continue; }; // Not on screen
@@ -95,7 +110,7 @@ private _indexClosest = -1;
 
 // no seat proxies on screen
 if (_indexClosest == -1) exitWith {
-    rwyl_main_pfh_running = false;
+//    rwyl_main_pfh_running = false;
 };
 
 GVAR(indexClosest) = _indexClosest;

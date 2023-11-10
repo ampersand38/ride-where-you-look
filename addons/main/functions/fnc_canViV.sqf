@@ -10,7 +10,7 @@ Check if vehice has ViV space for unit
 * 0: Can get in <BOOLEAN>
 
 * Example:
-* [_vehicle] call rwyl_main_fnc_canGetInViV
+* [_vehicle] call rwyl_main_fnc_canViV
 */
 
 params ["_vehicle"];
@@ -18,5 +18,9 @@ params ["_vehicle"];
 if (isNil QGVAR(viv_helper) || {isNull GVAR(viv_helper)}) then {
     GVAR(viv_helper) = QGVAR(viv_helper) createVehicleLocal [0, 0, 1000];
 };
-(_vehicle canVehicleCargo GVAR(viv_helper)) # 0
+
+private _canViV = (_vehicle canVehicleCargo GVAR(viv_helper)) # 0;
+deleteVehicle GVAR(viv_helper);
+
+_canViV
 

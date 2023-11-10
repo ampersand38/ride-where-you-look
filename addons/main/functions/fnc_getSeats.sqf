@@ -27,7 +27,10 @@ Return the list of seat proxies
 
 params ["_vehicle"];
 
-GVAR(proxyCache) getOrDefaultCall [typeOf _vehicle, {
+GVAR(proxyCache) getOrDefaultCall [typeOf _vehicle, {[_vehicle] call {
+
+    params ["_vehicle"];
+
     private _vehicleCfg = configOf _vehicle;
 
     // Cargo
@@ -173,14 +176,17 @@ GVAR(proxyCache) getOrDefaultCall [typeOf _vehicle, {
         if ((_seats findIf {(_x select SEAT_PROXYLOD) isEqualTo []}) == -1) exitWith { LOG("Done with proxies"); };
     } forEachReversed allLODs _vehicle;
 
-    if (!vehicleCargoEnabled _vehicle) exitWith {_seats};
-    getArray (_vehicleCfg >> "VehicleTransport" >> "Carrier" >> "cargoBayDimensions")
-        apply {_vehicle selectionPosition _x} params [["_vivBay1", []], ["_vivBay2", []]];
+    private _cargoBayDimensions = getArray (_vehicleCfg >> "VehicleTransport" >> "Carrier" >> "cargoBayDimensions");
+
+    if (_cargoBayDimensions isEqualTo []) exitWith {_seats};
+
+
+    // ViV
+    _cargoBayDimensions apply {_vehicle selectionPosition _x} params [["_vivBay1", []], ["_vivBay2", []]];
     private _vivBayPos = (_vivBay1 vectorAdd _vivBay2) vectorMultiply 0.5;
 
-
     _seats + [[
-        "viv",
+        count _seats,
         "cargo",
         -1,
         -1,
@@ -192,4 +198,4 @@ GVAR(proxyCache) getOrDefaultCall [typeOf _vehicle, {
         ICON_VIV,
         "viv"
     ]]
-}, true];
+}}, true];

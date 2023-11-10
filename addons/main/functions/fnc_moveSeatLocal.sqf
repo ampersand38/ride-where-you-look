@@ -19,6 +19,8 @@
 *
 */
 
+systemChat str _this;
+
 params ["_unit", "_moveAction", ["_backAction", []]];
 _moveAction params ["_actionName", "_vehicle", ["_indexOrPath", "driver"]];
 
@@ -37,7 +39,7 @@ if (!local _unit) exitWith {
     [QGVAR(moveSeatLocal), _this, GVAR(unit)] call CBA_fnc_targetEvent;
 };
 
-if (_indexOrPath isEqualTo "viv") exitWith {
+if (_actionName == "vivcargo") exitWith {
     _this call FUNC(moveInViV);
 };
 

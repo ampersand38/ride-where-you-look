@@ -21,6 +21,8 @@ private _indexClosest = -1;
 private _return = [];
 
 {
+    if (_x isKindOf QGVAR(viv_helper)) then { continue; };
+
     private _fullCrew = [_x] call FUNC(fullCrew);
     if (_fullCrew isEqualTo []) then { continue; };
 

@@ -18,7 +18,7 @@
 * -
 *
 */
-systemChat "viv";
+
 params ["_unit", "_moveAction", ["_backAction", []]];
 _moveAction params ["_actionName", "_vehicle", ["_indexOrPath", "driver"]];
 
@@ -27,7 +27,7 @@ _vehicle setVehicleCargo _viv_helper;
 
 private _currentVehicle = vehicle _unit;
 if (_backAction isEqualTo []) exitWith {
-    if ((_actionName select [0, 1]) == "M" && {_currentVehicle == _unit}) then {
+    if (_currentVehicle == _unit) then {
         _unit moveInTurret [_viv_helper, [0]];
     };
 };
