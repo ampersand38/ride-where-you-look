@@ -19,8 +19,6 @@
 *
 */
 
-systemChat str _this;
-
 params ["_unit", "_moveAction", ["_backAction", []]];
 _moveAction params ["_actionName", "_vehicle", ["_indexOrPath", "driver"]];
 
