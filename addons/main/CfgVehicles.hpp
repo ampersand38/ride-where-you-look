@@ -19,6 +19,7 @@ class CfgVehicles
         icon = "iconObject_1x1";
         picture = "\A3\Air_F_Heli\Heli_Transport_04\Data\UI\Pod_Heli_Transport_04_bench_CA.paa";
         disableInventory = 1;
+        showNVGCargo[] = {1};
         hasDriver = 0;
         accuracy = 1000;
 
@@ -30,7 +31,6 @@ class CfgVehicles
                 memoryPointsGetInGunner = "pos cargo";
                 memoryPointsGetInGunnerDir = "pos cargo dir";
                 memoryPointsGetInGunnerPrecise = "pos cargo";
-                forceHideGunner = 1;
                 gunnerGetInAction = "";
                 gunnerGetOutAction = "";
                 preciseGetInOut = 1;
@@ -39,13 +39,17 @@ class CfgVehicles
                 minElev = -65;
                 maxTurn = 95;
                 minTurn = -95;
+                canUseScanners = 1;
                 castGunnerShadow = 1;
                 ejectDeadGunner = 1;
                 gunnerAction = "passenger_inside_4";
                 gunnerInAction = "passenger_inside_4";
                 gunnerName = "Cargo FFV";
                 animationSourceElevation = "Turn_source";
-                //isPersonTurret = 1;        /// enables a person to get into the turret from outside
+                elevationAnimSourceSpeed = 0.2;
+                showHMD = 1;
+
+                //isPersonTurret = 1;
                 //proxyType = "CPCargo";
             };
         };

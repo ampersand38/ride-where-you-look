@@ -79,6 +79,7 @@ private _indexClosest = -1;
     if (!_continue && {_turretPath isEqualTo -1} && {rwyl_main_vehicle lockedCargo _cargoIndex}) then { _continue = true; };
     if (!_continue && {_turretPath isEqualTo []} && {lockedDriver rwyl_main_vehicle}) then { _continue = true; };
     if (!_continue && {_turretPath isEqualType []} && {rwyl_main_vehicle lockedTurret _turretPath}) then { _continue = true; };
+    if (!_continue && {_compartment == "viv"} && {!([rwyl_main_vehicle] call FUNC(canViV))}) then { _continue = true; };
     if (_continue) then {
         drawIcon3D [ICON_CANCEL, RWYL_OtherSeatsColour, rwyl_main_vehicle modelToWorldVisual _selectionPosition, RWYL_OtherSeatsIconSize, RWYL_OtherSeatsIconSize, 0, _seatName];
         continue;
