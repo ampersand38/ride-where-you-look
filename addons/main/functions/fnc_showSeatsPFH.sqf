@@ -27,7 +27,7 @@ if (
             //systemChat "PFH stopped external"
         };
         if (GVAR(distance) > 0 && {_unit distance rwyl_main_vehicle > GVAR(distance)}) then {
-            systemChat "PFH stopped distance"
+            //systemChat "PFH stopped distance"
         };
     #endif
 
