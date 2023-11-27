@@ -174,7 +174,7 @@ GVAR(proxyCache) getOrDefaultCall [typeOf _vehicle, {[_vehicle] call {
         } forEach (_vehicle selectionNames _lod);
 
         if ((_seats findIf {(_x select SEAT_PROXYLOD) isEqualTo []}) == -1) exitWith { LOG("Done with proxies"); };
-    } forEachReversed allLODs _vehicle;
+    } forEach allLODs _vehicle;
 
     private _cargoBayDimensions = getArray (_vehicleCfg >> "VehicleTransport" >> "Carrier" >> "cargoBayDimensions");
 
