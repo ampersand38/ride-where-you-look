@@ -19,6 +19,7 @@ rwyl_main_pfh_running = false;
 if (
     isNull GVAR(unit)
     || {isNull GVAR(vehicle)}
+    || {GVAR(indexClosest) == -1}
 ) exitWith {};
 
 GVAR(seats) select GVAR(indexClosest) params ["_id", "_role", "_cargoIndex", "_turretPath", "_proxyIndex", "_actionIndex", "_seatName", "", "", "", "_compartment"];
@@ -52,12 +53,15 @@ if (_compartment == "viv") then {
 [GVAR(currentVehicle)] call FUNC(getSeats) select GVAR(currentSeat) params ["_idBack", "_roleBack", "_cargoIndexBack", "_turretPathBack", "_proxyIndexBack", "_actionIndexBack", "_seatNameBack", "", "", "", "_compartmentBack"];
 
 // Same vehicle, use action MoveTo
-if (GVAR(currentVehicle) == GVAR(vehicle) && {_compartment isNotEqualTo "viv"} && {_compartmentBack isNotEqualTo "viv"}) exitWith {
+if (
+    GVAR(currentVehicle) == GVAR(vehicle)
+    && {_compartment isNotEqualTo "viv"}
+    && {_compartmentBack isNotEqualTo "viv"}
+) exitWith {
     private _action = [_actionName + _role, GVAR(vehicle)];
     if (_turretPath isNotEqualTo []) then {
         _action pushback (if (_turretPath isEqualType []) then {_turretPath} else {_id});
     };
-
     [GVAR(unit), _action] call FUNC(moveSeatLocal);
 };
 

@@ -13,6 +13,8 @@ Start PFH to show which seat the unit is looking at
 * [] call rwyl_main_fnc_showSeats
 */
 
+params [["_index", -1]];
+
 if (
     visibleMap
     || (rwyl_main_pfh_running)
@@ -32,7 +34,7 @@ if (isNull curatorCamera) then {
     #endif
 
     [_unit] call FUNC(getVehicleCurator)
-} params ["_vehicle", "_fullCrew"];
+} params ["_vehicle"];
 
 if (isNull _vehicle) exitWith {};
 

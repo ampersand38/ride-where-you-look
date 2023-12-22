@@ -20,7 +20,10 @@ if (isNil QGVAR(viv_helper) || {isNull GVAR(viv_helper)}) then {
 };
 
 private _canViV = (_vehicle canVehicleCargo GVAR(viv_helper)) # 0;
-deleteVehicle GVAR(viv_helper);
+
+if (!rwyl_main_pfh_running) then {
+    deleteVehicle GVAR(viv_helper);
+};
 
 _canViV
 

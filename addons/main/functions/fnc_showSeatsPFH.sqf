@@ -32,14 +32,8 @@ if (
     #endif
 
     [_pfID] call CBA_fnc_removePerFrameHandler;
-    GVAR(distance) = -1;
-    GVAR(currentVehicle) = objNull;
-    GVAR(currentSeat) = -1;
-    GVAR(vehicle) = objNull;
-    GVAR(unit) = objNull;
-    GVAR(indexClosest) = -1;
-    GVAR(seats) = [];
-    deleteVehicle GVAR(viv_helper);
+
+    CLEANUP
 };
 
 private _reference = if (
@@ -74,7 +68,7 @@ private _indexClosest = -1;
 
     private _continue = false;
     // Blocked
-    if (alive ((_fullCrew select _forEachIndex) select 0)) then { _continue = true; };
+    if ((_fullCrew select _forEachIndex) call FUNC(isBlocking)) then { _continue = true; };
     // Locked
     if (!_continue && {_turretPath isEqualTo -1} && {rwyl_main_vehicle lockedCargo _cargoIndex}) then { _continue = true; };
     if (!_continue && {_turretPath isEqualTo []} && {lockedDriver rwyl_main_vehicle}) then { _continue = true; };

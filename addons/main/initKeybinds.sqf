@@ -19,3 +19,8 @@
     "Ride Where You Look", "rwyl_main_holdRelease", "Show (Hold) and Select (Release)",
     LINKFUNC(showSeats), LINKFUNC(selectSeat)
 ] call CBA_fnc_addKeybind; // x
+
+[
+    "Ride Where You Look", "rwyl_main_driver", "Get In / Move To Driver",
+    LINKFUNC(goDriver),{}
+] call CBA_fnc_addKeybind; //

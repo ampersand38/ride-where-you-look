@@ -21,3 +21,12 @@
 #define ICON_PILOT "\a3\ui_f\data\IGUI\Cfg\Actions\getinpilot_ca.paa"
 #define ICON_CANCEL "\a3\ui_f\data\Map\MapControl\taskIconCanceled_ca.paa"
 #define ICON_VIV "\a3\data_f_destroyer\Data\ui\igui\cfg\holdactions\holdaction_loadVehicle_ca.paa"
+
+#define CLEANUP GVAR(distance) = -1; \
+    GVAR(currentVehicle) = objNull; \
+    GVAR(currentSeat) = -1; \
+    GVAR(vehicle) = objNull; \
+    GVAR(unit) = objNull; \
+    GVAR(indexClosest) = -1; \
+    GVAR(seats) = []; \
+    deleteVehicle GVAR(viv_helper);
