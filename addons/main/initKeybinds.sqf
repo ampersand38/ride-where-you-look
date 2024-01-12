@@ -1,7 +1,7 @@
 [
     "Ride Where You Look", "rwyl_main_showSeats", "Show Seats (Hold)",
     LINKFUNC(showSeats), { rwyl_main_pfh_running = false; },
-    [29, [false, false, false]], false
+    [29, [false, true, false]], false
 ] call CBA_fnc_addKeybind; // LCTRL
 
 [
