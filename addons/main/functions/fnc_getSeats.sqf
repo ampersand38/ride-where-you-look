@@ -41,7 +41,7 @@ GVAR(proxyCache) getOrDefaultCall [typeOf _vehicle, {[_vehicle] call {
     private _cargoCompartments = getArray (_vehicleCfg >> "cargoCompartments");
 
     // Prevent crash to desktop on TF373 MH47 when Hatchet H-60 is loaded and running player action ["MoveToCargo", vehicle player, 0];
-    if (_vehicle isKindOf "TF373_SOAR_MH47G_Base") then {
+    if (_vehicle isKindOf "TF373_SOAR_MH47G_Base" && {isClass (configFile >> "cfgVehicles" >> "vtx_H60_base")}) then {
         _seatsC = [];
     };
 
