@@ -34,7 +34,7 @@ if (isNull GVAR(currentVehicle)) exitWith {
     ) then {
         _actionName = "GetIn";
     };
-    if (_compartment == "viv") then {
+    if (_compartment isEqualTo "viv") then {
         _actionName = "viv"
     };
 
@@ -46,11 +46,11 @@ if (isNull GVAR(currentVehicle)) exitWith {
     [GVAR(unit), _action] call FUNC(moveSeatLocal);
 };
 
-if (_compartment == "viv") then {
+if (_compartment isEqualTo "viv") then {
     _actionName = "viv"
 };
 
-[GVAR(currentVehicle)] call FUNC(getSeats) select GVAR(currentSeat) params ["_idBack", "_roleBack", "_cargoIndexBack", "_turretPathBack", "_proxyIndexBack", "_actionIndexBack", "_seatNameBack", "", "", "", "_compartmentBack"];
+[GVAR(currentVehicle)] call FUNC(getSeats) param [GVAR(currentSeat), []] params ["_idBack", "_roleBack", "_cargoIndexBack", "_turretPathBack", "_proxyIndexBack", "_actionIndexBack", "_seatNameBack", "", "", "", "_compartmentBack"];
 
 // Same vehicle, use action MoveTo
 if (
@@ -71,7 +71,7 @@ if (_turretPath isNotEqualTo []) then {
     _action pushback (if (_turretPath isEqualType []) then {_turretPath} else {_id});
 };
 
-if (_compartmentBack == "viv") then {
+if (_compartmentBack isEqualTo "viv") then {
     _actionNameBack = "viv"
 };
 
