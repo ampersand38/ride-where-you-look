@@ -1,0 +1,21 @@
+name = "Ride Where You Look"
+prefix = "rwyl"
+mainprefix = "z"
+
+[properties]
+author = "Ampersand"
+url = "https://github.com/ampersand38/ride-where-you-look"
+
+[files]
+include = [
+    "mod.cpp",
+    "README.md",
+    "AUTHORS.txt",
+    "LICENSE",
+    "logo_ampersand_ca.paa",
+    "meta.cpp"
+]
+exclude = [
+    ".vscode",
+    "*.sqfc",
+]
