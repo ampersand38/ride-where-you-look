@@ -40,11 +40,6 @@ GVAR(proxyCache) getOrDefaultCall [typeOf _vehicle, {[_vehicle] call {
     private _cargoProxyIndexes = _vehicle getVariable ["RWYL_cargoProxyIndexes", getArray (_vehicleCfg >> "cargoProxyIndexes")];
     private _cargoCompartments = getArray (_vehicleCfg >> "cargoCompartments");
 
-    // Prevent crash to desktop on TF373 MH47 when Hatchet H-60 is loaded and running player action ["MoveToCargo", vehicle player, 0];
-    if (_vehicle isKindOf "TF373_SOAR_MH47G_Base") then {
-        _seatsC = [];
-    };
-
     {
         // Cargo Index for MoveInCargo, lockedCargo
         // Proxy Index for matching to proxies
