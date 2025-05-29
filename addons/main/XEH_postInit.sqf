@@ -9,4 +9,4 @@ if (!hasInterface) exitWith {};
     [_x, {rwyl_main_pfh_running = false;}] call CBA_fnc_addPlayerEventHandler;
 } forEach ["cameraView", "unit", "visibleMap"];
 
-#include "initKeybinds.sqf"
+#include "initKeybinds.inc.sqf"

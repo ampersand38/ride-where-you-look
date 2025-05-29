@@ -32,8 +32,8 @@ private _entities = (screenToWorld getMousePosition nearEntities ["AllVehicles",
 
 if (_fullCrew isNotEqualTo []) exitWith { [_vehicle, _fullCrew] };
 
-private _start = AGLtoASL positionCameraToWorld [0, 0, 0];
-private _end = AGLtoASL screenToWorld getMousePosition;
+private _start = AGLToASL positionCameraToWorld [0, 0, 0];
+private _end = AGLToASL screenToWorld getMousePosition;
 
 private _currentVehicle = vehicle _unit;
 if !(_currentVehicle isKindOf QGVAR(viv_helper)) then {

@@ -40,7 +40,7 @@ if (isNull GVAR(currentVehicle)) exitWith {
 
     private _action = [_actionName + _role, GVAR(vehicle)];
     if (_turretPath isNotEqualTo []) then {
-        _action pushback (if (_turretPath isEqualType []) then {_turretPath} else {_id});
+        _action pushBack ([_id, _turretPath] select (_turretPath isEqualType []));
     };
 
     [GVAR(unit), _action] call FUNC(moveSeatLocal);
@@ -60,7 +60,7 @@ if (
 ) exitWith {
     private _action = [_actionName + _role, GVAR(vehicle)];
     if (_turretPath isNotEqualTo []) then {
-        _action pushback (if (_turretPath isEqualType []) then {_turretPath} else {_id});
+        _action pushBack ([_id, _turretPath] select (_turretPath isEqualType []));
     };
     [GVAR(unit), _action] call FUNC(moveSeatLocal);
 };
@@ -68,7 +68,7 @@ if (
 // Change vehicles
 private _action = [_actionName + _role, GVAR(vehicle)];
 if (_turretPath isNotEqualTo []) then {
-    _action pushback (if (_turretPath isEqualType []) then {_turretPath} else {_id});
+    _action pushBack ([_id, _turretPath] select (_turretPath isEqualType []));
 };
 
 if (_compartmentBack isEqualTo "viv") then {
@@ -77,7 +77,7 @@ if (_compartmentBack isEqualTo "viv") then {
 
 private _actionBack = [_actionNameBack + _role, GVAR(currentVehicle)];
 if (_turretPath isNotEqualTo []) then {
-    _actionBack pushback (if (_turretPath isEqualType []) then {_turretPath} else {_id});
+    _actionBack pushBack ([_id, _turretPath] select (_turretPath isEqualType []));
 };
 [GVAR(unit), _action, _actionBack] call FUNC(moveSeatLocal);
 

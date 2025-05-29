@@ -59,7 +59,7 @@ private _indexClosest = -1;
         _icon = if (_turretPath isEqualType 0) then {
             ICON_CARGO
         } else {
-            if (_turretPath isEqualTo []) then { ICON_DRIVER } else { ICON_GUNNER }
+            [ICON_DRIVER, ICON_GUNNER] select (_turretPath isEqualTo [])
         };
     };
 
