@@ -47,3 +47,14 @@
     {},
     false // needRestart
 ] call CBA_settings_fnc_init;
+
+[
+    "RWYL_FFVAnywhere_enable",
+    "CHECKBOX",
+    "Enable FFV Anywhere",
+    "Ride Where You Look",
+    false, // default value
+    true, // isGlobal
+    {},
+    false // needRestart
+] call CBA_Settings_fnc_init;

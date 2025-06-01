@@ -29,4 +29,4 @@
     GVAR(unit) = objNull; \
     GVAR(indexClosest) = -1; \
     GVAR(seats) = []; \
-    deleteVehicle GVAR(viv_helper);
+    deleteVehicle GVAR(viv_helper)

@@ -51,13 +51,11 @@ if (isNull _vehicle && {!_isOnFoot}) then {
     _vehicle = _currentVehicle;
 };
 
-hintSilent "";
 if (
     _isViV
     || {!isNull isVehicleCargo _vehicle}
 ) then {
     _vehicle = isVehicleCargo _vehicle;
-    hintSilent "viv";
 };
 
 _fullCrew = [_vehicle] call FUNC(fullCrew);

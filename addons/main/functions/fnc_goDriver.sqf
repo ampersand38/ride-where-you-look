@@ -43,4 +43,4 @@ GVAR(currentSeat) = _currentCrewIndex;
 
 [] call FUNC(selectSeat);
 
-CLEANUP
+CLEANUP;

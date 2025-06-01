@@ -33,7 +33,7 @@ if (
 
     [_pfID] call CBA_fnc_removePerFrameHandler;
 
-    CLEANUP
+    CLEANUP;
 };
 
 private _reference = if (

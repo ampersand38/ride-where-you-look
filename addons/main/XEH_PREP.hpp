@@ -1,7 +1,9 @@
 PREP(canViV);
 PREP(ehCargoUnloaded);
 PREP(ehGetOut);
+PREP(ffv);
 PREP(fullCrew);
+PREP(getFFVType);
 PREP(getProxyPosition);
 PREP(getSeats);
 PREP(getVehicleCurator);
@@ -9,6 +11,8 @@ PREP(getVehicleUnit);
 PREP(getUnit);
 PREP(goDriver);
 PREP(isBlocking);
+PREP(keyFFV);
+PREP(keyFFVcurator);
 PREP(moveInViV);
 PREP(moveSeatLocal);
 PREP(nearestOnScreen);

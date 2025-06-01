@@ -2,6 +2,7 @@
 
 [QGVAR(moveSeatLocal), LINKFUNC(moveSeatLocal)] call CBA_fnc_addEventHandler;
 [QGVAR(setEffectiveCommander), {(_this select 0) setEffectiveCommander (_this select 1);}] call CBA_fnc_addEventHandler;
+[QGVAR(ffv), LINKFUNC(ffv)] call CBA_fnc_addEventHandler;
 
 if (!hasInterface) exitWith {};
 
@@ -10,3 +11,4 @@ if (!hasInterface) exitWith {};
 } forEach ["cameraView", "unit", "visibleMap"];
 
 #include "initKeybinds.inc.sqf"
+

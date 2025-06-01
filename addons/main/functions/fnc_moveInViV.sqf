@@ -22,7 +22,7 @@
 params ["_unit", "_moveAction", ["_backAction", []]];
 _moveAction params ["_actionName", "_vehicle", ["_indexOrPath", "driver"]];
 
-private _viv_helper = QGVAR(viv_helper) createVehicleLocal [0, 0, 1000];
+private _viv_helper = QGVAR(viv_helper) createVehicle [0, 0, 1000];
 _vehicle setVehicleCargo _viv_helper;
 
 private _currentVehicle = vehicle _unit;

@@ -6,7 +6,7 @@
 
 [
     "Ride Where You Look", "rwyl_main_showSeatsToggle", "Show Seats (Toggle)",
-    LINKFUNC(showSeats),{}
+    LINKFUNC(showSeats), {}
 ] call CBA_fnc_addKeybind; //
 
 [
@@ -22,5 +22,15 @@
 
 [
     "Ride Where You Look", "rwyl_main_driver", "Get In / Move To Driver",
-    LINKFUNC(goDriver),{}
+    LINKFUNC(goDriver), {}
+] call CBA_fnc_addKeybind; //
+
+[
+    "Ride Where You Look", "rwyl_main_key_ffv", ["FFV Anywhere", "While in a vehicle, switch to an FFV turret attached to the current vehicle. Exit the FFV turret to return to your vehicle seat."],
+    LINKFUNC(keyFFV), {}
+] call CBA_fnc_addKeybind; //
+
+[
+    "Ride Where You Look", "rwyl_main_key_ffvCurator", ["FFV Anywhere (Zeus)", "Selected units in vehicles will FFV. Order them to exit to return to vehicle seat."],
+    LINKFUNC(keyFFVcurator), {}
 ] call CBA_fnc_addKeybind; //
