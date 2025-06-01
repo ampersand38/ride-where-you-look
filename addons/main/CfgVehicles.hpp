@@ -12,7 +12,7 @@ class CfgVehicles {
         scope = 1;
         scopeCurator = 1;
         model = QPATHTOF(data\cargoTurret.p3d);
-        extCameraPosition[] = {0, 0.300000, -3.500000};	// man
+        extCameraPosition[] = {0, 2.5, -3.500000};	// man
         icon = "iconObject_1x1";
         picture = "\A3\Air_F_Heli\Heli_Transport_04\Data\UI\Pod_Heli_Transport_04_bench_CA.paa";
         disableInventory = 1;
@@ -59,7 +59,7 @@ class CfgVehicles {
     }; // GVAR(viv_helper)
 
     #define FFVTURRET(act) class GVAR(act): GVAR(viv_helper) { \
-        displayName = QUOTE(ffv act); \
+        displayName = QUOTE(FFV act); \
         class Turrets: Turrets { \
             class CargoTurret: CargoTurret { \
                 gunnerAction = QUOTE(act); \

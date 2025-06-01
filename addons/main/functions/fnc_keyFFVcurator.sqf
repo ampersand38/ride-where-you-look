@@ -14,7 +14,7 @@ if !(RWYL_FFVAnywhere_enable || {isNull curatorCamera}) exitWith { false };
 #include "exitIfTyping.inc.sqf"
 
 (curatorSelected # 0) apply {
-    [_unit] call FUNC(ffv);
+    [_x] call FUNC(ffv);
 };
 
 false

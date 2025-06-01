@@ -51,7 +51,7 @@
 [
     "RWYL_FFVAnywhere_enable",
     "CHECKBOX",
-    "Enable FFV Anywhere",
+    ["Enable FFV Anywhere", "Use keybind to create an FFV turret matching your current seated position, attached to your current vehicle. Exit the FFV turret to return to your vehicle seat."],
     "Ride Where You Look",
     false, // default value
     true, // isGlobal
