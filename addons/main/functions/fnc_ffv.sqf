@@ -35,17 +35,28 @@ if !(local _unit) exitWith {
     [QGVAR(ffv), [_unit], _unit] call CBA_fnc_targetEvent;
 };
 
-private _ffvType = [_unit] call FUNC(getFFVType);
+private _currentSeat = [_vehicle, _vehicle unitTurret _unit, _vehicle getCargoIndex _unit];
+_unit setVariable [QGVAR(currentSeat), _currentSeat, true];
+private _seatInfo = [_vehicle] call FUNC(getSeats);
+private _proxyLOD = {
+    _x params ["_id", "_role", "_cargoIndex", "_turretPath", "_proxyIndex", "_actionIndex", "_seatName", "_proxyLOD", "_selectionPosition", "_icon", "_compartment"];
+    if (
+        _turretPath isEqualTo (_vehicle unitTurret _unit) ||
+        {_cargoIndex == (_vehicle getCargoIndex _unit)}
+    ) exitWith {
+        _proxyLOD
+    };
+} forEachReversed _seatInfo;
+private _proxyPos = _vehicle selectionPosition _proxyLOD;
 
-private _proxyPos = _vehicle worldToModel ASLToAGL getPosASL _unit;
+//private _proxyPos = _vehicle worldToModel ASLToAGL getPosASL _unit;
+
+private _ffvType = [_unit] call FUNC(getFFVType);
 private _ffv_helper = _ffvType createVehicle [0, 0, 1000];
 private _unitDirWorld = _unit vectorModelToWorld [0, 1, 0];
 private _unitDirVehicle = _vehicle vectorWorldToModel _unitDirWorld;
 _ffv_helper attachTo [_vehicle, _proxyPos];
 _ffv_helper setVectorDirAndUp [_unitDirVehicle, [0,0,1]];
-
-private _currentSeat = [_vehicle, _vehicle unitTurret _unit, _vehicle getCargoIndex _unit];
-_unit setVariable [QGVAR(currentSeat), _currentSeat, true];
 
 _unit enableSimulation false;
 private _preserveEngineOn = _unit == driver _vehicle && {isEngineOn _vehicle};
