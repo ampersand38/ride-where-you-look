@@ -35,14 +35,18 @@ if !(local _unit) exitWith {
     [QGVAR(ffv), [_unit], _unit] call CBA_fnc_targetEvent;
 };
 
-private _currentSeat = [_vehicle, _vehicle unitTurret _unit, _vehicle getCargoIndex _unit];
+private _cargoIndex = _vehicle getCargoIndex _unit;
+private _turretPath = _vehicle unitTurret _unit;
+private _currentSeat = [_vehicle, _cargoIndex, _turretPath];
 _unit setVariable [QGVAR(currentSeat), _currentSeat, true];
+
 private _seatInfo = [_vehicle] call FUNC(getSeats);
 private _proxyLOD = {
-    _x params ["_id", "_role", "_cargoIndex", "_turretPath", "_proxyIndex", "_actionIndex", "_seatName", "_proxyLOD", "_selectionPosition", "_icon", "_compartment"];
+    _x params ["_id", "_role", "_xcargoIndex", "_xturretPath", "_proxyIndex", "_actionIndex", "_seatName", "_proxyLOD", "_selectionPosition", "_icon", "_compartment"];
     if (
-        _turretPath isEqualTo (_vehicle unitTurret _unit) ||
-        {_cargoIndex == (_vehicle getCargoIndex _unit)}
+        (_turretPath isNotEqualTo [] && {_turretPath isEqualTo _xturretPath}) ||
+        {_turretPath isEqualTo [-1] && {_xturretPath isEqualTo []}} ||
+        {_cargoIndex > -1 && {_cargoIndex == _xcargoIndex}}
     ) exitWith {
         _proxyLOD
     };

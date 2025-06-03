@@ -27,6 +27,11 @@ Return the list of seat proxies
 
 params ["_vehicle"];
 
+
+#ifdef DISABLE_COMPILE_CACHE
+GVAR(proxyCache) = createHashMap;
+#endif
+
 GVAR(proxyCache) getOrDefaultCall [typeOf _vehicle, {[_vehicle] call {
 
     params ["_vehicle"];
@@ -95,6 +100,7 @@ GVAR(proxyCache) getOrDefaultCall [typeOf _vehicle, {[_vehicle] call {
             if (_mappedProxies pushBackUnique _proxy == -1) then { continue; };
 
             private _parts = _proxy splitString ":\.";
+            if (_parts isEqualTo []) then { continue; };
             if (_parts select 0 isNotEqualTo "proxy") then { continue; };
             private _role = _parts select -2;
             private _proxyIndex = parseNumber (_parts select -1);

@@ -28,7 +28,7 @@ if (local _vehicle) then {
 if (local _unit) then {
     private _currentSeat = _unit getVariable [QGVAR(currentSeat), []];
     if (_currentSeat isEqualTo []) exitWith {};
-    _currentSeat params ["_parentVehicle", "_turretPath", "_cargoIndex"];
+    _currentSeat params ["_parentVehicle", "_cargoIndex", "_turretPath"];
     if (_turretPath isEqualTo []) then {
         _unit moveInCargo [_parentVehicle, _cargoIndex];
     } else {
