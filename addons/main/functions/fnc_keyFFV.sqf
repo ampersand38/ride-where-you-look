@@ -17,6 +17,8 @@ if !(isNull curatorCamera) exitWith { false };
 
 private _unit = call CBA_fnc_currentUnit;
 
+if (isNull objectParent _unit) exitWith { false };
+
 [_unit] call FUNC(ffv);
 
 false
