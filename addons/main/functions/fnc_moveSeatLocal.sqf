@@ -41,11 +41,12 @@ if (_actionName == "vivcargo") exitWith {
     _this call FUNC(moveInViV);
 };
 
-if (!isPlayer _unit) then {
+if (!isPlayer _unit) exitWith {
     unassignVehicle _unit;
-    if (_indexOrPath isEqualType 0) then { _unit assignAsCargoIndex [_vehicle, _indexOrPath];  [_unit] orderGetIn true;};
-    if (_indexOrPath isEqualType "") then { _unit assignAsDriver _vehicle; [_unit] orderGetIn true;};
-    if (_indexOrPath isEqualType []) then { _unit assignAsTurret [_vehicle, _indexOrPath];  [_unit] orderGetIn true;};
+    moveOut _unit;
+    if (_indexOrPath isEqualType 0) then { _unit assignAsCargoIndex [_vehicle, _indexOrPath]; _unit moveInCargo [_vehicle, _indexOrPath]; };
+    if (_indexOrPath isEqualType "") then { _unit assignAsDriver _vehicle; _unit moveInDriver _vehicle; };
+    if (_indexOrPath isEqualType []) then { _unit assignAsTurret [_vehicle, _indexOrPath]; _unit moveInTurret [_vehicle, _indexOrPath]; };
 };
 
 private _currentVehicle = vehicle _unit;

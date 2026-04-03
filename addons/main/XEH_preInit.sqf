@@ -6,7 +6,7 @@ ADDON = false;
 
 #include "initSettings.inc.sqf"
 
-GVAR(distance) = -1;
 GVAR(proxyCache) = createHashMap;
+CLEANUP;
 
 ADDON = true;
