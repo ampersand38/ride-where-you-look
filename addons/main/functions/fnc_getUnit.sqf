@@ -9,7 +9,7 @@ Get the unit that should be moved.
 * Return Value:
 * 0: Unit <OBJECT>
 
-* Exrwylle:
+* Example:
 * [] call rwyl_main_fnc_getUnit
 */
 

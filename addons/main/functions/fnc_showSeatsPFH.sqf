@@ -63,18 +63,22 @@ private _indexClosest = -1;
         };
     };
 
+    private _unit = _fullCrew select _forEachIndex select 0;
+    private _aceLock = _unit getVariable ["ace_medical_engine_lockedSeat", nil];
     // Compartment check disabled due to some very silly configs e.g. Apex Van Ambulance
     //if (_unitCompartment isNotEqualTo "" && {_unitCompartment isNotEqualTo _compartment}) then { continue; };
-
-    private _continue = false;
-    // Blocked
-    if ((_fullCrew select _forEachIndex) call FUNC(isBlocking)) then { _continue = true; };
-    // Locked
-    if (!_continue && {_turretPath isEqualTo -1} && {rwyl_main_vehicle lockedCargo _cargoIndex}) then { _continue = true; };
-    if (!_continue && {_turretPath isEqualTo []} && {lockedDriver rwyl_main_vehicle}) then { _continue = true; };
-    if (!_continue && {_turretPath isEqualType []} && {rwyl_main_vehicle lockedTurret _turretPath}) then { _continue = true; };
-    if (!_continue && {_compartment isEqualTo "viv"} && {!([rwyl_main_vehicle] call FUNC(canViV))}) then { _continue = true; };
-    if (_continue) then {
+    if (
+        [
+            // Unit in seat
+            [_unit] call FUNC(isBlocking)
+            ,
+            // Empty seat
+            (_turretPath isEqualTo -1 && {rwyl_main_vehicle lockedCargo _cargoIndex}) ||
+            {_turretPath isEqualTo [] && {lockedDriver rwyl_main_vehicle}} ||
+            {_turretPath isEqualType [] && {rwyl_main_vehicle lockedTurret _turretPath}} ||
+            {_compartment isEqualTo "viv" && {!([rwyl_main_vehicle] call FUNC(canViV))}}
+        ] select isNull _unit
+    ) then {
         drawIcon3D [ICON_CANCEL, RWYL_OtherSeatsColour, rwyl_main_vehicle modelToWorldVisual _selectionPosition, RWYL_OtherSeatsIconSize, RWYL_OtherSeatsIconSize, 0, _seatName];
         continue;
     };

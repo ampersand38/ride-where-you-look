@@ -10,7 +10,7 @@ Move into driver seat
  Value:
 * -
 *
-* Exrwylle:
+* Example:
 * [] call rwyl_main_fnc_goDriver
 */
 
@@ -37,8 +37,8 @@ if (
 GVAR(unit) = focusOn;
 GVAR(indexClosest) = _indexDriver;
 GVAR(currentVehicle) = objectParent focusOn;
-private _currentCrew = [_currentVehicle] call FUNC(fullCrew);
-private _currentCrewIndex = _currentCrew findIf {_x select 0 == _unit};
+private _currentCrew = [_vehicle] call FUNC(fullCrew);
+private _currentCrewIndex = _currentCrew findIf {_x select 0 == focusOn};
 GVAR(currentSeat) = _currentCrewIndex;
 
 [] call FUNC(selectSeat);

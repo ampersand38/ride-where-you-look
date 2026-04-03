@@ -846,7 +846,7 @@ quiet -- Suppress command line output from build tool.
 
 If module names are specified, only those modules will be built.
 
-Exrwylles:
+Examples:
    make.py force test
       Build all modules (ignoring cache) and copy the mod folder to the Arma 3
       directory.

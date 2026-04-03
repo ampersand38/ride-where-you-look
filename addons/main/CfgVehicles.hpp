@@ -2,7 +2,6 @@ class CfgVehicles {
     class LandVehicle;
     class StaticWeapon: LandVehicle {
         class CargoTurret;
-        class EventHandlers;
         class Turrets;
     };
     class GVAR(viv_helper): StaticWeapon {

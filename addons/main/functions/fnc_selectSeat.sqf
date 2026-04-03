@@ -10,7 +10,7 @@ Move unit into vehicle seat near center of view
  Value:
 * -
 *
-* Exrwylle:
+* Example:
 * [] call rwyl_main_fnc_selectSeat
 */
 
@@ -42,7 +42,6 @@ if (isNull GVAR(currentVehicle)) exitWith {
     if (_turretPath isNotEqualTo []) then {
         _action pushBack ([_id, _turretPath] select (_turretPath isEqualType []));
     };
-
     [GVAR(unit), _action] call FUNC(moveSeatLocal);
 };
 
@@ -71,6 +70,7 @@ if (_turretPath isNotEqualTo []) then {
     _action pushBack ([_id, _turretPath] select (_turretPath isEqualType []));
 };
 
+private _actionNameBack = "MoveTo";
 if (_compartmentBack isEqualTo "viv") then {
     _actionNameBack = "viv"
 };
