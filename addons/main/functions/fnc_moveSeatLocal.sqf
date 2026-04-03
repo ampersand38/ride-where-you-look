@@ -22,16 +22,14 @@
 params ["_unit", "_moveAction", ["_backAction", []]];
 _moveAction params ["_actionName", "_vehicle", ["_indexOrPath", "driver"]];
 
-/*
 if (_actionName select [0, 1] == "M") then {
-    private _effectiveCommander = _vehicle;
+    private _effectiveCommander = effectiveCommander _vehicle;
 
-    if (_effectiveCommander != GVAR(unit)) then {
+    if (!isPlayer effectiveCommander _vehicle && {focusOn == GVAR(unit)}) then {
         GVAR(currentVehicle) setVariable [QGVAR(setEffectiveCommander), _effectiveCommander, true];
         [QGVAR(setEffectiveCommander), [GVAR(currentVehicle), GVAR(unit)]] call CBA_fnc_globalEvent;
     };
 };
-*/
 
 if (!local _unit) exitWith {
     [QGVAR(moveSeatLocal), _this, GVAR(unit)] call CBA_fnc_targetEvent;
