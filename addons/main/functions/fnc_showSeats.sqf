@@ -18,6 +18,7 @@ params [["_index", -1]];
 if (
     visibleMap
     || (rwyl_main_pfh_running)
+    || {!RWYL_ThirdPerson_enable && {cameraView == "External"}}
 ) exitWith { rwyl_main_pfh_running = false; };
 
 private _unit = call FUNC(getUnit);

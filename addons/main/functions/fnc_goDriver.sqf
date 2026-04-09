@@ -27,7 +27,7 @@ private _indexDriver = GVAR(seats) findIf {_x select 1 == "driver"};
 
 if (_indexDriver == -1) exitWith {};
 
-_fullCrew select _indexDriver params ["_currentDriver"];
+_currentDriver = driver rwyl_main_vehicle;
 
 if (
     focusOn == _currentDriver

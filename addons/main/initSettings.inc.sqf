@@ -1,4 +1,15 @@
 [
+    "RWYL_ThirdPerson_enable",
+    "CHECKBOX",
+    ["Allow in Third-Person View", "Enable keybinds while in third-person view."],
+    "Ride Where You Look",
+    true, // default value
+    false, // isGlobal
+    {},
+    false // needRestart
+] call CBA_Settings_fnc_init;
+
+[
     "RWYL_SelectedSeatColour", "COLOR",
     ["Selected Seat Colour", "Colour of the icon for the currently selected seat."],
     "Ride Where You Look",
