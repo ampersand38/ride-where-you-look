@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project name="TGP">
+    <Package name="Main">
+        <Key ID="STR_rwyl_main_FFVAnywhere">
+            <English>Enable FFV Anywhere</English>
+        </Key>
+        <Key ID="STR_rwyl_main_FFVAnywhere_Tooltip">
+            <English>Use keybind to create an FFV turret matching your current seated position, attached to your current vehicle. Exit the FFV turret to return to your vehicle seat.</English>
+        </Key>
+        <Key ID="STR_rwyl_main_HopVehicleRange">
+            <English>Hop Vehicle Range</English>
+        </Key>
+        <Key ID="STR_rwyl_main_HopVehicleRange_Tooltip">
+            <English>Maximum distance across which players can jump to a different vehicle.</English>
+        </Key>
+        <Key ID="STR_rwyl_main_ModName">
+            <English>Ride Where You Look</English>
+        </Key>
+        <Key ID="STR_rwyl_main_OtherSeatsColour">
+            <English>Other Seats Colour</English>
+        </Key>
+        <Key ID="STR_rwyl_main_OtherSeatsColour_Tooltip">
+            <English>Colour of the icon(s) for the other seat(s).</English>
+        </Key>
+        <Key ID="STR_rwyl_main_OtherSeatsIconSize">
+            <English>Other Seat Icon Size</English>
+        </Key>
+        <Key ID="STR_rwyl_main_OtherSeatsIconSize_Tooltip">
+            <English>Size of the icon(s) for the other seat(s).</English>
+        </Key>
+        <Key ID="STR_rwyl_main_SelectedSeatColour">
+            <English>Selected Seat Colour</English>
+        </Key>
+        <Key ID="STR_rwyl_main_SelectedSeatColour_Tooltip">
+            <English>Colour of the icon for the currently selected seat.</English>
+        </Key>
+        <Key ID="STR_rwyl_main_SelectedSeatIconSize">
+            <English>Selected Seat Icon Size</English>
+        </Key>
+        <Key ID="STR_rwyl_main_SelectedSeatIconSize_Tooltip">
+            <English>Size of the icon for the currently selected seat.</English>
+        </Key>
+        <Key ID="STR_rwyl_main_ThirdPerson">
+            <English>Allow in Third-Person View</English>
+        </Key>
+        <Key ID="STR_rwyl_main_ThirdPerson_Tooltip">
+            <English>Enable keybinds while in third-person view.</English>
+        </Key>
+        <Key ID="STR_rwyl_main_driver">
+            <English>Get In / Move To Driver</English>
+        </Key>
+        <Key ID="STR_rwyl_main_holdRelease">
+            <English>Show (Hold) and Select (Release)</English>
+        </Key>
+        <Key ID="STR_rwyl_main_key_ffv">
+            <English>FFV Anywhere</English>
+        </Key>
+        <Key ID="STR_rwyl_main_key_ffvCurator">
+            <English>FFV Anywhere (Zeus)</English>
+        </Key>
+        <Key ID="STR_rwyl_main_key_ffvCurator_Tooltip">
+            <English>Selected units in vehicles will FFV. Order them to exit to return to vehicle seat.</English>
+        </Key>
+        <Key ID="STR_rwyl_main_key_ffv_Tooltip">
+            <English>While in a vehicle, switch to an FFV turret attached to the current vehicle. Exit the FFV turret to return to your vehicle seat.</English>
+        </Key>
+        <Key ID="STR_rwyl_main_selectSeat">
+            <English>Select Seat</English>
+        </Key>
+        <Key ID="STR_rwyl_main_showSeats">
+            <English>Show Seats (Hold)</English>
+        </Key>
+        <Key ID="STR_rwyl_main_showSeatsToggle">
+            <English>Show Seats (Toggle)</English>
+        </Key>
+    </Package>
+</Project>

@@ -1,8 +1,8 @@
 [
     "RWYL_ThirdPerson_enable",
     "CHECKBOX",
-    ["Allow in Third-Person View", "Enable keybinds while in third-person view."],
-    "Ride Where You Look",
+    [LSTRING(ThirdPerson), LSTRING(ThirdPerson_Tooltip)],
+    LSTRING(ModName),
     true, // default value
     false, // isGlobal
     {},
@@ -11,8 +11,8 @@
 
 [
     "RWYL_SelectedSeatColour", "COLOR",
-    ["Selected Seat Colour", "Colour of the icon for the currently selected seat."],
-    "Ride Where You Look",
+    [LSTRING(SelectedSeatColour), LSTRING(SelectedSeatColour_Tooltip)],
+    LSTRING(ModName),
     ["IGUI", "TEXT_RGB"] call BIS_fnc_displayColorGet, // default value
     false, // isGlobal
     {},
@@ -21,8 +21,8 @@
 
 [
     "RWYL_SelectedSeatIconSize", "SLIDER",
-    ["Selected Seat Icon Size", "Size of the icon the currently selected seat."],
-    "Ride Where You Look",
+    [LSTRING(SelectedSeatIconSize), LSTRING(SelectedSeatIconSize_Tooltip)],
+    LSTRING(ModName),
     [1, 10, 1, 2], // default value
     false, // isGlobal
     {},
@@ -31,8 +31,8 @@
 
 [
     "RWYL_OtherSeatsColour", "COLOR",
-    ["Other Seat Colour", "Colour of the icon(s) for the other seat(s)."],
-    "Ride Where You Look",
+    [LSTRING(OtherSeatsColour), LSTRING(OtherSeatsColour_Tooltip)],
+    LSTRING(ModName),
     ["IGUI", "BCG_RGB"] call BIS_fnc_displayColorGet, // default value
     false, // isGlobal
     {},
@@ -41,8 +41,8 @@
 
 [
     "RWYL_OtherSeatsIconSize", "SLIDER",
-    ["Other Seat Icon Size", "Size of the icon(s) for the other seat(s)."],
-    "Ride Where You Look",
+    [LSTRING(OtherSeatsIconSize), LSTRING(OtherSeatsIconSize_Tooltip)],
+    LSTRING(ModName),
     [1, 10, 0.8, 2], // default value
     false, // isGlobal
     {},
@@ -51,8 +51,8 @@
 
 [
     "RWYL_HopVehicleRange", "SLIDER",
-    ["Hop Vehicle Range", "Maximum distance across which players can jump to a different vehicle."],
-    "Ride Where You Look",
+    [LSTRING(HopVehicleRange), LSTRING(HopVehicleRange_Tooltip)],
+    LSTRING(ModName),
     [1, 10, 5, 0], // default value
     true, // isGlobal
     {},
@@ -62,8 +62,8 @@
 [
     "RWYL_FFVAnywhere_enable",
     "CHECKBOX",
-    ["Enable FFV Anywhere", "Use keybind to create an FFV turret matching your current seated position, attached to your current vehicle. Exit the FFV turret to return to your vehicle seat."],
-    "Ride Where You Look",
+    [LSTRING(FFVAnywhere), LSTRING(FFVAnywhere_Tooltip)],
+    LSTRING(ModName),
     false, // default value
     true, // isGlobal
     {},

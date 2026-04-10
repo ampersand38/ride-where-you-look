@@ -39,3 +39,8 @@ class CfgPatches {
 
 #include "CfgEventHandlers.hpp"
 #include "CfgVehicles.hpp"
+
+#include "config\CfgDefaultKeysPresets.hpp"
+#include "config\CfgUserActions.hpp"
+#include "config\UserActionGroups.hpp"
+#include "config\UserActionsConflictGroups.hpp"

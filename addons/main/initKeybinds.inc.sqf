@@ -1,36 +1,44 @@
 [
-    "Ride Where You Look", "rwyl_main_showSeats", "Show Seats (Hold)",
+    LSTRING(ModName), QGVAR(showSeats), LSTRING(showSeats),
     LINKFUNC(showSeats), { rwyl_main_pfh_running = false; },
     [29, [false, true, false]], false
 ] call CBA_fnc_addKeybind; // LCTRL
 
 [
-    "Ride Where You Look", "rwyl_main_showSeatsToggle", "Show Seats (Toggle)",
+    LSTRING(ModName), QGVAR(showSeatsToggle), LSTRING(showSeatsToggle),
     LINKFUNC(showSeats), {}
 ] call CBA_fnc_addKeybind; //
 
 [
-    "Ride Where You Look", "rwyl_main_selectSeat", "Select Seat",
+    LSTRING(ModName), QGVAR(selectSeat), LSTRING(selectSeat),
     LINKFUNC(selectSeat), {}
     , [45, [false, true, false]], false
 ] call CBA_fnc_addKeybind; // LCtrl + x
 
 [
-    "Ride Where You Look", "rwyl_main_holdRelease", "Show (Hold) and Select (Release)",
+    LSTRING(ModName), QGVAR(holdRelease), LSTRING(holdRelease),
     LINKFUNC(showSeats), LINKFUNC(selectSeat)
 ] call CBA_fnc_addKeybind; // x
 
 [
-    "Ride Where You Look", "rwyl_main_driver", "Get In / Move To Driver",
+    LSTRING(ModName), QGVAR(driver), LSTRING(driver),
     LINKFUNC(goDriver), {}
 ] call CBA_fnc_addKeybind; //
 
 [
-    "Ride Where You Look", "rwyl_main_key_ffv", ["FFV Anywhere", "While in a vehicle, switch to an FFV turret attached to the current vehicle. Exit the FFV turret to return to your vehicle seat."],
+    LSTRING(ModName), QGVAR(key_ffv),
+    [
+        LSTRING(key_ffv),
+        LSTRING(key_ffv_Tooltip)
+    ],
     LINKFUNC(keyFFV), {}
 ] call CBA_fnc_addKeybind; //
 
 [
-    "Ride Where You Look", "rwyl_main_key_ffvCurator", ["FFV Anywhere (Zeus)", "Selected units in vehicles will FFV. Order them to exit to return to vehicle seat."],
+    LSTRING(ModName), QGVAR(key_ffvCurator),
+    [
+        LSTRING(key_ffvCurator),
+        LSTRING(key_ffvCurator_Tooltip)
+    ],
     LINKFUNC(keyFFVcurator), {}
 ] call CBA_fnc_addKeybind; //
